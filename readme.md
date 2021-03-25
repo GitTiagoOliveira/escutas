@@ -14,3 +14,7 @@
 - Ivo Gomes - <a10700@alunos.ipca.pt>
 - Hugo Gonçalves - <a11600@alunos.ipca.pt>
 - Tiago Oliveira - <a21585@alunos.ipca.pt>
+
+## License
+
+This project is [free](https://en.wikipedia.org/wiki/Free_software) software through the [GPLv3](license) license. 📖
