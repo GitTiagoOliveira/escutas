@@ -1,5 +1,7 @@
 # Escutas
 
+![Logo](images/logo.png)
+
 | Atributo           | Valor                                                                                                                                                            |
 |--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Unidade Curricular | Programação de Dispositivos Móveis e Multisensoriais                                                                                                             |
