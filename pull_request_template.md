@@ -1,6 +1,6 @@
 ### All Submissions:
 
-* [ ] Have you followed the guidelines in the teacher good pratices document?
+* [ ] Have you followed the guidelines in the teacher good practices document?
 * [ ] Have you checked to ensure there aren't other open [Pull Requests](../../../pulls) for the same update/change?
 
 <!-- You can erase any parts of this template not applicable to your Pull Request. -->
@@ -13,4 +13,4 @@
 
 ### The Feature:
 
-* Brief description of what your changes do and why you'd like us to include them?
+* Brief description of what your changes do and why you'd like us to include them.
