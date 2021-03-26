@@ -15,6 +15,10 @@
 - Hugo Gonçalves - <a11600@alunos.ipca.pt>
 - Tiago Oliveira - <a21585@alunos.ipca.pt>
 
+## Contributing
+
+Check the repository [pull request template](pull_request_template.md).
+
 ## License
 
-This project is [free](https://en.wikipedia.org/wiki/Free_software) software through the [GPLv3](license) license. 📖
+This project is [free software](https://en.wikipedia.org/wiki/Free_software) through the [GPLv3](LICENSE) license. 📖
