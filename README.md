@@ -1,12 +1,11 @@
 # Escutas
 
-![Logo](documentation/images/logo.png)
+![Logo](docs/images/logo.png)
 
 ## Repository Structure
 
-- *documentation*: includes project documentation - such as the report;
-- *presentation*: contains a formal presentation of the project;
-- *source*: incorporates the Android application source code.
+- *docs*: includes project documentation - such as the [report](docs/report.md) and the presentation;
+- *src*: incorporates the Android application source code.
 
 ## Working Group
 
