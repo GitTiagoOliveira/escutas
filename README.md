@@ -1,6 +1,6 @@
 # Escutas
 
-![Logo](docs/images/logo.png)
+![Logo](docs/img/logo.png)
 
 ## Repository Structure
 
