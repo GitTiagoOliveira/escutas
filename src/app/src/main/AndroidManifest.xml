@@ -8,6 +8,21 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Escutas" />
+        android:theme="@style/Theme.Escutas">
+        <activity android:name=".views.AboutActivity"></activity>
+        <activity android:name=".views.MapActivity" />
+        <activity android:name=".views.CalendarActivity" />
+        <activity android:name=".views.ProfileActivity" />
+        <activity android:name=".views.GalleryActivity" />
+        <activity android:name=".views.NewsFeedActivity" />
+        <activity android:name=".views.RegistrationActivity" />
+        <activity android:name=".views.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter></activity>
+        <activity android:name=".views.LoginActivity" />
+        <activity android:name=".views.BaseActivity" />
+    </application>
 
 </manifest>
