@@ -1,6 +1,6 @@
 package pt.ipca.escutas.controllers
 
-import  pt.ipca.escutas.views.RegistrationActivity
+import pt.ipca.escutas.views.RegistrationActivity
 
 /**
  * Defines the [RegistrationActivity] controller.
