@@ -1,7 +1,7 @@
 package pt.ipca.escutas.views
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import pt.ipca.escutas.R
 
 /**
