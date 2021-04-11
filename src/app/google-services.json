@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "364205746791",
+    "project_id": "escutas-8da1d",
+    "storage_bucket": "escutas-8da1d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:364205746791:android:7e17646151013e6f6082c2",
+        "android_client_info": {
+          "package_name": "pt.ipca.escutas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "364205746791-adah8jp0an1arn1c0a9klbgrrbo0r41u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCx9ufwuYD4NPG_dr6eND9TJ0UMPUM4a9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "364205746791-adah8jp0an1arn1c0a9klbgrrbo0r41u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
