@@ -1,9 +1,29 @@
 package pt.ipca.escutas.models
 
+import java.util.UUID
+
 /**
  * Defines the model of a news.
  *
  */
-class News {
-    // TODO
-}
+data class News(
+    /**
+     * The news identifier.
+     */
+    var id: UUID,
+
+    /**
+     * The news title.
+     */
+    var title: String,
+
+    /**
+     * The news body.
+     */
+    var body: String,
+
+    /**
+     * The news [Image].
+     */
+    var image: Image,
+)

@@ -1,9 +1,47 @@
 package pt.ipca.escutas.models
 
+import android.provider.ContactsContract.CommonDataKinds.Email
+import android.provider.ContactsContract.CommonDataKinds.Photo
+import java.util.Date
+import java.util.UUID
+
 /**
  * Defines the model of an application user.
  *
  */
-class User {
-    // TODO
-}
+data class User(
+    /**
+     * The user identifier.
+     */
+    var id: UUID,
+
+    /**
+     * The user photo.
+     */
+    var photo: Photo?,
+
+    /**
+     * The user email.
+     */
+    var email: Email,
+
+    /**
+     * The user name.
+     */
+    var name: String,
+
+    /**
+     * The user password.
+     */
+    var password: String,
+
+    /**
+     * The user birthday.
+     */
+    var birthday: Date,
+
+    /**
+     * The [Group] that the user belongs to.
+     */
+    var group: Group?,
+)

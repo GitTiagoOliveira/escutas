@@ -1,9 +1,24 @@
 package pt.ipca.escutas.models
 
+import java.util.UUID
+
 /**
- * Defines the model of a gallery. Contains a collection of [Image] and related metadata.
+ * Defines the model of a gallery.
  *
  */
-class Gallery {
-    // TODO
-}
+data class Gallery(
+    /**
+     * The gallery identifier.
+     */
+    var id: UUID,
+
+    /**
+     * The gallery name.
+     */
+    var name: String,
+
+    /**
+     * The gallery [Album] collection.
+     */
+    var albums: Collection<Album>,
+)
