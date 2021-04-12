@@ -6,6 +6,6 @@ import pt.ipca.escutas.views.GalleryActivity
  * Defines the [GalleryActivity] controller.
  *
  */
-class GalleryController {
+class GalleryController : BaseController() {
     // TODO
 }

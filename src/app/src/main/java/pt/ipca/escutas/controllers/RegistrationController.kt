@@ -6,6 +6,6 @@ import pt.ipca.escutas.views.RegistrationActivity
  * Defines the [RegistrationActivity] controller.
  *
  */
-class RegistrationController {
+class RegistrationController : BaseController() {
     // TODO
 }

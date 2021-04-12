@@ -6,6 +6,6 @@ import pt.ipca.escutas.views.AboutActivity
  * Defines the [AboutActivity] controller.
  *
  */
-class AboutController {
+class AboutController : BaseController() {
     // TODO
 }

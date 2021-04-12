@@ -6,6 +6,6 @@ import pt.ipca.escutas.views.ProfileActivity
  * Defines the [ProfileActivity] controller.
  *
  */
-class ProfileController {
+class ProfileController : BaseController() {
     // TODO
 }

@@ -6,6 +6,6 @@ import pt.ipca.escutas.views.CalendarActivity
  * Defines the [CalendarActivity] controller.
  *
  */
-class CalendarController {
+class CalendarController : BaseController() {
     // TODO
 }
