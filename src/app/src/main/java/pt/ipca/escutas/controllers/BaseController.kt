@@ -5,5 +5,5 @@ package pt.ipca.escutas.controllers
  *
  */
 open class BaseController {
-    // TODO
+    // TODO: Add database and storage services through dependency injection.
 }
