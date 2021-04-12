@@ -1,9 +1,45 @@
 package pt.ipca.escutas.models
 
+import java.util.Date
+import java.util.UUID
+
 /**
  * Defines the model of an event.
  *
  */
-class Event {
-    // TODO
-}
+data class Event(
+    /**
+     * The event identifier.
+     */
+    var id: UUID,
+
+    /**
+     * The event name.
+     */
+    var name: String,
+
+    /**
+     * The event description.
+     */
+    var description: String,
+
+    /**
+     * The event start date.
+     */
+    var startDate: Date,
+
+    /**
+     * The event end date.
+     */
+    var endDate: Date,
+
+    /**
+     * The event attachment [Image].
+     */
+    var attachment: Image,
+
+    /**
+     * Whether the event should be shared or not.
+     */
+    var isShared: Boolean,
+)
