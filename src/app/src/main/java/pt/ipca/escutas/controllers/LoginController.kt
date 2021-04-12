@@ -6,6 +6,6 @@ import pt.ipca.escutas.views.LoginActivity
  * Defines the [LoginActivity] controller.
  *
  */
-class LoginController {
+class LoginController : BaseController() {
     // TODO
 }

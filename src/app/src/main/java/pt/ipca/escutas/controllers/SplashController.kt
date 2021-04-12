@@ -6,6 +6,6 @@ import pt.ipca.escutas.views.SplashActivity
  * Defines the [SplashActivity] controller.
  *
  */
-class SplashController {
+class SplashController : BaseController() {
     // TODO
 }

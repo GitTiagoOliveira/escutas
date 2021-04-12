@@ -6,6 +6,6 @@ import pt.ipca.escutas.views.MapActivity
  * Defines the [MapActivity] controller.
  *
  */
-class MapController {
+class MapController : BaseController() {
     // TODO
 }

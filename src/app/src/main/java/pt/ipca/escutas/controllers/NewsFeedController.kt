@@ -6,6 +6,6 @@ import pt.ipca.escutas.views.NewsFeedActivity
  * Defines the [NewsFeedActivity] controller.
  *
  */
-class NewsFeedController {
+class NewsFeedController : BaseController() {
     // TODO
 }
