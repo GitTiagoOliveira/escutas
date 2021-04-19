@@ -1,5 +1,6 @@
 package pt.ipca.escutas.services
 
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import pt.ipca.escutas.services.contracts.IStorageService
 import java.io.FileInputStream
@@ -9,6 +10,11 @@ import java.io.FileInputStream
  *
  */
 class FirebaseStorageService : IStorageService {
+    /**
+     * The firebase storage service.
+     */
+    private val storage: FirebaseStorage = FirebaseStorage.getInstance()
+
     /**
      * Creates a file in the storage service through the specified [filePath] and [fileStream].
      *
