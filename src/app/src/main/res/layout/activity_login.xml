@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/imageView_userImage"
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="130dp"
         android:layout_gravity="center"
         android:src="@drawable/ic_vector_logo_alt"
         android:layout_marginTop="60dp"
@@ -24,7 +24,7 @@
         android:hint="@string/app_email"
         android:inputType="textEmailAddress"
         android:background="@drawable/style_edittext"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="55dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_userImage"/>
@@ -44,12 +44,14 @@
     <Button
         android:id="@+id/Button_login"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
         android:text="@string/app_login"
+        android:background="@color/blue"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/editText_login_password" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_login_password" />
 
     <TextView
         android:id="@+id/forgotPassword"
@@ -58,22 +60,34 @@
         android:text="@string/app_forgot_password"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/Button_login"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="25dp"
-        android:layout_marginLeft="60dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Button_Register" />
 
     <TextView
         android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_register"
+        android:layout_marginTop="45dp"
+        android:text="@string/app_have_acount"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/forgotPassword"
-        app:layout_constraintTop_toTopOf="@+id/forgotPassword"
-        android:layout_marginRight="60dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Button_login" />
+
+    <Button
+        android:id="@+id/Button_Register"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/app_register_login"
+        android:background="@color/blue"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register" />
 
     <TextView
         android:id="@+id/sobre"
@@ -85,6 +99,6 @@
         android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register"/>
+        app:layout_constraintTop_toBottomOf="@+id/forgotPassword"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

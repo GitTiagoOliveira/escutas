@@ -12,14 +12,14 @@ import pt.ipca.escutas.R
  */
 class SplashActivity : AppCompatActivity() {
 
-    val handler = Handler()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        handler.postDelayed(
-            Runnable {
-                val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+        val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+
+        Handler().postDelayed(
+            {
                 startActivity(intent)
                 finish()
             },
