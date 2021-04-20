@@ -17,14 +17,14 @@ class LoginActivity : AppCompatActivity() {
 
         // Sobre Click Action
         var aboutTextView = findViewById<TextView>(R.id.sobre)
-        aboutTextView.setOnClickListener{
+        aboutTextView.setOnClickListener {
             val intent = Intent(this@LoginActivity, AboutActivity::class.java)
             startActivity(intent)
         }
 
         // Registration Click Action
         var registerTextView = findViewById<TextView>(R.id.register)
-        registerTextView.setOnClickListener{
+        registerTextView.setOnClickListener {
             val intent = Intent(this@LoginActivity, RegistrationActivity::class.java)
             startActivity(intent)
         }
