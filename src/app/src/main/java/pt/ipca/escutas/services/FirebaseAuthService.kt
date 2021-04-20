@@ -1,5 +1,6 @@
 package pt.ipca.escutas.services
 
+import pt.ipca.escutas.services.contracts.IAuthService
 import com.google.firebase.auth.FirebaseAuth
 import pt.ipca.escutas.models.User
 
