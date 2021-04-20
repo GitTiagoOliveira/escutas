@@ -8,8 +8,6 @@ import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import pt.ipca.escutas.R
-import pt.ipca.escutas.models.User
-import java.util.*
 
 /**
  * Defines the registration activity.
@@ -46,9 +44,7 @@ class RegistrationActivity : AppCompatActivity() {
         val form_GROUP = findViewById(R.id.editText_group) as Spinner
         val group = form_GROUP.toString().trim()
 
-        //val newUser = User(UUID.randomUUID(),null, email, name, password, age, null)
-
-
+        // val newUser = User(UUID.randomUUID(),null, email, name, password, age, null)
 
         /*
         mAuth.createUserWithEmailAndPassword(
@@ -69,7 +65,5 @@ class RegistrationActivity : AppCompatActivity() {
                         Toast.makeText(this, "Error registering user!", Toast.LENGTH_LONG).show();
                     }
                 }*/
-
-
     }
 }
