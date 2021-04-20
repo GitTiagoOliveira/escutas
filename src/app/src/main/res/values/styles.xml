@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="style_datepicker">
+        <item name="android:headerBackground">@color/blue</item>
+        <item name="android:headerMonthTextAppearance">@color/blue</item>
+        <item name="android:headerDayOfMonthTextAppearance">@color/blue</item>
+        <item name="android:headerYearTextAppearance">@color/blue</item>
+        <item name="android:yearListItemTextAppearance">@color/blue</item>
+        <item name="android:yearListSelectorColor">@color/blue</item>
+        <item name="android:calendarTextColor">@color/blue</item>
+        <item name="android:calendarViewShown">@color/blue</item>
+        <item name="android:selectable">@color/blue</item>
+
+        <item name="android:layout_width">350dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:endYear">2100</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:startYear">1900</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+</resources>
