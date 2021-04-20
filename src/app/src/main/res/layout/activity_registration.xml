@@ -6,4 +6,180 @@
     android:layout_height="match_parent"
     tools:context=".views.RegistrationActivity">
 
+
+    <TextView
+        android:id="@+id/textView_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/app_register"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_title">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView_userImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_vector_registration_add" />
+
+            <TextView
+                android:id="@+id/textView_emailLabel"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/reg_email"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_userImage" />
+
+            <EditText
+                android:id="@+id/editText_email"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="3dp"
+                android:hint="@string/app_hint_email"
+                android:background="@drawable/style_edittext"
+                android:layout_gravity="center"
+                android:inputType="textEmailAddress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_emailLabel" />
+
+            <TextView
+                android:id="@+id/textView_userLabel"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:text="@string/reg_username"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_email" />
+
+            <EditText
+                android:id="@+id/editText_username"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:hint="@string/app_hint_utilizador"
+                android:layout_marginTop="3dp"
+                android:layout_gravity="center"
+                android:background="@drawable/style_edittext"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_userLabel" />
+
+            <TextView
+                android:id="@+id/textView_passwordLabel"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:text="@string/reg_password"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_username" />
+
+            <EditText
+                android:id="@+id/editText_password1"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="3dp"
+                android:layout_gravity="center"
+                android:hint="@string/app_password"
+                android:inputType="textPassword"
+                android:background="@drawable/style_edittext"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_passwordLabel" />
+
+            <EditText
+                android:id="@+id/editText_password2"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:hint="@string/app_hint_repeat_password"
+                android:inputType="textPassword"
+                android:background="@drawable/style_edittext"
+                android:layout_gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_password1" />
+
+            <TextView
+                android:id="@+id/textView_ageLabel"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/reg_age"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_password2" />
+
+            <DatePicker
+                android:id="@+id/editText_age"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_ageLabel"
+                style="@style/style_datepicker"
+                android:layout_width="300dp"
+                />
+
+            <TextView
+                android:id="@+id/textView_groupLabel"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/reg_group"
+                android:layout_gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_age" />
+
+            <Spinner
+                android:id="@+id/editText_group"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="3dp"
+                android:padding="2dp"
+                android:inputType="text"
+                android:background="@drawable/style_edittext"
+                android:layout_gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_title" />
+
+            <Button
+                android:id="@+id/Button_registo"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="60dp"
+                android:text="@string/app_register_user"
+                android:layout_gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText_group" />
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

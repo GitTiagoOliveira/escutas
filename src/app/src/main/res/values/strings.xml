@@ -1,5 +1,47 @@
 <resources>
-    <string name="app_name">Escutas</string>
+    <string name="app_name"><font color='black'>Escutas</font></string>
+    <string name="app_about_title"><font color='green'>Sobre</font></string>
+    <string name="app_email">Email</string>
+    <string name="app_password">Palavra-chave</string>
+    <string name="app_login"><font color='white'>Entrar</font></string>
+    <string name="app_forgot_password"><font color='black'>Recuperar Password?</font></string>
+    <string name="app_register"><font color='black'>Registar</font></string>
+    <string name="app_about_text_title"><font color='black'>Lorem Ipsum</font></string>
+    <string name="reg_email"><font color='black'>Email </font><font color='red'>*</font></string>
+    <string name="reg_username"><font color='black'>Utilizador </font><font color='red'>*</font></string>
+    <string name="reg_password"><font color='black'>Palavra-chave </font><font color='red'>*</font></string>
+    <string name="reg_group"><font color='black'>Agrupamento </font><font color='red'>*</font></string>
+    <string name="reg_age"><font color='black'>Data de Nascimento </font><font color='red'>*</font></string>
+    <string name="app_hint_email">utilizador@escutas.net</string>
+    <string name="app_hint_utilizador">utilizador</string>
+    <string name="app_hint_repeat_password">Repetir Palavra-chave</string>
+    <string name="app_hint_agrupamento">Agrupamento</string>
+    <string name="app_register_user">Criar</string>
+    <string name="app_about_text"><font color='black'>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore
+    magna aliqua.
+
+    Potenti nullam ac tortor vitae purus faucibus ornare
+    suspendisse sed. Pellentesque sit amet porttitor eget.
+    Ac turpis egestas sed tempus urna.
+
+    Phasellus vestibulum lorem sed risus ultricies tristique
+    nulla. Fames ac turpis egestas sed tempus urna et
+    pharetra.
+
+    Aliquam etiam erat velit scelerisque. Felis donec et odio
+    pellentesque diam volutpat. Pellentesque elit
+    ullamcorper dignissim cras. Sagittis orci a scelerisque
+    purus semper eget duis at tellus. Venenatis lectus
+    magna fringilla urna porttitor rhoncus dolor purus non.
+
+    Velit laoreet id donec ultrices tincidunt arcu. Volutpat
+    diam ut venenatis tellus in metus vulputate eu. Neque
+    aliquam vestibulum morbi blandit cursus risus at
+    ultrices mi. Pretium lectus quam id leo in. Etiam sit
+    amet nisl purus.
+
+        Sapien eget mi proin sed libero enim sed faucibus turpis. Aliquam etiam erat velit scelerisque.</font></string>
     <string name="exception_storage_create">A operação de criação de um ficheiro remoto falhou.</string>
     <string name="exception_storage_read">A operação de leitura de um ficheiro remoto falhou.</string>
     <string name="exception_storage_update">A operação de atualização de um ficheiro remoto falhou.</string>
