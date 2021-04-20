@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Escutas</string>
+    <string name="exception_storage_create">A operação de criação de um ficheiro remoto falhou.</string>
+    <string name="exception_storage_read">A operação de leitura de um ficheiro remoto falhou.</string>
+    <string name="exception_storage_update">A operação de atualização de um ficheiro remoto falhou.</string>
+    <string name="exception_storage_delete">A operação de eliminação de um ficheiro remoto falhou.</string>
 </resources>
