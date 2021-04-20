@@ -2,19 +2,19 @@
     <string name="app_name"><font color='black'>Escutas</font></string>
     <string name="app_about_title"><font color='green'>Sobre</font></string>
     <string name="app_email">Email</string>
-    <string name="app_password">Password</string>
+    <string name="app_password">Palavra-chave</string>
     <string name="app_login"><font color='white'>Entrar</font></string>
     <string name="app_forgot_password"><font color='black'>Recuperar Password?</font></string>
     <string name="app_register"><font color='black'>Registar</font></string>
     <string name="app_about_text_title"><font color='black'>Lorem Ipsum</font></string>
     <string name="reg_email"><font color='black'>Email </font><font color='red'>*</font></string>
-    <string name="reg_username"><font color='black'>Username </font><font color='red'>*</font></string>
-    <string name="reg_password"><font color='black'>Password </font><font color='red'>*</font></string>
-    <string name="reg_group"><font color='black'>Group </font><font color='red'>*</font></string>
-    <string name="reg_age"><font color='black'>Date Of Birth </font><font color='red'>*</font></string>
+    <string name="reg_username"><font color='black'>Utilizador </font><font color='red'>*</font></string>
+    <string name="reg_password"><font color='black'>Palavra-chave </font><font color='red'>*</font></string>
+    <string name="reg_group"><font color='black'>Agrupamento </font><font color='red'>*</font></string>
+    <string name="reg_age"><font color='black'>Data de Nascimento </font><font color='red'>*</font></string>
     <string name="app_hint_email">utilizador@escutas.net</string>
     <string name="app_hint_utilizador">utilizador</string>
-    <string name="app_hint_repeat_password">Repeat Password</string>
+    <string name="app_hint_repeat_password">Repetir Palavra-chave</string>
     <string name="app_hint_agrupamento">Agrupamento</string>
     <string name="app_register_user">Criar</string>
     <string name="app_about_text"><font color='black'>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
