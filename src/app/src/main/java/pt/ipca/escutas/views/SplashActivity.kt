@@ -6,7 +6,6 @@ import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import pt.ipca.escutas.R
 
-
 /**
  * Defines the splash screen activity.
  *
@@ -18,10 +17,13 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        handler.postDelayed(Runnable {
-            val intent = Intent(this@SplashActivity, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
-        }, 3000)
+        handler.postDelayed(
+            Runnable {
+                val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            },
+            3000
+        )
     }
 }
