@@ -46,4 +46,14 @@
     <string name="exception_storage_read">A operação de leitura de um ficheiro remoto falhou.</string>
     <string name="exception_storage_update">A operação de atualização de um ficheiro remoto falhou.</string>
     <string name="exception_storage_delete">A operação de eliminação de um ficheiro remoto falhou.</string>
+    <string name="news_fulldetail">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis magna diam,
+        fringilla et imperdiet sit amet, interdum non mi. Duis semper turpis lorem, id auctor turpis viverra ut.
+        Cras feugiat volutpat ornare. Nam consequat gravida eros eget blandit. Nulla ultricies feugiat tortor vitae
+        rutrum. Donec pharetra nec arcu sit amet elementum. Mauris sem nunc, dictum eu lacus vel, dictum
+        condimentum libero. Suspendisse quis tortor non nunc fermentum pellentesque in sed quam. Phasellus
+        porttitor iaculis dui non vehicula. Donec nec tortor et eros tristique ultrices in sit amet magna.
+        Sed cursus tincidunt lectus vitae semper.</string>
+    <string name="news_title">This is title text</string>
+    <string name="news_details">This is the item details</string>
+    <string name="news_description">This is the description</string>
 </resources>
