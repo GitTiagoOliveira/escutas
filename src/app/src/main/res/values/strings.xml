@@ -2,6 +2,8 @@
     <string name="app_name"><font color='black'>Escutas</font></string>
     <string name="app_about_title"><font color='green'>Sobre</font></string>
     <string name="app_email">Email</string>
+    <string name="app_register_login">Registe-se</string>
+    <string name="app_have_acount">Não tem conta?</string>
     <string name="app_password">Palavra-chave</string>
     <string name="app_login"><font color='white'>Entrar</font></string>
     <string name="app_forgot_password"><font color='black'>Recuperar Password?</font></string>

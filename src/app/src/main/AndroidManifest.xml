@@ -17,10 +17,12 @@
         <activity android:name=".views.GalleryActivity" />
         <activity android:name=".views.NewsFeedActivity" />
         <activity android:name=".views.RegistrationActivity" />
-        <activity android:name=".views.SplashActivity">
+        <activity
+            android:name=".views.SplashActivity"
+            android:theme="@style/Theme.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
