@@ -7,7 +7,6 @@ import kotlinx.android.synthetic.main.activity_news_feed.*
 import pt.ipca.escutas.R
 import pt.ipca.escutas.views.adapters.NewsFeedAdapter
 
-
 /**
  * Defines the news feed activity.
  *
