@@ -6,8 +6,4 @@ import pt.ipca.escutas.services.contracts.IStorageService
  * Defines the exception raised by an [IStorageService].
  *
  */
-class StorageException
-/**
- * Creates a storage service exception. A [message] explaining the error must be provided.
- */
-    (message: String) : Exception(message)
+class StorageException (message: String) : Exception(message)
