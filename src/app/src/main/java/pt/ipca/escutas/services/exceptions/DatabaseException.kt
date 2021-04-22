@@ -6,4 +6,4 @@ import pt.ipca.escutas.services.contracts.IDatabaseService
  * Defines the exception raised by an [IDatabaseService].
  *
  */
-class DatabaseException (message: String) : Exception(message)
+class DatabaseException(message: String) : Exception(message)
