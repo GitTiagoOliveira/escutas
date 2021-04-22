@@ -39,7 +39,7 @@ class NewsFeedAdapter : RecyclerView.Adapter<NewsFeedAdapter.ViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_model, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.card_news, parent, false)
         return ViewHolder(v)
     }
 
