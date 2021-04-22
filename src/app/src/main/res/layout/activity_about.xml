@@ -30,20 +30,21 @@
             android:layout_marginTop="20dp"
             android:layout_gravity="center"
             android:textStyle="bold"
-            android:text="@string/app_about_text_title"
+            android:textColor="@color/black"
+            android:text="@string/activity_about_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView_userImage" />
-
 
         <TextView
             android:id="@+id/textView_userLabel"
             android:layout_width="300dp"
             android:layout_height="450dp"
             android:layout_gravity="center"
+            android:textColor="@color/black"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
-            android:text="@string/app_about_text"
+            android:text="@string/activity_about_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText_email" />
