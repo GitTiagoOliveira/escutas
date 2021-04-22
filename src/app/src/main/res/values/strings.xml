@@ -18,8 +18,13 @@
     <string name="activity_registration_group_hint">Agrupamento</string>
     <string name="activity_registration_birthday"><b><font color='black'>Data de nascimento </font><font color='red'>*</font></b></string>
     <string name="activity_registration_create">Criar</string>
-    <string name="activity_about_title">Escutas</string>
-    <string name="activity_about_content">A presente aplicação foi desenvolvida no âmbito da unidade curricular Programação de Dispositivos Móveis e Multissensoriais da oitava edição do Mestrado em Engenharia Informática da Escola Superior de Tecnologia do Instituto Politécnico do Cávado e do Ave.</string>
+    <string name="activity_about_title">Sobre</string>
+    <string name="activity_about_content">A presente aplicação móvel foi desenvolvida no âmbito da unidade curricular Programação de Dispositivos Móveis e Multissensoriais da oitava edição do Mestrado em Engenharia Informática da Escola Superior de Tecnologia do Instituto Politécnico do Cávado e do Ave.</string>
+    <string name="activity_about_working_group">Grupo de trabalho:</string>
+    <string name="activity_about_working_group_ja">Jonas Andrade - a10506@alunos.ipca.pt</string>
+    <string name="activity_about_working_group_ig">Ivo Gomes - a10700@alunos.ipca.pt</string>
+    <string name="activity_about_working_group_hg">Hugo Gonçalves - a10700@alunos.ipca.pt</string>
+    <string name="activity_about_working_group_to">Tiago Oliveira - a21585@alunos.ipca.pt</string>
     <string name="exception_storage_create">A operação de criação de um ficheiro remoto falhou.</string>
     <string name="exception_storage_read">A operação de leitura de um ficheiro remoto falhou.</string>
     <string name="exception_storage_update">A operação de atualização de um ficheiro remoto falhou.</string>
