@@ -11,7 +11,6 @@
         <item name="android:calendarTextColor">@color/blue</item>
         <item name="android:calendarViewShown">@color/blue</item>
         <item name="android:selectable">@color/blue</item>
-
         <item name="android:layout_width">350dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:endYear">2100</item>
@@ -19,4 +18,5 @@
         <item name="android:startYear">1900</item>
         <item name="android:layout_gravity">center</item>
     </style>
+
 </resources>
