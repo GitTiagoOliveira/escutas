@@ -35,7 +35,6 @@ class NewsFeedAdapter : RecyclerView.Adapter<NewsFeedAdapter.ViewHolder>() {
         var image: ImageView = itemView.findViewById(R.id.item_image)
         var textTitle: TextView = itemView.findViewById(R.id.item_title)
         var textDes: TextView = itemView.findViewById(R.id.item_details)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
