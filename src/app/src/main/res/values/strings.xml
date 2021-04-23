@@ -1,61 +1,35 @@
 <resources>
     <string name="app_name"><font color='black'>Escutas</font></string>
-    <string name="app_about_title"><font color='green'>Sobre</font></string>
-    <string name="app_email">Email</string>
-    <string name="app_register_login">Registe-se</string>
-    <string name="app_have_acount">Não tem conta?</string>
-    <string name="app_password">Palavra-chave</string>
-    <string name="app_login"><font color='white'>Entrar</font></string>
-    <string name="app_forgot_password"><font color='black'>Recuperar Password?</font></string>
-    <string name="app_register"><font color='black'>Registar</font></string>
-    <string name="app_about_text_title"><font color='black'>Lorem Ipsum</font></string>
-    <string name="reg_email"><font color='black'>Email </font><font color='red'>*</font></string>
-    <string name="reg_username"><font color='black'>Utilizador </font><font color='red'>*</font></string>
-    <string name="reg_password"><font color='black'>Palavra-chave </font><font color='red'>*</font></string>
-    <string name="reg_group"><font color='black'>Agrupamento </font><font color='red'>*</font></string>
-    <string name="reg_age"><font color='black'>Data de Nascimento </font><font color='red'>*</font></string>
-    <string name="app_hint_email">utilizador@escutas.net</string>
-    <string name="app_hint_utilizador">utilizador</string>
-    <string name="app_hint_repeat_password">Repetir Palavra-chave</string>
-    <string name="app_hint_agrupamento">Agrupamento</string>
-    <string name="app_register_user">Criar</string>
-    <string name="app_about_text"><font color='black'>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-    sed do eiusmod tempor incididunt ut labore et dolore
-    magna aliqua.
-
-    Potenti nullam ac tortor vitae purus faucibus ornare
-    suspendisse sed. Pellentesque sit amet porttitor eget.
-    Ac turpis egestas sed tempus urna.
-
-    Phasellus vestibulum lorem sed risus ultricies tristique
-    nulla. Fames ac turpis egestas sed tempus urna et
-    pharetra.
-
-    Aliquam etiam erat velit scelerisque. Felis donec et odio
-    pellentesque diam volutpat. Pellentesque elit
-    ullamcorper dignissim cras. Sagittis orci a scelerisque
-    purus semper eget duis at tellus. Venenatis lectus
-    magna fringilla urna porttitor rhoncus dolor purus non.
-
-    Velit laoreet id donec ultrices tincidunt arcu. Volutpat
-    diam ut venenatis tellus in metus vulputate eu. Neque
-    aliquam vestibulum morbi blandit cursus risus at
-    ultrices mi. Pretium lectus quam id leo in. Etiam sit
-    amet nisl purus.
-
-        Sapien eget mi proin sed libero enim sed faucibus turpis. Aliquam etiam erat velit scelerisque.</font></string>
+    <string name="activity_login_about"><font color='green'>Sobre</font></string>
+    <string name="activity_login_email">Email</string>
+    <string name="activity_login_register">Registe-se</string>
+    <string name="activity_login_noaccount">Não tem conta?</string>
+    <string name="activity_login_password">Palavra-chave</string>
+    <string name="activity_login_enter"><font color='white'>Entrar</font></string>
+    <string name="activity_login_forgotpassword"><font color='green'>Recuperar palavra-chave</font></string>
+    <string name="activity_registration_email"><font color='black'>Email </font><font color='red'>*</font></string>
+    <string name="activity_registration_email_hint">utilizador@escutas.net</string>
+    <string name="activity_registration_username"><font color='black'>Nome de utilizador </font><font color='red'>*</font></string>
+    <string name="activity_registration_username_hint">utilizador</string>
+    <string name="activity_registration_password"><font color='black'>Palavra-chave </font><font color='red'>*</font></string>
+    <string name="activity_registration_password_hint">Palavra-chave</string>
+    <string name="activity_registration_password_hint_repeat">Repetir palavra-chave</string>
+    <string name="activity_registration_group"><font color='black'>Agrupamento </font><font color='red'>*</font></string>
+    <string name="activity_registration_group_hint">Agrupamento</string>
+    <string name="activity_registration_birthday"><b><font color='black'>Data de nascimento </font><font color='red'>*</font></b></string>
+    <string name="activity_registration_create">Criar</string>
+    <string name="activity_about_title">Sobre</string>
+    <string name="activity_about_content">A presente aplicação móvel foi desenvolvida no âmbito da unidade curricular Programação de Dispositivos Móveis e Multissensoriais da oitava edição do Mestrado em Engenharia Informática da Escola Superior de Tecnologia do Instituto Politécnico do Cávado e do Ave.</string>
+    <string name="activity_about_working_group">Grupo de trabalho:</string>
+    <string name="activity_about_working_group_ja">Jonas Andrade - a10506@alunos.ipca.pt</string>
+    <string name="activity_about_working_group_ig">Ivo Gomes - a10700@alunos.ipca.pt</string>
+    <string name="activity_about_working_group_hg">Hugo Gonçalves - a10700@alunos.ipca.pt</string>
+    <string name="activity_about_working_group_to">Tiago Oliveira - a21585@alunos.ipca.pt</string>
     <string name="exception_storage_create">A operação de criação de um ficheiro remoto falhou.</string>
     <string name="exception_storage_read">A operação de leitura de um ficheiro remoto falhou.</string>
     <string name="exception_storage_update">A operação de atualização de um ficheiro remoto falhou.</string>
     <string name="exception_storage_delete">A operação de eliminação de um ficheiro remoto falhou.</string>
-    <string name="news_fulldetail">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis magna diam,
-        fringilla et imperdiet sit amet, interdum non mi. Duis semper turpis lorem, id auctor turpis viverra ut.
-        Cras feugiat volutpat ornare. Nam consequat gravida eros eget blandit. Nulla ultricies feugiat tortor vitae
-        rutrum. Donec pharetra nec arcu sit amet elementum. Mauris sem nunc, dictum eu lacus vel, dictum
-        condimentum libero. Suspendisse quis tortor non nunc fermentum pellentesque in sed quam. Phasellus
-        porttitor iaculis dui non vehicula. Donec nec tortor et eros tristique ultrices in sit amet magna.
-        Sed cursus tincidunt lectus vitae semper.</string>
-    <string name="news_title">This is title text</string>
-    <string name="news_details">This is the item details</string>
-    <string name="news_description">This is the description</string>
+    <!-- TODO: Remove below strings when application is complete. -->
+    <string name="tmp_title">Lorem Ipsum</string>
+    <string name="tmp_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
 </resources>

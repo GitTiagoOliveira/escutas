@@ -26,22 +26,22 @@ class RegistrationActivity : AppCompatActivity() {
 
     fun registarUser(view: View) {
 
-        val form_NAME = findViewById(R.id.editText_username) as EditText
+        val form_NAME = findViewById<EditText>(R.id.editText_username)
         val name = form_NAME.text.toString().trim()
 
-        val form_AGE = findViewById(R.id.editText_age) as DatePicker
+        val form_AGE = findViewById<DatePicker>(R.id.editText_age)
         val age = form_AGE.dayOfMonth.toString() + "-" + form_AGE.month.toString() + "-" + form_AGE.year.toString()
 
-        val form_EMAIL = findViewById(R.id.editText_email) as EditText
+        val form_EMAIL = findViewById<EditText>(R.id.editText_email)
         val email = form_EMAIL.text.toString().trim()
 
-        val form_PASSWORD1 = findViewById(R.id.editText_password1) as EditText
+        val form_PASSWORD1 = findViewById<EditText>(R.id.editText_password1)
         val password = form_PASSWORD1.text.toString().trim()
 
-        val form_PASSWORD2 = findViewById(R.id.editText_password2) as EditText
+        val form_PASSWORD2 = findViewById<EditText>(R.id.editText_password2)
         val password2 = form_PASSWORD2.text.toString().trim()
 
-        val form_GROUP = findViewById(R.id.editText_group) as Spinner
+        val form_GROUP = findViewById<Spinner>(R.id.editText_group)
         val group = form_GROUP.toString().trim()
 
         // val newUser = User(UUID.randomUUID(),null, email, name, password, age, null)
