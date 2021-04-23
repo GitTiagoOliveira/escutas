@@ -15,12 +15,12 @@ class NewsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news)
 
-        val detailsText2 = getString(R.string.news_fulldetail)
+        val detailsText2 = getString(R.string.tmp_content)
 
-        val textViewDetails: TextView = findViewById<TextView>(R.id.details_news)
-        val textViewTitle: TextView = findViewById<TextView>(R.id.text_title)
-        val textViewDesc: TextView = findViewById<TextView>(R.id.text_desc)
-        val imageView: ImageView = findViewById<ImageView>(R.id.news_image)
+        val textViewDetails: TextView = findViewById(R.id.details_news)
+        val textViewTitle: TextView = findViewById(R.id.text_title)
+        val textViewDesc: TextView = findViewById(R.id.text_desc)
+        val imageView: ImageView = findViewById(R.id.news_image)
 
         textViewDetails.text = detailsText2
 

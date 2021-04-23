@@ -32,19 +32,13 @@ class NewsFeedAdapter : RecyclerView.Adapter<NewsFeedAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var image: ImageView
-        var textTitle: TextView
-        var textDes: TextView
-
-        init {
-            image = itemView.findViewById(R.id.item_image)
-            textTitle = itemView.findViewById(R.id.item_title)
-            textDes = itemView.findViewById(R.id.item_details)
-        }
+        var image: ImageView = itemView.findViewById(R.id.item_image)
+        var textTitle: TextView = itemView.findViewById(R.id.item_title)
+        var textDes: TextView = itemView.findViewById(R.id.item_details)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.recyclerview_model, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.card_news, parent, false)
         return ViewHolder(v)
     }
 
