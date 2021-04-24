@@ -3,8 +3,12 @@ package pt.ipca.escutas.views
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import pt.ipca.escutas.R
+import pt.ipca.escutas.views.fragments.CalendarFragment
+import pt.ipca.escutas.views.fragments.GalleryFragment
+import pt.ipca.escutas.views.fragments.MapFragment
 
 /**
  * Defines the base activity. This activity defines the base layout, state and behavior.
@@ -28,22 +32,38 @@ open class BaseActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.navigation_newsfeed -> {
                 this.toolbar.setTitle(R.string.menu_bottom_navigation_news_feed)
+                // TODO: Open news feed fragment when the respective activities are converted.
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_map -> {
                 this.toolbar.setTitle(R.string.menu_bottom_navigation_map)
+                openFragment(MapFragment.getInstance())
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_calendar -> {
                 this.toolbar.setTitle(R.string.menu_bottom_navigation_calendar)
+                openFragment(CalendarFragment.getInstance())
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_gallery -> {
                 this.toolbar.setTitle(R.string.menu_bottom_navigation_gallery)
+                openFragment(GalleryFragment.getInstance())
                 return@OnNavigationItemSelectedListener true
             }
         }
         false
+    }
+
+    /**
+     * Opens the specified fragment.
+     *
+     * @param fragment The fragment to be opened.
+     */
+    private fun openFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     /**
