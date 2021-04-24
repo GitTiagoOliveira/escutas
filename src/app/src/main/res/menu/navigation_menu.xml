@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_newsfeed"
+        android:enabled="true"
+        android:icon="@drawable/ic_vector_footer_newsfeed"
+        android:title="@string/menu_bottom_navigation_news_feed"/>
+    <item
+        android:id="@+id/navigation_map"
+        android:enabled="true"
+        android:icon="@drawable/ic_vector_footer_map"
+        android:title="@string/menu_bottom_navigation_map"/>
+    <item
+        android:id="@+id/navigation_calendar"
+        android:enabled="true"
+        android:icon="@drawable/ic_vector_footer_calendar"
+        android:title="@string/menu_bottom_navigation_calendar"/>
+    <item
+        android:id="@+id/navigation_gallery"
+        android:enabled="true"
+        android:icon="@drawable/ic_vector_footer_gallery"
+        android:title="@string/menu_bottom_navigation_gallery"/>
+</menu>
