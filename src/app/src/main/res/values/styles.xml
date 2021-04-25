@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="style_datepicker">
-        <item name="android:headerBackground">@color/blue</item>
+    <style name="datepicker">
+        <item name="android:headerBackground">@color/light_grey</item>
         <item name="android:headerMonthTextAppearance">@color/blue</item>
         <item name="android:headerDayOfMonthTextAppearance">@color/blue</item>
         <item name="android:headerYearTextAppearance">@color/blue</item>
@@ -18,5 +18,5 @@
         <item name="android:startYear">1900</item>
         <item name="android:layout_gravity">center</item>
     </style>
-
+    
 </resources>
