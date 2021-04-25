@@ -3,6 +3,7 @@ package pt.ipca.escutas.views
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import pt.ipca.escutas.R
 
@@ -23,11 +24,13 @@ class SplashActivity : AppCompatActivity() {
 
         val intent = Intent(this@SplashActivity, LoginActivity::class.java)
 
-        Handler().postDelayed(
-            {
-                startActivity(intent)
-                finish()
-            },
+        Handler(Looper.getMainLooper()).postDelayed(
+            (
+                {
+                    startActivity(intent)
+                    finish()
+                }
+                ),
             3000
         )
     }
