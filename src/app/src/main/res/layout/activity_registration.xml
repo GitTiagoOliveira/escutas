@@ -30,8 +30,7 @@
                     android:layout_height="110dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_vector_profile_avatar"
-                    app:tint="@color/dark_grey" />
+                    android:src="@drawable/ic_vector_profile_avatar" />
 
                 <ImageView
                     android:layout_width="30dp"
