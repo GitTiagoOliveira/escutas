@@ -11,6 +11,11 @@ import pt.ipca.escutas.R
  *
  */
 class LoginActivity : AppCompatActivity() {
+    /**
+     * Invoked when the activity is starting.
+     *
+     * @param savedInstanceState The saved instance state.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
