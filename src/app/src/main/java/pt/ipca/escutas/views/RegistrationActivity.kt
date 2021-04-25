@@ -1,10 +1,7 @@
 package pt.ipca.escutas.views
 
 import android.os.Bundle
-import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.DatePicker
-import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import pt.ipca.escutas.R
