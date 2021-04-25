@@ -3,8 +3,6 @@
 - [ ] Have you followed the guidelines in the professor's good practices document?
 - [ ] Have you checked to ensure there aren't other open [pull requests](../../../pulls) for the same update/change?
 
-<!-- You can erase any parts of this template not applicable to your Pull Request. -->
-
 ### New Feature Submissions
 
 - [ ] Does your submission pass tests?
