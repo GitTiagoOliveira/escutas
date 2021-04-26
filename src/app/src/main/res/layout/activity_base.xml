@@ -24,6 +24,7 @@
             android:layout_gravity="right"
             android:layout_marginRight="20dp"
             android:src="@drawable/ic_vector_profile_avatar"/>
+
     </androidx.appcompat.widget.Toolbar>
 
     <FrameLayout
