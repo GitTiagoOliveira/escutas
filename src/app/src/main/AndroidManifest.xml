@@ -9,25 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Escutas">
-        <activity android:name=".views.NewsActivity" />
-        <activity android:name=".views.AboutActivity" />
-        <activity android:name=".views.MapActivity" />
-        <activity android:name=".views.CalendarActivity" />
-        <activity android:name=".views.ProfileActivity" />
-        <activity android:name=".views.GalleryActivity" />
-        <activity android:name=".views.NewsFeedActivity" />
+        <activity android:name=".views.BaseActivity" />
+        <activity android:name=".views.LoginActivity" />
         <activity android:name=".views.RegistrationActivity" />
-        <activity
-            android:name=".views.SplashActivity"
-            android:theme="@style/Theme.FullScreen">
+        <activity android:name=".views.AboutActivity" />
+        <activity android:name=".views.NewsFeedActivity" />
+        <activity android:name=".views.NewsActivity" />
+        <activity android:name=".views.SplashActivity" android:theme="@style/Theme.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.LoginActivity" />
-        <activity android:name=".views.BaseActivity" />
     </application>
 
 </manifest>

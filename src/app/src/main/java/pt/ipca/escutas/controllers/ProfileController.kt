@@ -1,9 +1,9 @@
 package pt.ipca.escutas.controllers
 
-import pt.ipca.escutas.views.ProfileActivity
+import pt.ipca.escutas.views.fragments.ProfileFragment
 
 /**
- * Defines the [ProfileActivity] controller.
+ * Defines the [ProfileFragment] controller.
  *
  */
 class ProfileController : BaseController() {
