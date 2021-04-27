@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name"><font color='black'>Escutas</font></string>
+    <string name="menu_bottom_navigation_news_feed">Feed</string>
+    <string name="menu_bottom_navigation_map">Mapa</string>
+    <string name="menu_bottom_navigation_calendar">Calendário</string>
+    <string name="menu_bottom_navigation_gallery">Galeria</string>
     <string name="activity_login_about"><font color='green'>Sobre</font></string>
     <string name="activity_login_email">Email</string>
     <string name="activity_login_register">Registe-se</string>

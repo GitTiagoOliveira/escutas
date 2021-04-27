@@ -1,9 +1,9 @@
 package pt.ipca.escutas.controllers
 
-import pt.ipca.escutas.views.MapActivity
+import pt.ipca.escutas.views.fragments.MapFragment
 
 /**
- * Defines the [MapActivity] controller.
+ * Defines the [MapFragment] controller.
  *
  */
 class MapController : BaseController() {
