@@ -183,7 +183,7 @@
                 android:layout_marginBottom="20dp"
                 android:text="@string/activity_registration_create"
                 android:textStyle="bold"
-                android:background="@color/blue"
+                android:background="@drawable/shape_button"
                 android:textColor="@android:color/white"
                 android:layout_gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
