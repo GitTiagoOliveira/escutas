@@ -7,5 +7,10 @@ import pt.ipca.escutas.views.LoginActivity
  *
  */
 class LoginController : BaseController() {
-    // TODO
+
+    fun loginUser(email: String, password: String) {
+
+        // TODO - Adicionar encriptção
+        mAuth.loginUser(email, password)
+    }
 }
