@@ -1,6 +1,5 @@
 package pt.ipca.escutas.models
 
-import android.provider.ContactsContract.CommonDataKinds.Email
 import android.provider.ContactsContract.CommonDataKinds.Photo
 import java.util.Date
 import java.util.UUID
@@ -23,7 +22,7 @@ data class User(
     /**
      * The user email.
      */
-    var email: Email,
+    var email: String,
 
     /**
      * The user name.

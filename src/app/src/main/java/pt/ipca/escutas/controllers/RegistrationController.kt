@@ -1,5 +1,6 @@
 package pt.ipca.escutas.controllers
 
+import pt.ipca.escutas.models.User
 import pt.ipca.escutas.views.RegistrationActivity
 
 /**
@@ -7,5 +8,9 @@ import pt.ipca.escutas.views.RegistrationActivity
  *
  */
 class RegistrationController : BaseController() {
-    // TODO
+
+    fun addUser(user: User) {
+
+        mAuth.addUser(user)
+    }
 }
