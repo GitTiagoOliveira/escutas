@@ -11,6 +11,6 @@ class LoginController : BaseController() {
     fun loginUser(email: String, password: String) {
 
         // TODO - Adicionar encriptção
-        mAuth.loginUser(email, password)
+        auth.loginUser(email, password)
     }
 }
