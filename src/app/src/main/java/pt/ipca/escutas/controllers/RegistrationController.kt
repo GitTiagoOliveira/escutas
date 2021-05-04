@@ -11,6 +11,6 @@ class RegistrationController : BaseController() {
 
     fun addUser(user: User) {
 
-        mAuth.addUser(user)
+        auth.addUser(user)
     }
 }
