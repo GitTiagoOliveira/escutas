@@ -43,9 +43,10 @@ interface IAuthService {
     fun sendPasswordResetEmail(user: User)
 
     /**
-     * Login user via authentication service based on the details available in [user].
+     * Login user via authentication service based on the provided [email] and [password].
      *
-     * @param user The user object contains all necessary data as email and password.
+     * @param email The user email.
+     * @param password The user password.
      */
     fun loginUser(email: String, password: String)
 

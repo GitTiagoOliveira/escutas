@@ -13,7 +13,7 @@ open class BaseController {
     /**
      * The authentication service.
      */
-    protected val mAuth: FirebaseAuthService = FirebaseAuthService()
+    protected val auth: FirebaseAuthService = FirebaseAuthService()
 
     /**
      * The database service.
