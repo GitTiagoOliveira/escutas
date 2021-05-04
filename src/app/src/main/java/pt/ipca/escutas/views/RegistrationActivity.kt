@@ -12,9 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.RegistrationController
 import pt.ipca.escutas.models.User
-import java.util.Calendar
+import pt.ipca.escutas.resources.Msg
+import pt.ipca.escutas.utils.DateUtils.DateValue
+import pt.ipca.escutas.utils.StringUtils.isEmailValid
 import java.util.UUID
-import java.util.regex.Pattern
 
 /**
  * Defines the registration activity.
@@ -43,32 +44,26 @@ class RegistrationActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun registarUser(view: View) {
 
-        // TODO - Rever Mensagens de Erro
         val form_NAME = findViewById<EditText>(R.id.editText_username)
         val name = form_NAME.text.toString().trim()
 
         if (form_NAME.getText().length == 0) {
-            form_NAME.setError("Field cannot be left blank.")
+            form_NAME.setError(Msg.MSG_FIELD_BLACK)
         }
 
         val form_AGE = findViewById<DatePicker>(R.id.editText_age)
 
-        // TODO - Criar Utils para Date
-        val cal = Calendar.getInstance()
-        cal[Calendar.YEAR] = form_AGE.year.toInt()
-        cal[Calendar.MONTH] = form_AGE.month.toInt()
-        cal[Calendar.DAY_OF_MONTH] = form_AGE.dayOfMonth.toInt()
-        val dateRepresentation = cal.time
+        val dateRepresentation = DateValue(form_AGE.year.toInt(), form_AGE.month.toInt(), form_AGE.dayOfMonth.toInt())
 
         val form_EMAIL = findViewById<EditText>(R.id.editText_email)
         val email = form_EMAIL.text.toString().trim()
 
         if (form_EMAIL.getText().length == 0) {
-            form_EMAIL.setError("Field cannot be left blank.")
+            form_EMAIL.setError(Msg.MSG_FIELD_BLACK)
         }
 
         if (!form_EMAIL.getText().toString().isEmailValid()) {
-            form_EMAIL.setError("Email is incorrectly defined.")
+            form_EMAIL.setError(Msg.MSG_INCORRECT_EMAIL)
         }
 
         // TODO - Implementar Password policy
@@ -79,27 +74,19 @@ class RegistrationActivity : AppCompatActivity() {
         val password2 = form_PASSWORD2.text.toString().trim()
 
         if (!password.equals(password2)) {
-            form_EMAIL.setError("Passwords do not match.")
+            form_EMAIL.setError(Msg.MSG_INCORRECT_PASSWORDS)
         }
 
         val form_GROUP = findViewById<Spinner>(R.id.editText_group)
         val group = form_GROUP.toString().trim()
 
         if (form_EMAIL.getText().length == 0) {
-            form_EMAIL.setError("Field cannot be left blank.")
+            form_EMAIL.setError(Msg.MSG_FIELD_BLACK)
         }
 
         // TODO - Rever tipologia do modelo User
-        val newUser = User(UUID.randomUUID(), null, "dadad", name, password, dateRepresentation, null)
+        val newUser = User(UUID.randomUUID(), null, email, name, password, dateRepresentation, null)
 
         regController.addUser(newUser)
-    }
-
-    // TODO - Passar para utils
-    fun String.isEmailValid(): Boolean {
-        val expression = "^[\\w.-]+@([\\w\\-]+\\.)+[A-Z]{2,8}$"
-        val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
-        val matcher = pattern.matcher(this)
-        return matcher.matches()
     }
 }

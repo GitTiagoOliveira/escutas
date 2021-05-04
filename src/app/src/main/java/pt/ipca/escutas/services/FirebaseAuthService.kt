@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import pt.ipca.escutas.models.User
+import pt.ipca.escutas.resources.Msg
 import pt.ipca.escutas.services.contracts.IAuthService
 import pt.ipca.escutas.services.exceptions.AuthException
 
@@ -22,7 +23,7 @@ class FirebaseAuthService : IAuthService {
         if (user != null) {
             return user
         } else {
-            throw AuthException("No User Available")
+            throw AuthException(Msg.MSG_NO_USER_AVAILABLE)
         }
     }
 
@@ -31,10 +32,10 @@ class FirebaseAuthService : IAuthService {
         mAuth.createUserWithEmailAndPassword(user.email.toString(), user.password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(TAG, "User created accordingly.")
+                    Log.d(TAG, Msg.MSG_USER_CREATED)
                 } else {
-                    Log.w(TAG, "Failure creating user.", task.exception)
-                    throw AuthException(task.exception?.message ?: "Failure creating user.")
+                    Log.w(TAG, Msg.MSG_FAILED_USER_CREATE, task.exception)
+                    throw AuthException(task.exception?.message ?: Msg.MSG_FAILED_USER_CREATE)
                 }
             }
     }
@@ -44,10 +45,10 @@ class FirebaseAuthService : IAuthService {
 
         user?.delete()?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                Log.d(TAG, "User account deleted.")
+                Log.d(TAG, Msg.MSG_USER_DELETED)
             } else {
-                Log.w(TAG, "Failure deleting user.", task.exception)
-                throw AuthException(task.exception?.message ?: "Failure deleting user.")
+                Log.w(TAG, Msg.MSG_FAILED_USER_DELETE, task.exception)
+                throw AuthException(task.exception?.message ?: Msg.MSG_FAILED_USER_DELETE)
             }
         }
     }
@@ -58,10 +59,10 @@ class FirebaseAuthService : IAuthService {
         firebase_user!!.updateEmail(user.email.toString())
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(TAG, "User email address updated.")
+                    Log.d(TAG, Msg.MSG_USER_EMAIL_UPDATE)
                 } else {
-                    Log.w(TAG, "Failure updating email address.", task.exception)
-                    throw AuthException(task.exception?.message ?: "Failure updating email address.")
+                    Log.w(TAG, Msg.MSG_FAILED_USER_EMAIL_UPDATE, task.exception)
+                    throw AuthException(task.exception?.message ?: Msg.MSG_FAILED_USER_EMAIL_UPDATE)
                 }
             }
     }
@@ -72,10 +73,10 @@ class FirebaseAuthService : IAuthService {
         firebase_user!!.updatePassword(user.password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(TAG, "User password updated.")
+                    Log.d(TAG, Msg.MSG_USER_PASSWORD_UPDATE)
                 } else {
-                    Log.w(TAG, "Failure updating password.", task.exception)
-                    throw AuthException(task.exception?.message ?: "Failure updating password.")
+                    Log.w(TAG, Msg.MSG_FAILED_USER_PASSWORD_UPDATE, task.exception)
+                    throw AuthException(task.exception?.message ?: Msg.MSG_FAILED_USER_PASSWORD_UPDATE)
                 }
             }
     }
@@ -85,10 +86,10 @@ class FirebaseAuthService : IAuthService {
         mAuth.sendPasswordResetEmail(user.email.toString())
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(TAG, "Email sent.")
+                    Log.d(TAG, Msg.MSG_EMAIL_SENT)
                 } else {
-                    Log.w(TAG, "Failure sending email.", task.exception)
-                    throw AuthException(task.exception?.message ?: "Failure sending email.")
+                    Log.w(TAG, Msg.MSG_FAIL_EMAIL, task.exception)
+                    throw AuthException(task.exception?.message ?: Msg.MSG_FAIL_EMAIL)
                 }
             }
     }
@@ -97,10 +98,10 @@ class FirebaseAuthService : IAuthService {
 
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                Log.d(TAG, "User login.")
+                Log.d(TAG, Msg.MSG_USER_LOGIN)
             } else {
-                Log.w(TAG, "Unable to login user.", task.exception)
-                throw AuthException(task.exception?.message ?: "Unable to login user.")
+                Log.w(TAG, Msg.MSG_FAIL_USER_LOGIN, task.exception)
+                throw AuthException(task.exception?.message ?: Msg.MSG_FAIL_USER_LOGIN)
             }
         }
     }
