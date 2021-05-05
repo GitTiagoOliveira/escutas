@@ -15,13 +15,15 @@ import pt.ipca.escutas.controllers.LoginController
  */
 class LoginActivity : AppCompatActivity() {
     /**
+     * The login controller.
+     */
+    private val logController by lazy { LoginController() }
+
+    /**
      * Invoked when the activity is starting.
      *
      * @param savedInstanceState The saved instance state.
      */
-
-    private var logController = LoginController()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
