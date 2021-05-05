@@ -1,13 +1,7 @@
 package pt.ipca.escutas.views
 
-import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.DatePicker
-import android.widget.EditText
-import android.widget.Spinner
-import androidx.annotation.RequiresApi
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.RegistrationController
@@ -22,13 +16,15 @@ import java.util.UUID
  */
 class RegistrationActivity : AppCompatActivity() {
     /**
+     * The registration controller.
+     */
+    private var regController = RegistrationController()
+
+    /**
      * Invoked when the activity is starting.
      *
      * @param savedInstanceState The saved instance state.
      */
-
-    private var regController = RegistrationController()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
@@ -36,12 +32,20 @@ class RegistrationActivity : AppCompatActivity() {
         val dropdown = findViewById<Spinner>(R.id.editText_group)
         val items = arrayOf("Agrupamento", "Escutas 1", "Escutas 2")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
+        val registerButton = findViewById<Button>(R.id.Button_Register)
+
+        registerButton.setOnClickListener {
+            registerUser()
+        }
 
         dropdown.adapter = adapter
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun registarUser(view: View) {
+    /**
+     * Registers the user through the specified input data.
+     *
+     */
+    fun registerUser() {
 
         val form_NAME = findViewById<EditText>(R.id.editText_username)
         val name = form_NAME.text.toString().trim()
@@ -50,7 +54,7 @@ class RegistrationActivity : AppCompatActivity() {
             form_NAME.setError(resources.getString(R.string.msg_field_black))
         }
 
-        val form_AGE = findViewById<DatePicker>(R.id.editText_age)
+        val form_AGE = findViewById<DatePicker>(R.id.datePicker_birthday)
 
         val dateRepresentation = DateValue(form_AGE.year.toInt(), form_AGE.month.toInt(), form_AGE.dayOfMonth.toInt())
 
@@ -66,10 +70,10 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
         // TODO - Implementar Password policy
-        val form_PASSWORD1 = findViewById<EditText>(R.id.editText_password1)
+        val form_PASSWORD1 = findViewById<EditText>(R.id.editText_password)
         val password = form_PASSWORD1.text.toString().trim()
 
-        val form_PASSWORD2 = findViewById<EditText>(R.id.editText_password2)
+        val form_PASSWORD2 = findViewById<EditText>(R.id.editText_password_repeat)
         val password2 = form_PASSWORD2.text.toString().trim()
 
         if (!password.equals(password2)) {
