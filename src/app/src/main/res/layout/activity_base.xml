@@ -31,19 +31,21 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="75dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/navigation_menu"
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:menu="@menu/navigation_menu"
-            app:backgroundTint="@color/grey"
-            app:itemIconTint="@drawable/selector_navigation_menu_item"
-            app:itemTextColor="@drawable/selector_navigation_menu_item"
-            app:labelVisibilityMode="labeled"/>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation_menu"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/navigation_menu"
+        app:backgroundTint="@color/grey"
+        app:itemIconTint="@drawable/selector_navigation_menu_item"
+        app:itemTextColor="@drawable/selector_navigation_menu_item"
+        app:labelVisibilityMode="labeled"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
