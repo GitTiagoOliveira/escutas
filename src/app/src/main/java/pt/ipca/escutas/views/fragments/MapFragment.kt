@@ -67,7 +67,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     /**
-     * Invoked when the location permission request return a result.
+     * Invoked when the location permission request returns a result.
      *
      * @param requestCode The request code.
      * @param permissions The permissions.
