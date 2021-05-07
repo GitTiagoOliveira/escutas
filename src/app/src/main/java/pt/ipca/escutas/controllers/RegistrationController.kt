@@ -8,9 +8,12 @@ import pt.ipca.escutas.views.RegistrationActivity
  *
  */
 class RegistrationController : BaseController() {
-
+    /**
+     * Adds the specified user to the authentication service.
+     *
+     * @param user The user.
+     */
     fun addUser(user: User) {
-
         auth.addUser(user)
     }
 }

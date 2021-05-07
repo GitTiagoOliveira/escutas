@@ -31,26 +31,6 @@
     <string name="activity_about_working_group_ig">Ivo Gomes - a10700@alunos.ipca.pt</string>
     <string name="activity_about_working_group_hg">Hugo Gonçalves - a10700@alunos.ipca.pt</string>
     <string name="activity_about_working_group_to">Tiago Oliveira - a21585@alunos.ipca.pt</string>
-    <string name="exception_storage_create">A operação de criação de um ficheiro remoto falhou.</string>
-    <string name="exception_storage_read">A operação de leitura de um ficheiro remoto falhou.</string>
-    <string name="exception_storage_update">A operação de atualização de um ficheiro remoto falhou.</string>
-    <string name="exception_storage_delete">A operação de eliminação de um ficheiro remoto falhou.</string>
-    <string name="msg_field_black">o campo não pode estar vazio.</string>
-    <string name="msg_incorrect_email">o email está incorreto.</string>
-    <string name="msg_incorrect_passwords">as palavra-chave são diferentes.</string>
-    <string name="msg_no_user_available">não existe nenhum utilizador disponível.</string>
-    <string name="msg_user_created">o utilizador foi criado com sucesso.</string>
-    <string name="msg_failed_user_create">não foi possível criar o utilizador.</string>
-    <string name="msg_user_deleted">utilizador removido com sucesso.</string>
-    <string name="msg_failed_user_delete">não foi possivel remover o utilizador.</string>
-    <string name="msg_user_email_update">o email do utilizador foi actualizado com sucesso.</string>
-    <string name="msg_failed_user_email_update">não foi possivel actualizar o email do utilizador.</string>
-    <string name="msg_user_password_update">a palavra-chave do utilizador foi actualizada com sucesso.</string>
-    <string name="msg_failed_user_password_update">não foi possivel actualizar a palavra-chave do utilizador.</string>
-    <string name="msg_email_sent">o email foi enviado.</string>
-    <string name="msg_fail_email">o email não foi enviado.</string>
-    <string name="msg_user_login">o utilizador entrou.</string>
-    <string name="msg_fail_user_login">o utilizador não conseguiu entrar.</string>
     <!-- TODO: Remove below strings when application is complete. -->
     <string name="tmp_title">Lorem Ipsum</string>
     <string name="tmp_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>

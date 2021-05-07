@@ -7,10 +7,13 @@ import pt.ipca.escutas.views.LoginActivity
  *
  */
 class LoginController : BaseController() {
-
+    /**
+     * Logs-in the user through the specified credentials.
+     *
+     * @param email The user email.
+     * @param password The user password.
+     */
     fun loginUser(email: String, password: String) {
-
-        // TODO - Adicionar encriptção
         auth.loginUser(email, password)
     }
 }
