@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.LoginController
+import pt.ipca.escutas.resources.Strings
+import pt.ipca.escutas.utils.StringUtils.isValidEmail
 
 /**
  * Defines the login activity.
@@ -17,7 +19,7 @@ class LoginActivity : AppCompatActivity() {
     /**
      * The login controller.
      */
-    private val logController by lazy { LoginController() }
+    private val loginController by lazy { LoginController() }
 
     /**
      * Invoked when the activity is starting.
@@ -33,26 +35,40 @@ class LoginActivity : AppCompatActivity() {
         val registerView = findViewById<TextView>(R.id.Button_Register)
 
         baseView.setOnClickListener {
+            val emailField = findViewById<EditText>(R.id.editText_login_email)
+            val email = emailField.text.toString().trim()
 
-            val editText_email = findViewById<EditText>(R.id.editText_login_email)
-            val email = editText_email.text.toString().trim()
+            if (email.isEmpty()) {
+                emailField.error = Strings.MSG_FIELD_BLANK
+                return@setOnClickListener
+            }
 
-            val editText_password = findViewById<EditText>(R.id.editText_login_password)
-            val password = editText_password.text.toString().trim()
+            if (!email.isValidEmail()) {
+                emailField.error = Strings.MSG_INCORRECT_EMAIL
+                return@setOnClickListener
+            }
 
-            logController.loginUser(email, password)
+            val passwordField = findViewById<EditText>(R.id.editText_login_password)
+            val password = passwordField.text.toString().trim()
+
+            if (password.isEmpty()) {
+                passwordField.error = Strings.MSG_FIELD_BLANK
+                return@setOnClickListener
+            }
+
+            loginController.loginUser(email, password)
 
             val intent = Intent(this@LoginActivity, BaseActivity::class.java)
             startActivity(intent)
         }
 
-        aboutView.setOnClickListener {
-            val intent = Intent(this@LoginActivity, AboutActivity::class.java)
+        registerView.setOnClickListener {
+            val intent = Intent(this@LoginActivity, RegistrationActivity::class.java)
             startActivity(intent)
         }
 
-        registerView.setOnClickListener {
-            val intent = Intent(this@LoginActivity, RegistrationActivity::class.java)
+        aboutView.setOnClickListener {
+            val intent = Intent(this@LoginActivity, AboutActivity::class.java)
             startActivity(intent)
         }
     }

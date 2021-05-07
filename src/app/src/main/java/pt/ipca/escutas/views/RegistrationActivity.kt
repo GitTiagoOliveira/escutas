@@ -6,8 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.RegistrationController
 import pt.ipca.escutas.models.User
+import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.utils.DateUtils.DateValue
-import pt.ipca.escutas.utils.StringUtils.isEmailValid
+import pt.ipca.escutas.utils.StringUtils.isValidEmail
 import java.util.UUID
 
 /**
@@ -18,7 +19,7 @@ class RegistrationActivity : AppCompatActivity() {
     /**
      * The registration controller.
      */
-    private var regController = RegistrationController()
+    private var registrationController = RegistrationController()
 
     /**
      * Invoked when the activity is starting.
@@ -30,12 +31,13 @@ class RegistrationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_registration)
 
         val dropdown = findViewById<Spinner>(R.id.editText_group)
-        val items = arrayOf("Agrupamento", "Escutas 1", "Escutas 2")
+        val items = arrayOf("Nenhum", "Agrupamento 1 - Sé de Braga")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
         val registerButton = findViewById<Button>(R.id.Button_Register)
 
         registerButton.setOnClickListener {
             registerUser()
+            finish()
         }
 
         dropdown.adapter = adapter
@@ -45,51 +47,67 @@ class RegistrationActivity : AppCompatActivity() {
      * Registers the user through the specified input data.
      *
      */
-    fun registerUser() {
+    private fun registerUser() {
+        val emailField = findViewById<EditText>(R.id.editText_email)
+        val email = emailField.text.toString().trim()
 
-        val form_NAME = findViewById<EditText>(R.id.editText_username)
-        val name = form_NAME.text.toString().trim()
-
-        if (form_NAME.getText().length == 0) {
-            form_NAME.setError(resources.getString(R.string.msg_field_black))
+        if (email.isEmpty()) {
+            emailField.error = Strings.MSG_FIELD_BLANK
+            return
         }
 
-        val form_AGE = findViewById<DatePicker>(R.id.datePicker_birthday)
-
-        val dateRepresentation = DateValue(form_AGE.year.toInt(), form_AGE.month.toInt(), form_AGE.dayOfMonth.toInt())
-
-        val form_EMAIL = findViewById<EditText>(R.id.editText_email)
-        val email = form_EMAIL.text.toString().trim()
-
-        if (form_EMAIL.getText().length == 0) {
-            form_EMAIL.setError(resources.getString(R.string.msg_field_black))
+        if (!email.isValidEmail()) {
+            emailField.error = Strings.MSG_INCORRECT_EMAIL
+            return
         }
 
-        if (!form_EMAIL.getText().toString().isEmailValid()) {
-            form_EMAIL.setError(resources.getString(R.string.msg_incorrect_email))
+        val nameField = findViewById<EditText>(R.id.editText_username)
+        val name = nameField.text.toString().trim()
+
+        if (name.isEmpty()) {
+            nameField.error = Strings.MSG_FIELD_BLANK
+            return
         }
 
-        // TODO - Implementar Password policy
-        val form_PASSWORD1 = findViewById<EditText>(R.id.editText_password)
-        val password = form_PASSWORD1.text.toString().trim()
+        val birthdayPicker = findViewById<DatePicker>(R.id.datePicker_birthday)
+        val birthday = DateValue(birthdayPicker.year, birthdayPicker.month, birthdayPicker.dayOfMonth)
 
-        val form_PASSWORD2 = findViewById<EditText>(R.id.editText_password_repeat)
-        val password2 = form_PASSWORD2.text.toString().trim()
+        val passwordField = findViewById<EditText>(R.id.editText_password)
+        val password = passwordField.text.toString().trim()
 
-        if (!password.equals(password2)) {
-            form_EMAIL.setError(resources.getString(R.string.msg_incorrect_passwords))
+        if (password.isEmpty()) {
+            passwordField.error = Strings.MSG_FIELD_BLANK
+            return
         }
 
-        val form_GROUP = findViewById<Spinner>(R.id.editText_group)
-        val group = form_GROUP.toString().trim()
-
-        if (form_EMAIL.getText().length == 0) {
-            form_EMAIL.setError(resources.getString(R.string.msg_field_black))
+        if (password.length < 6) {
+            passwordField.error = Strings.MSG_SMALL_PASSWORD
+            return
         }
 
-        // TODO - Rever tipologia do modelo User
-        val newUser = User(UUID.randomUUID(), null, email, name, password, dateRepresentation, null)
+        val repeatedPasswordField = findViewById<EditText>(R.id.editText_password_repeat)
+        val repeatedPassword = repeatedPasswordField.text.toString().trim()
 
-        regController.addUser(newUser)
+        if (repeatedPassword.isEmpty()) {
+            repeatedPasswordField.error = Strings.MSG_FIELD_BLANK
+            return
+        }
+
+        if (repeatedPassword != password) {
+            repeatedPasswordField.error = Strings.MSG_INCORRECT_PASSWORDS
+            return
+        }
+
+        val groupSpinner = findViewById<Spinner>(R.id.editText_group)
+        val group = groupSpinner.selectedItem.toString()
+
+        registrationController.addUser(User(
+            UUID.randomUUID(),
+            null,
+            email,
+            name,
+            password,
+            birthday,
+            null))
     }
 }

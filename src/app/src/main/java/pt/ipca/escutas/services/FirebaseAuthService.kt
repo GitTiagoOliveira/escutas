@@ -1,12 +1,11 @@
 package pt.ipca.escutas.services
 
 import android.content.ContentValues.TAG
-import android.content.res.Resources
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import pt.ipca.escutas.R
 import pt.ipca.escutas.models.User
+import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.contracts.IAuthService
 import pt.ipca.escutas.services.exceptions.AuthException
 
@@ -18,27 +17,25 @@ class FirebaseAuthService : IAuthService {
 
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    private val resources: Resources = Resources.getSystem()
-
-    private fun getCurrentUser(): FirebaseUser? {
-
+    private fun getCurrentUser(): FirebaseUser {
         val user = mAuth.currentUser
+
         if (user != null) {
             return user
         } else {
-            throw AuthException(resources.getString(R.string.msg_no_user_available))
+            throw AuthException(Strings.MSG_NO_USER_AVAILABLE)
         }
     }
 
     override fun addUser(user: User) {
 
-        mAuth.createUserWithEmailAndPassword(user.email.toString(), user.password)
+        mAuth.createUserWithEmailAndPassword(user.email, user.password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(TAG, resources.getString(R.string.msg_user_created))
+                    Log.d(TAG, Strings.MSG_USER_CREATED)
                 } else {
-                    Log.w(TAG, resources.getString(R.string.msg_failed_user_create), task.exception)
-                    throw AuthException(task.exception?.message ?: resources.getString(R.string.msg_failed_user_create))
+                    Log.w(TAG, Strings.MSG_FAILED_USER_CREATE, task.exception)
+                    throw AuthException(task.exception?.message ?: Strings.MSG_FAILED_USER_CREATE)
                 }
             }
     }
@@ -46,53 +43,53 @@ class FirebaseAuthService : IAuthService {
     override fun deleteUser() {
         val user = getCurrentUser()
 
-        user?.delete()?.addOnCompleteListener { task ->
+        user.delete().addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                Log.d(TAG, resources.getString(R.string.msg_user_deleted))
+                Log.d(TAG, Strings.MSG_USER_DELETED)
             } else {
-                Log.w(TAG, resources.getString(R.string.msg_failed_user_delete), task.exception)
-                throw AuthException(task.exception?.message ?: resources.getString(R.string.msg_failed_user_delete))
+                Log.w(TAG, Strings.MSG_FAILED_USER_DELETE, task.exception)
+                throw AuthException(task.exception?.message ?: Strings.MSG_FAILED_USER_DELETE)
             }
         }
     }
 
     override fun updateUserEmail(user: User) {
-        val firebase_user = getCurrentUser()
+        val firebaseUser = getCurrentUser()
 
-        firebase_user!!.updateEmail(user.email.toString())
+        firebaseUser.updateEmail(user.email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(TAG, resources.getString(R.string.msg_user_email_update))
+                    Log.d(TAG, Strings.MSG_USER_EMAIL_UPDATE)
                 } else {
-                    Log.w(TAG, resources.getString(R.string.msg_failed_user_email_update), task.exception)
-                    throw AuthException(task.exception?.message ?: resources.getString(R.string.msg_failed_user_email_update))
+                    Log.w(TAG, Strings.MSG_FAILED_USER_EMAIL_UPDATE, task.exception)
+                    throw AuthException(task.exception?.message ?: Strings.MSG_FAILED_USER_EMAIL_UPDATE)
                 }
             }
     }
 
     override fun updateUserPassword(user: User) {
-        val firebase_user = getCurrentUser()
+        val firebaseUser = getCurrentUser()
 
-        firebase_user!!.updatePassword(user.password)
+        firebaseUser.updatePassword(user.password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(TAG, resources.getString(R.string.msg_user_password_update))
+                    Log.d(TAG, Strings.MSG_USER_PASSWORD_UPDATE)
                 } else {
-                    Log.w(TAG, resources.getString(R.string.msg_failed_user_password_update), task.exception)
-                    throw AuthException(task.exception?.message ?: resources.getString(R.string.msg_failed_user_password_update))
+                    Log.w(TAG, Strings.MSG_FAILED_USER_PASSWORD_UPDATE, task.exception)
+                    throw AuthException(task.exception?.message ?: Strings.MSG_FAILED_USER_PASSWORD_UPDATE)
                 }
             }
     }
 
     override fun sendPasswordResetEmail(user: User) {
 
-        mAuth.sendPasswordResetEmail(user.email.toString())
+        mAuth.sendPasswordResetEmail(user.email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(TAG, resources.getString(R.string.msg_email_sent))
+                    Log.d(TAG, Strings.MSG_EMAIL_SENT)
                 } else {
-                    Log.w(TAG, resources.getString(R.string.msg_fail_email), task.exception)
-                    throw AuthException(task.exception?.message ?: resources.getString(R.string.msg_fail_email))
+                    Log.w(TAG, Strings.MSG_FAIL_EMAIL, task.exception)
+                    throw AuthException(task.exception?.message ?: Strings.MSG_FAIL_EMAIL)
                 }
             }
     }
@@ -101,19 +98,18 @@ class FirebaseAuthService : IAuthService {
 
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                Log.d(TAG, resources.getString(R.string.msg_user_login))
+                Log.d(TAG, Strings.MSG_USER_LOGIN)
             } else {
-                Log.w(TAG, resources.getString(R.string.msg_fail_user_login), task.exception)
-                throw AuthException(task.exception?.message ?: resources.getString(R.string.msg_fail_user_login))
+                Log.w(TAG, Strings.MSG_FAIL_USER_LOGIN, task.exception)
+                throw AuthException(task.exception?.message ?: Strings.MSG_FAIL_USER_LOGIN)
             }
         }
     }
 
     override fun getCurrentUserDetails() {
-
         val user = getCurrentUser()
 
-        user?.let {
+        user.let {
             // Name, email address, and profile photo Url
             val name = user.displayName
             val email = user.email
@@ -130,10 +126,9 @@ class FirebaseAuthService : IAuthService {
     }
 
     override fun getCurrentUserDetailsViaProvider() {
-
         val user = getCurrentUser()
 
-        user?.let {
+        user.let {
             for (profile in it.providerData) {
                 // Id of the provider (ex: google.com)
                 val providerId = profile.providerId
