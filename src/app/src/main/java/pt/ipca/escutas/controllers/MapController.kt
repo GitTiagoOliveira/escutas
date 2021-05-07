@@ -1,5 +1,6 @@
 package pt.ipca.escutas.controllers
 
+import pt.ipca.escutas.R
 import pt.ipca.escutas.models.Location
 import pt.ipca.escutas.views.fragments.MapFragment
 import java.util.*
@@ -22,6 +23,7 @@ class MapController : BaseController() {
             Location(
                 UUID.randomUUID(),
                 "Sede do Agrupamento 1 - Sé de Braga",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                 41.5518896,
                 -8.4309099)
         )
