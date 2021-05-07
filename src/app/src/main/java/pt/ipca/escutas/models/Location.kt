@@ -18,6 +18,11 @@ data class Location(
     var name: String,
 
     /**
+     * The location description.
+     */
+    var description: String,
+
+    /**
      * The location latitude.
      */
     var latitude: Double,
