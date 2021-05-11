@@ -12,7 +12,7 @@ object StringUtils {
      *
      * @return Boolean whether the email is valid or not.
      */
-    fun String.isEmailValid(): Boolean {
+    fun String.isValidEmail(): Boolean {
         val expression = "^[\\w.-]+@([\\w\\-]+\\.)+[A-Z]{2,8}$"
         val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
         val matcher = pattern.matcher(this)

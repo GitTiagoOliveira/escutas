@@ -1,10 +1,9 @@
 package pt.ipca.escutas.services
 
-import android.content.res.Resources
 import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import pt.ipca.escutas.R
+import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.contracts.IStorageService
 import pt.ipca.escutas.services.exceptions.StorageException
 import java.io.FileInputStream
@@ -18,11 +17,6 @@ class FirebaseStorageService : IStorageService {
      * The firebase storage service.
      */
     private val storage: FirebaseStorage = FirebaseStorage.getInstance()
-
-    /**
-     * The application resources accessor.
-     */
-    private val resources: Resources = Resources.getSystem()
 
     /**
      * The maximum size, in bytes, of an image that can be read.
@@ -40,7 +34,7 @@ class FirebaseStorageService : IStorageService {
             .getReference(filePath)
             .putStream(fileStream)
             .addOnFailureListener {
-                throw StorageException(resources.getString(R.string.exception_storage_create))
+                throw StorageException(Strings.MSG_FAIL_STORAGE_CREATE)
             }
     }
 
@@ -55,7 +49,7 @@ class FirebaseStorageService : IStorageService {
             .getReference(filePath)
             .getBytes(maxBytes)
             .addOnFailureListener {
-                throw StorageException(resources.getString(R.string.exception_storage_read))
+                throw StorageException(Strings.MSG_FAIL_STORAGE_READ)
             }
     }
 
@@ -81,7 +75,7 @@ class FirebaseStorageService : IStorageService {
             this.deleteFile(filePath)
             this.createFile(filePath, fileStream)
         } catch (e: StorageException) {
-            throw StorageException(resources.getString(R.string.exception_storage_update))
+            throw StorageException(Strings.MSG_FAIL_STORAGE_UPDATE)
         }
     }
 
@@ -95,7 +89,7 @@ class FirebaseStorageService : IStorageService {
             .getReference(filePath)
             .delete()
             .addOnFailureListener {
-                throw StorageException(resources.getString(R.string.exception_storage_delete))
+                throw StorageException(Strings.MSG_FAIL_STORAGE_DELETE)
             }
     }
 }
