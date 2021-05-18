@@ -25,8 +25,8 @@ object Strings {
     const val MSG_FAIL_STORAGE_READ = "A operação de leitura de um ficheiro remoto falhou."
     const val MSG_FAIL_STORAGE_UPDATE = "A operação de atualização de um ficheiro remoto falhou."
     const val MSG_FAIL_STORAGE_DELETE = "A operação de eliminação de um ficheiro remoto falhou."
-    const val MSG_FAIL_DATABASE_GET = "Erro a obter resultados."
-    const val MSG_FAIL_DATABASE_ADD = "Erro a adicionar registo."
-    const val MSG_FAIL_DATABASE_REMOVE = "Erro a remover registo."
-    const val MSG_FAIL_DATABASE_UPDATE = "Erro a actualizar registo."
+    const val MSG_FAIL_DATABASE_GET = "Erro ao obter resultados."
+    const val MSG_FAIL_DATABASE_ADD = "Erro ao adicionar registo."
+    const val MSG_FAIL_DATABASE_REMOVE = "Erro ao remover registo."
+    const val MSG_FAIL_DATABASE_UPDATE = "Erro ao actualizar registo."
 }
