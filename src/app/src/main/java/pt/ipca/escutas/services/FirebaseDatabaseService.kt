@@ -2,10 +2,10 @@ package pt.ipca.escutas.services
 
 import android.content.ContentValues
 import android.util.Log
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.FirebaseFirestore
 import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.contracts.IDatabaseService
+import pt.ipca.escutas.services.exceptions.DatabaseException
 
 /**
  * Defines a Firebase implementation of an [IDatabaseService].
@@ -21,7 +21,8 @@ class FirebaseDatabaseService : IDatabaseService {
 
         modelData.add(record).addOnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Log.d(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_ADD, task.exception)
+                Log.w(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_ADD, task.exception)
+                throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_ADD)
             }
         }
     }
@@ -32,7 +33,8 @@ class FirebaseDatabaseService : IDatabaseService {
 
         modelData.document(documentId).set(record).addOnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Log.d(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_UPDATE, task.exception)
+                Log.w(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_UPDATE, task.exception)
+                throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_UPDATE)
             }
         }
     }
@@ -43,7 +45,8 @@ class FirebaseDatabaseService : IDatabaseService {
 
         modelData.document(documentId).delete().addOnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Log.d(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_REMOVE, task.exception)
+                Log.w(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_REMOVE, task.exception)
+                throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_REMOVE)
             }
         }
     }
@@ -59,7 +62,8 @@ class FirebaseDatabaseService : IDatabaseService {
                     output[document.id] = document.data
                 }
             } else {
-                Log.d(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_GET, task.exception)
+                Log.w(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_GET, task.exception)
+                throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_GET)
             }
         }
 
@@ -77,7 +81,8 @@ class FirebaseDatabaseService : IDatabaseService {
                     output[document.id] = document.data
                 }
             } else {
-                Log.d(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_GET, task.exception)
+                Log.w(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_GET, task.exception)
+                throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_GET)
             }
         }
 
@@ -95,7 +100,8 @@ class FirebaseDatabaseService : IDatabaseService {
                     output[document.id] = document.data
                 }
             } else {
-                Log.d(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_GET, task.exception)
+                Log.w(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_GET, task.exception)
+                throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_GET)
             }
         }
 
@@ -113,7 +119,8 @@ class FirebaseDatabaseService : IDatabaseService {
                     output[document.id] = document.data
                 }
             } else {
-                Log.d(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_GET, task.exception)
+                Log.w(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_GET, task.exception)
+                throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_GET)
             }
         }
 
