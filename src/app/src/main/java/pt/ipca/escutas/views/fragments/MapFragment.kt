@@ -76,7 +76,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
             1 -> {
-                if (grantResults.isNotEmpty() &&  grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     this.locationPermissionGranted = true
 
                     setLocationUiSettings()
@@ -105,7 +105,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         .position(coords)
                         .title(location.name)
                         .snippet(location.description)
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)))
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                )
             }
         }
 
@@ -121,7 +122,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private fun getLocationPermission() {
         val locationPermission: Int = ContextCompat.checkSelfPermission(
             this.context!!,
-            Manifest.permission.ACCESS_FINE_LOCATION)
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
 
         if (locationPermission == PackageManager.PERMISSION_GRANTED) {
             this.locationPermissionGranted = true
@@ -162,8 +164,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             CameraUpdateFactory.newLatLngZoom(
                                 LatLng(
                                     task.result.latitude,
-                                    task.result.longitude),
-                                    11.0F))
+                                    task.result.longitude
+                                ),
+                                11.0F
+                            )
+                        )
                     }
                 }
             }
