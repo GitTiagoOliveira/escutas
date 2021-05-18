@@ -30,11 +30,11 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val baseView = findViewById<Button>(R.id.Button_login)
+        val loginView = findViewById<Button>(R.id.Button_login)
         val aboutView = findViewById<TextView>(R.id.sobre)
         val registerView = findViewById<TextView>(R.id.Button_Register)
 
-        baseView.setOnClickListener {
+        loginView.setOnClickListener {
             val emailField = findViewById<EditText>(R.id.editText_login_email)
             val email = emailField.text.toString().trim()
 

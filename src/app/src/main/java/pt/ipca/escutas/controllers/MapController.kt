@@ -1,6 +1,5 @@
 package pt.ipca.escutas.controllers
 
-import pt.ipca.escutas.R
 import pt.ipca.escutas.models.Location
 import pt.ipca.escutas.views.fragments.MapFragment
 import java.util.*
@@ -15,8 +14,7 @@ class MapController : BaseController() {
      *
      * @return A list containing the stored locations.
      */
-    fun getLocations(): List<Location>
-    {
+    fun getLocations(): List<Location> {
         // TODO: Invoke database service in order to fetch locations. Response is mocked for now.
 
         return listOf(
@@ -25,7 +23,8 @@ class MapController : BaseController() {
                 "Sede do Agrupamento 1 - Sé de Braga",
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                 41.5518896,
-                -8.4309099)
+                -8.4309099
+            )
         )
     }
 }
