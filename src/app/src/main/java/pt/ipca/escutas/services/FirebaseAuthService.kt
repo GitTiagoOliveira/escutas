@@ -2,6 +2,7 @@ package pt.ipca.escutas.services
 
 import android.content.ContentValues.TAG
 import android.util.Log
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import pt.ipca.escutas.models.User
@@ -98,6 +99,19 @@ class FirebaseAuthService : IAuthService {
 
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
+                Log.d(TAG, Strings.MSG_USER_LOGIN)
+            } else {
+                Log.w(TAG, Strings.MSG_FAIL_USER_LOGIN, task.exception)
+                throw AuthException(task.exception?.message ?: Strings.MSG_FAIL_USER_LOGIN)
+            }
+        }
+    }
+
+    override fun loginUserWithCredential(credential: AuthCredential) {
+
+        mAuth.signInWithCredential(credential).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                getCurrentUser();
                 Log.d(TAG, Strings.MSG_USER_LOGIN)
             } else {
                 Log.w(TAG, Strings.MSG_FAIL_USER_LOGIN, task.exception)

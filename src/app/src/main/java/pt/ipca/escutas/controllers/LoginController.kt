@@ -1,5 +1,6 @@
 package pt.ipca.escutas.controllers
 
+import com.google.firebase.auth.AuthCredential
 import pt.ipca.escutas.views.LoginActivity
 
 /**
@@ -15,5 +16,9 @@ class LoginController : BaseController() {
      */
     fun loginUser(email: String, password: String) {
         auth.loginUser(email, password)
+    }
+
+    fun loginUserWithCredential(credential: AuthCredential) {
+        auth.loginUserWithCredential(credential)
     }
 }
