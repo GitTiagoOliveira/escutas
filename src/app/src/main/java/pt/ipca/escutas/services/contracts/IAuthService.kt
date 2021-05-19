@@ -1,5 +1,6 @@
 package pt.ipca.escutas.services.contracts
 
+import com.google.firebase.auth.AuthCredential
 import pt.ipca.escutas.models.User
 
 /**
@@ -61,4 +62,6 @@ interface IAuthService {
      *
      */
     fun getCurrentUserDetailsViaProvider()
+
+    fun loginUserWithCredential(credential: AuthCredential)
 }
