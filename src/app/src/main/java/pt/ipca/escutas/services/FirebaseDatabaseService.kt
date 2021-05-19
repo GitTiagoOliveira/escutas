@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import pt.ipca.escutas.resources.Strings
+import pt.ipca.escutas.services.callbacks.FirebaseCallback
 import pt.ipca.escutas.services.contracts.IDatabaseService
 import pt.ipca.escutas.services.exceptions.DatabaseException
 
@@ -51,7 +52,7 @@ class FirebaseDatabaseService : IDatabaseService {
         }
     }
 
-    override fun getAllRecords(model: String): HashMap<String, Any> {
+    override fun getAllRecords(model: String, firebaseCallback: FirebaseCallback) {
 
         val modelData = this.storage.collection(model)
         val output = HashMap<String, Any>()
@@ -61,13 +62,12 @@ class FirebaseDatabaseService : IDatabaseService {
                 for (document in task.result!!) {
                     output[document.id] = document.data
                 }
+                firebaseCallback.onCallback(output)
             } else {
                 Log.w(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_GET, task.exception)
                 throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_GET)
             }
         }
-
-        return output
     }
 
     override fun getRecordWithEqualFilter(model: String, recordKey: String, recordValue: Any): HashMap<String, Any> {

@@ -56,6 +56,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
      * @return The fragment view.
      */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        mapController.prepareLocations(this)
         val view: View = inflater.inflate(R.layout.fragment_map, container, false)
         val map: SupportMapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
 
@@ -175,6 +176,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         } catch (e: SecurityException) {
             Log.e("Exception: %s", e.message, e)
         }
+    }
+
+    fun getMap(): GoogleMap? {
+        return map
     }
 
     companion object {
