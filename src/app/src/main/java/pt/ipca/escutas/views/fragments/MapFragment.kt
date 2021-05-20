@@ -107,17 +107,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(map: GoogleMap?) {
         this.map = map
 
-        map?.apply {
-            for (location in locations!!) {
-                val coords = LatLng(location.latitude, location.longitude)
+        if (locations != null) {
+            map?.apply {
+                for (location in locations!!) {
+                    val coords = LatLng(location.latitude, location.longitude)
 
-                addMarker(
-                    MarkerOptions()
-                        .position(coords)
-                        .title(location.name)
-                        .snippet(location.description)
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                )
+                    addMarker(
+                        MarkerOptions()
+                            .position(coords)
+                            .title(location.name)
+                            .snippet(location.description)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    )
+                }
             }
         }
 
