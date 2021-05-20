@@ -1,6 +1,6 @@
 package pt.ipca.escutas.services.contracts
 
-import pt.ipca.escutas.services.callbacks.FirebaseCallback
+import pt.ipca.escutas.services.callbacks.FirebaseDBCallback
 
 /**
  * Defines the contract of a database service.
@@ -39,7 +39,7 @@ interface IDatabaseService {
      * @param model The model represents the collection.
      * @return
      */
-    fun getAllRecords(model: String, callback: FirebaseCallback)
+    fun getAllRecords(model: String, callback: FirebaseDBCallback)
 
     /**
      * Retrieves all records that respect an equal filter based on [recordKey] and [recordValue] of a specific collection [model].

@@ -1,6 +1,6 @@
 package pt.ipca.escutas.services
 
-import pt.ipca.escutas.services.callbacks.FirebaseCallback
+import pt.ipca.escutas.services.callbacks.FirebaseDBCallback
 import pt.ipca.escutas.services.contracts.IDatabaseService
 
 /**
@@ -20,7 +20,7 @@ class SqliteDatabaseService : IDatabaseService {
         TODO("Not yet implemented")
     }
 
-    override fun getAllRecords(model: String, callback: FirebaseCallback) {
+    override fun getAllRecords(model: String, callback: FirebaseDBCallback) {
         TODO("Not yet implemented")
     }
 

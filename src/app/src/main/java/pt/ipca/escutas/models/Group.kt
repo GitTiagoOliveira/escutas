@@ -3,7 +3,7 @@ package pt.ipca.escutas.models
 import java.util.UUID
 
 /**
- * Defines the model of a scout group.
+ * Defines the model of a group.
  *
  */
 data class Group(
@@ -23,12 +23,12 @@ data class Group(
     var description: String,
 
     /**
-     * The group [Location].
+     * The group latitude.
      */
-    var location: Location,
+    var latitude: Double,
 
     /**
-     * The group [Image].
+     * The group longitude.
      */
-    var image: Image,
+    var longitude: Double,
 )
