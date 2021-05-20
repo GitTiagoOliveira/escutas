@@ -2,6 +2,7 @@ package pt.ipca.escutas.services.contracts
 
 import com.google.firebase.auth.AuthCredential
 import pt.ipca.escutas.models.User
+import pt.ipca.escutas.services.callbacks.AuthCallback
 
 /**
  * Defines the contract of an authentication service.
@@ -49,7 +50,7 @@ interface IAuthService {
      * @param email The user email.
      * @param password The user password.
      */
-    fun loginUser(email: String, password: String)
+    fun loginUser(email: String, password: String, callback: AuthCallback)
 
     /**
      * Retrieves current user details such as email, photo url.
@@ -64,4 +65,6 @@ interface IAuthService {
     fun getCurrentUserDetailsViaProvider()
 
     fun loginUserWithCredential(credential: AuthCredential)
+
+    fun logout()
 }
