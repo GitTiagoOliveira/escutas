@@ -113,12 +113,15 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            loginController.loginUser(email, password,object : AuthCallback {
-                override fun onCallback() {
-                    val intent = Intent(this@LoginActivity, BaseActivity::class.java)
-                    startActivity(intent)
+            loginController.loginUser(
+                email, password,
+                object : AuthCallback {
+                    override fun onCallback() {
+                        val intent = Intent(this@LoginActivity, BaseActivity::class.java)
+                        startActivity(intent)
+                    }
                 }
-            })
+            )
         }
 
         registerView.setOnClickListener {
@@ -142,7 +145,7 @@ class LoginActivity : AppCompatActivity() {
                 try {
                     // Google Sign In was successful, authenticate with Firebase
                     val account = task.getResult(ApiException::class.java)!!
-                    if(account.idToken != null) {
+                    if (account.idToken != null) {
                         val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
                         loginController.loginUserWithCredential(credential)
                         val intent = Intent(this@LoginActivity, BaseActivity::class.java)
