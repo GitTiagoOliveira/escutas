@@ -1,5 +1,6 @@
 package pt.ipca.escutas.views
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -21,6 +22,8 @@ import kotlinx.android.synthetic.main.activity_login.view.*
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.LoginController
 import pt.ipca.escutas.resources.Strings
+import pt.ipca.escutas.services.callbacks.AuthCallback
+import pt.ipca.escutas.services.exceptions.AuthException
 import pt.ipca.escutas.utils.StringUtils.isValidEmail
 import java.util.*
 
@@ -49,51 +52,41 @@ class LoginActivity : AppCompatActivity() {
         val loginView = findViewById<Button>(R.id.Button_login)
         val aboutView = findViewById<TextView>(R.id.sobre)
         val registerView = findViewById<TextView>(R.id.Button_Register)
+        val gmailView = findViewById<SignInButton>(R.id.gmail_login_button)
+        val facebookView = findViewById<View>(R.id.facebook_login_button) as LoginButton
 
-        // Configure sign-in to request the user's ID, email address, and basic
-// profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        // Configure sign-in to request the user's ID, email address, and basic
-// profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .requestIdToken(getString(R.string.default_web_client_id))
             .build()
-
-        // Build a GoogleSignInClient with the options specified by gso.
         val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-
-        // Set the dimensions of the sign-in button.
-        // Set the dimensions of the sign-in button.
-        val signInButton = findViewById<SignInButton>(R.id.gmail_login_button)
-        signInButton.setSize(SignInButton.SIZE_STANDARD)
-        signInButton.setOnClickListener {
+        gmailView.setSize(SignInButton.SIZE_STANDARD)
+        gmailView.setOnClickListener {
             facebookRequest = false
             val signInIntent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
 
-        val facebooklogin = findViewById<View>(R.id.facebook_login_button) as LoginButton
-        facebooklogin.setOnClickListener {
+        facebookView.setOnClickListener {
             facebookRequest = true
         }
-        facebooklogin.setReadPermissions("public_profile email")
-        facebooklogin.registerCallback(
+        facebookView.setReadPermissions("public_profile email")
+        facebookView.registerCallback(
             callbackManager,
             object : FacebookCallback<LoginResult?> {
                 override fun onSuccess(loginResult: LoginResult?) {
 
                     var credential = FacebookAuthProvider.getCredential(loginResult?.accessToken?.getToken())
                     loginController.loginUserWithCredential(credential)
-
-                    val userId = loginResult?.accessToken?.userId
                 }
 
                 override fun onCancel() {
-                    // App code
+                    // Do Nothing
                 }
 
                 override fun onError(exception: FacebookException) {
-                    // App code
+                    Log.w(ContentValues.TAG, Strings.MSG_FAIL_USER_LOGIN, exception.cause)
+                    throw AuthException(exception?.message ?: Strings.MSG_FAIL_USER_LOGIN)
                 }
             }
         )
@@ -120,10 +113,12 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            loginController.loginUser(email, password)
-
-            val intent = Intent(this@LoginActivity, BaseActivity::class.java)
-            startActivity(intent)
+            loginController.loginUser(email, password,object : AuthCallback {
+                override fun onCallback() {
+                    val intent = Intent(this@LoginActivity, BaseActivity::class.java)
+                    startActivity(intent)
+                }
+            })
         }
 
         registerView.setOnClickListener {
@@ -138,23 +133,27 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (facebookRequest) {
             callbackManager.onActivityResult(requestCode, resultCode, data)
-            super.onActivityResult(requestCode, resultCode, data)
         } else {
-            super.onActivityResult(requestCode, resultCode, data)
-
-            // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
             if (requestCode == RC_SIGN_IN) {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(data)
                 try {
                     // Google Sign In was successful, authenticate with Firebase
                     val account = task.getResult(ApiException::class.java)!!
-                    val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
-                    loginController.loginUserWithCredential(credential)
+                    if(account.idToken != null) {
+                        val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
+                        loginController.loginUserWithCredential(credential)
+                        val intent = Intent(this@LoginActivity, BaseActivity::class.java)
+                        startActivity(intent)
+                    } else {
+                        Log.w(ContentValues.TAG, Strings.MSG_FAIL_USER_LOGIN, task.exception)
+                        throw AuthException(task.exception?.message ?: Strings.MSG_FAIL_USER_LOGIN)
+                    }
                 } catch (e: ApiException) {
-                    // Google Sign In failed, update UI appropriately
-                    Log.w("Google sign in failed", e)
+                    Log.w(ContentValues.TAG, Strings.MSG_FAIL_USER_LOGIN, e.cause)
+                    throw AuthException(e?.message ?: Strings.MSG_FAIL_USER_LOGIN)
                 }
             }
         }

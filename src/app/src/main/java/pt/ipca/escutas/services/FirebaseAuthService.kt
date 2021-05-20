@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import pt.ipca.escutas.models.User
 import pt.ipca.escutas.resources.Strings
+import pt.ipca.escutas.services.callbacks.AuthCallback
 import pt.ipca.escutas.services.contracts.IAuthService
 import pt.ipca.escutas.services.exceptions.AuthException
 
@@ -95,11 +96,12 @@ class FirebaseAuthService : IAuthService {
             }
     }
 
-    override fun loginUser(email: String, password: String) {
+    override fun loginUser(email: String, password: String, callback: AuthCallback) {
 
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d(TAG, Strings.MSG_USER_LOGIN)
+                callback.onCallback()
             } else {
                 Log.w(TAG, Strings.MSG_FAIL_USER_LOGIN, task.exception)
                 throw AuthException(task.exception?.message ?: Strings.MSG_FAIL_USER_LOGIN)
@@ -111,13 +113,17 @@ class FirebaseAuthService : IAuthService {
 
         mAuth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                getCurrentUser()
                 Log.d(TAG, Strings.MSG_USER_LOGIN)
             } else {
                 Log.w(TAG, Strings.MSG_FAIL_USER_LOGIN, task.exception)
                 throw AuthException(task.exception?.message ?: Strings.MSG_FAIL_USER_LOGIN)
             }
         }
+    }
+
+    override fun logout() {
+
+        mAuth.signOut()
     }
 
     override fun getCurrentUserDetails() {

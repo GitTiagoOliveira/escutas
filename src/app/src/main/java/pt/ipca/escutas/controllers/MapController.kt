@@ -28,7 +28,7 @@ class MapController : BaseController() {
         }
     }
 
-    fun prepareLocations(callback: LocationCallback) {
+    private fun prepareLocations(callback: LocationCallback) {
 
         database.getAllRecords(
             "groups",
