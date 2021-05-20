@@ -39,7 +39,7 @@ class MapController : BaseController() {
                     list.forEach { (key, value) ->
 
                         val values = value as HashMap<String, Any>
-                        val tempGroup = Group(
+                        val group = Group(
                             UUID.randomUUID(),
                             values["name"] as String,
                             values["description"] as String,
@@ -47,7 +47,7 @@ class MapController : BaseController() {
                             values["longitude"] as Double
                         )
 
-                        groupList.add(tempGroup)
+                        groupList.add(group)
                     }
                     callback.onCallback(groupList)
                 }
