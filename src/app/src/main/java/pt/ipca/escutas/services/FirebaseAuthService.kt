@@ -111,7 +111,7 @@ class FirebaseAuthService : IAuthService {
 
         mAuth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                getCurrentUser();
+                getCurrentUser()
                 Log.d(TAG, Strings.MSG_USER_LOGIN)
             } else {
                 Log.w(TAG, Strings.MSG_FAIL_USER_LOGIN, task.exception)
