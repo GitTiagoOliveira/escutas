@@ -109,14 +109,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         if (groups != null) {
             map?.apply {
-                for (location in groups!!) {
-                    val coords = LatLng(location.latitude, location.longitude)
+                for (group in groups!!) {
+                    val coords = LatLng(group.latitude, group.longitude)
 
                     addMarker(
                         MarkerOptions()
                             .position(coords)
-                            .title(location.name)
-                            .snippet(location.description)
+                            .title(group.name)
+                            .snippet(group.description)
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                     )
                 }
