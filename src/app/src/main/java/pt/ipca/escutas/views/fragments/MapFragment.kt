@@ -20,8 +20,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.MapController
-import pt.ipca.escutas.models.Location
-import pt.ipca.escutas.services.callbacks.LocationCallback
+import pt.ipca.escutas.models.Group
+import pt.ipca.escutas.services.callbacks.GroupCallback
 import java.util.*
 
 /**
@@ -37,7 +37,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     /**
      * The map.
      */
-    private var locations: List<Location>? = null
+    private var groups: List<Group>? = null
 
     /**
      * The map.
@@ -69,9 +69,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         this.locationProvider = LocationServices.getFusedLocationProviderClient(this.context!!)
         fragmap.getMapAsync(this)
 
-        mapController.getStoredLocationsList(object : LocationCallback {
-            override fun onCallback(list: ArrayList<Location>) {
-                locations = list
+        mapController.getStoredGroupsList(object : GroupCallback {
+            override fun onCallback(list: ArrayList<Group>) {
+                groups = list
                 onMapReady(map)
             }
         })
@@ -107,9 +107,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(map: GoogleMap?) {
         this.map = map
 
-        if (locations != null) {
+        if (groups != null) {
             map?.apply {
-                for (location in locations!!) {
+                for (location in groups!!) {
                     val coords = LatLng(location.latitude, location.longitude)
 
                     addMarker(

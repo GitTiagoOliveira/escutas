@@ -1,8 +1,8 @@
 package pt.ipca.escutas.controllers
 
-import pt.ipca.escutas.models.Location
+import pt.ipca.escutas.models.Group
 import pt.ipca.escutas.services.callbacks.FirebaseDBCallback
-import pt.ipca.escutas.services.callbacks.LocationCallback
+import pt.ipca.escutas.services.callbacks.GroupCallback
 import pt.ipca.escutas.views.fragments.MapFragment
 import java.util.*
 
@@ -12,23 +12,23 @@ import java.util.*
  */
 class MapController : BaseController() {
 
-    private var locationList: ArrayList<Location> = arrayListOf()
+    private var groupList: ArrayList<Group> = arrayListOf()
 
     /**
      * Gets the stored locations.
      *
      * @return A list containing the stored locations.
      */
-    fun getStoredLocationsList(callback: LocationCallback) {
+    fun getStoredGroupsList(callback: GroupCallback) {
 
-        if (locationList.size > 0) {
-            callback.onCallback(locationList)
+        if (groupList.size > 0) {
+            callback.onCallback(groupList)
         } else {
-            prepareLocations(callback)
+            prepareGroups(callback)
         }
     }
 
-    private fun prepareLocations(callback: LocationCallback) {
+    private fun prepareGroups(callback: GroupCallback) {
 
         database.getAllRecords(
             "groups",
@@ -39,7 +39,7 @@ class MapController : BaseController() {
                     list.forEach { (key, value) ->
 
                         val values = value as HashMap<String, Any>
-                        val tempLocation = Location(
+                        val tempGroup = Group(
                             UUID.randomUUID(),
                             values["name"] as String,
                             values["description"] as String,
@@ -47,9 +47,9 @@ class MapController : BaseController() {
                             values["longitude"] as Double
                         )
 
-                        locationList.add(tempLocation)
+                        groupList.add(tempGroup)
                     }
-                    callback.onCallback(locationList)
+                    callback.onCallback(groupList)
                 }
             }
         )
