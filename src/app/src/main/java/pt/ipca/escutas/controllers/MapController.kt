@@ -2,10 +2,9 @@ package pt.ipca.escutas.controllers
 
 import pt.ipca.escutas.models.Location
 import pt.ipca.escutas.services.callbacks.FirebaseCallback
+import pt.ipca.escutas.services.callbacks.LocationCallback
 import pt.ipca.escutas.views.fragments.MapFragment
 import java.util.*
-import java.util.concurrent.Semaphore
-import java.util.concurrent.locks.ReentrantLock
 
 /**
  * Defines the [MapFragment] controller.
@@ -20,12 +19,17 @@ class MapController : BaseController() {
      *
      * @return A list containing the stored locations.
      */
-    fun getLocations(): List<Location> {
+    fun getStoredLocationsList(callback: LocationCallback) {
 
-        return locationList
+        if(locationList.size > 0) {
+            callback.onCallback(locationList)
+        }
+        else {
+            prepareLocations(callback)
+        }
     }
 
-    fun prepareLocations(mapFragment: MapFragment) {
+    fun prepareLocations(callback: LocationCallback) {
 
         database.getAllRecords(
             "groups",
@@ -46,8 +50,7 @@ class MapController : BaseController() {
 
                         locationList.add(tempLocation)
                     }
-
-                    mapFragment.onMapReady(mapFragment.getMap())
+                    callback.onCallback(locationList)
                 }
             }
         )

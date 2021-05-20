@@ -21,6 +21,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.MapController
 import pt.ipca.escutas.models.Location
+import pt.ipca.escutas.services.callbacks.LocationCallback
+import java.util.*
 
 /**
  * Defines the map fragment.
@@ -31,6 +33,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
      * The map controller.
      */
     private val mapController: MapController = MapController()
+
+    /**
+     * The map.
+     */
+    private var locations: List<Location>? = null
 
     /**
      * The map.
@@ -56,13 +63,18 @@ class MapFragment : Fragment(), OnMapReadyCallback {
      * @return The fragment view.
      */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        mapController.prepareLocations(this)
+
         val view: View = inflater.inflate(R.layout.fragment_map, container, false)
-        val map: SupportMapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-
+        val fragmap: SupportMapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         this.locationProvider = LocationServices.getFusedLocationProviderClient(this.context!!)
+        fragmap.getMapAsync(this)
 
-        map.getMapAsync(this)
+        mapController.getStoredLocationsList( object : LocationCallback {
+            override fun onCallback(list: ArrayList<Location>) {
+                locations = list
+                onMapReady(map)
+            }
+        })
 
         return view
     }
@@ -96,9 +108,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         this.map = map
 
         map?.apply {
-            val locations: List<Location> = mapController.getLocations()
-
-            for (location in locations) {
+            for (location in locations!!) {
                 val coords = LatLng(location.latitude, location.longitude)
 
                 addMarker(
