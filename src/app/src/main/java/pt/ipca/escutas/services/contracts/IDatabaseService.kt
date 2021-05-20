@@ -1,6 +1,6 @@
 package pt.ipca.escutas.services.contracts
 
-import pt.ipca.escutas.services.callbacks.FirebaseCallback
+import pt.ipca.escutas.services.callbacks.FirebaseDBCallback
 
 /**
  * Defines the contract of a database service.
