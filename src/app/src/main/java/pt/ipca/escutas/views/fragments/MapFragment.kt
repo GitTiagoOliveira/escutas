@@ -20,7 +20,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.MapController
-import pt.ipca.escutas.models.Location
+import pt.ipca.escutas.models.Group
+import pt.ipca.escutas.services.callbacks.GroupCallback
+import java.util.*
 
 /**
  * Defines the map fragment.
@@ -31,6 +33,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
      * The map controller.
      */
     private val mapController: MapController = MapController()
+
+    /**
+     * The map.
+     */
+    private var groups: List<Group>? = null
 
     /**
      * The map.
@@ -56,13 +63,18 @@ class MapFragment : Fragment(), OnMapReadyCallback {
      * @return The fragment view.
      */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        mapController.prepareLocations(this)
+
         val view: View = inflater.inflate(R.layout.fragment_map, container, false)
-        val map: SupportMapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-
+        val fragmap: SupportMapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         this.locationProvider = LocationServices.getFusedLocationProviderClient(this.context!!)
+        fragmap.getMapAsync(this)
 
-        map.getMapAsync(this)
+        mapController.getStoredGroupsList(object : GroupCallback {
+            override fun onCallback(list: ArrayList<Group>) {
+                groups = list
+                onMapReady(map)
+            }
+        })
 
         return view
     }
@@ -95,19 +107,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(map: GoogleMap?) {
         this.map = map
 
-        map?.apply {
-            val locations: List<Location> = mapController.getLocations()
+        if (groups != null) {
+            map?.apply {
+                for (group in groups!!) {
+                    val coords = LatLng(group.latitude, group.longitude)
 
-            for (location in locations) {
-                val coords = LatLng(location.latitude, location.longitude)
-
-                addMarker(
-                    MarkerOptions()
-                        .position(coords)
-                        .title(location.name)
-                        .snippet(location.description)
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                )
+                    addMarker(
+                        MarkerOptions()
+                            .position(coords)
+                            .title(group.name)
+                            .snippet(group.description)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    )
+                }
             }
         }
 

@@ -1,11 +1,10 @@
 package pt.ipca.escutas.controllers
 
-import pt.ipca.escutas.models.Location
-import pt.ipca.escutas.services.callbacks.FirebaseCallback
+import pt.ipca.escutas.models.Group
+import pt.ipca.escutas.services.callbacks.FirebaseDBCallback
+import pt.ipca.escutas.services.callbacks.GroupCallback
 import pt.ipca.escutas.views.fragments.MapFragment
 import java.util.*
-import java.util.concurrent.Semaphore
-import java.util.concurrent.locks.ReentrantLock
 
 /**
  * Defines the [MapFragment] controller.
@@ -13,30 +12,34 @@ import java.util.concurrent.locks.ReentrantLock
  */
 class MapController : BaseController() {
 
-    private var locationList: ArrayList<Location> = arrayListOf()
+    private var groupList: ArrayList<Group> = arrayListOf()
 
     /**
      * Gets the stored locations.
      *
      * @return A list containing the stored locations.
      */
-    fun getLocations(): List<Location> {
+    fun getStoredGroupsList(callback: GroupCallback) {
 
-        return locationList
+        if (groupList.size > 0) {
+            callback.onCallback(groupList)
+        } else {
+            prepareGroups(callback)
+        }
     }
 
-    fun prepareLocations(mapFragment: MapFragment) {
+    private fun prepareGroups(callback: GroupCallback) {
 
         database.getAllRecords(
             "groups",
-            object : FirebaseCallback {
+            object : FirebaseDBCallback {
 
                 override fun onCallback(list: HashMap<String, Any>) {
 
                     list.forEach { (key, value) ->
 
                         val values = value as HashMap<String, Any>
-                        val tempLocation = Location(
+                        val group = Group(
                             UUID.randomUUID(),
                             values["name"] as String,
                             values["description"] as String,
@@ -44,10 +47,9 @@ class MapController : BaseController() {
                             values["longitude"] as Double
                         )
 
-                        locationList.add(tempLocation)
+                        groupList.add(group)
                     }
-
-                    mapFragment.onMapReady(mapFragment.getMap())
+                    callback.onCallback(groupList)
                 }
             }
         )
