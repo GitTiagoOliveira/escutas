@@ -69,7 +69,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         this.locationProvider = LocationServices.getFusedLocationProviderClient(this.context!!)
         fragmap.getMapAsync(this)
 
-        mapController.getStoredLocationsList( object : LocationCallback {
+        mapController.getStoredLocationsList(object : LocationCallback {
             override fun onCallback(list: ArrayList<Location>) {
                 locations = list
                 onMapReady(map)

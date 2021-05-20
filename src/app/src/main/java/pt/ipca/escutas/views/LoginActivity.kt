@@ -12,7 +12,6 @@ import com.facebook.*
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
@@ -25,7 +24,6 @@ import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.utils.StringUtils.isValidEmail
 import java.util.*
 
-
 /**
  * Defines the login activity.
  *
@@ -35,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
      * The login controller.
      */
     private val loginController by lazy { LoginController() }
-    private val callbackManager = CallbackManager.Factory.create();
+    private val callbackManager = CallbackManager.Factory.create()
     private val RC_SIGN_IN = 123
     private var facebookRequest = true
 
@@ -52,7 +50,6 @@ class LoginActivity : AppCompatActivity() {
         val aboutView = findViewById<TextView>(R.id.sobre)
         val registerView = findViewById<TextView>(R.id.Button_Register)
 
-
         // Configure sign-in to request the user's ID, email address, and basic
 // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         // Configure sign-in to request the user's ID, email address, and basic
@@ -63,7 +60,7 @@ class LoginActivity : AppCompatActivity() {
             .build()
 
         // Build a GoogleSignInClient with the options specified by gso.
-        val mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
         // Set the dimensions of the sign-in button.
         // Set the dimensions of the sign-in button.
@@ -75,29 +72,31 @@ class LoginActivity : AppCompatActivity() {
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
 
-
         val facebooklogin = findViewById<View>(R.id.facebook_login_button) as LoginButton
-        facebooklogin.setOnClickListener{
+        facebooklogin.setOnClickListener {
             facebookRequest = true
         }
         facebooklogin.setReadPermissions("public_profile email")
-        facebooklogin.registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
-            override fun onSuccess(loginResult: LoginResult?) {
+        facebooklogin.registerCallback(
+            callbackManager,
+            object : FacebookCallback<LoginResult?> {
+                override fun onSuccess(loginResult: LoginResult?) {
 
-                var credential = FacebookAuthProvider.getCredential(loginResult?.accessToken?.getToken())
-                loginController.loginUserWithCredential(credential)
+                    var credential = FacebookAuthProvider.getCredential(loginResult?.accessToken?.getToken())
+                    loginController.loginUserWithCredential(credential)
 
-                val userId = loginResult?.accessToken?.userId
+                    val userId = loginResult?.accessToken?.userId
+                }
+
+                override fun onCancel() {
+                    // App code
+                }
+
+                override fun onError(exception: FacebookException) {
+                    // App code
+                }
             }
-
-            override fun onCancel() {
-                // App code
-            }
-
-            override fun onError(exception: FacebookException) {
-                // App code
-            }
-        })
+        )
 
         loginView.setOnClickListener {
             val emailField = findViewById<EditText>(R.id.editText_login_email)
@@ -138,10 +137,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(facebookRequest){
+        if (facebookRequest) {
             callbackManager.onActivityResult(requestCode, resultCode, data)
             super.onActivityResult(requestCode, resultCode, data)
         } else {

@@ -1,7 +1,7 @@
 package pt.ipca.escutas.controllers
 
 import pt.ipca.escutas.models.Location
-import pt.ipca.escutas.services.callbacks.FirebaseCallback
+import pt.ipca.escutas.services.callbacks.FirebaseDBCallback
 import pt.ipca.escutas.services.callbacks.LocationCallback
 import pt.ipca.escutas.views.fragments.MapFragment
 import java.util.*
@@ -21,10 +21,9 @@ class MapController : BaseController() {
      */
     fun getStoredLocationsList(callback: LocationCallback) {
 
-        if(locationList.size > 0) {
+        if (locationList.size > 0) {
             callback.onCallback(locationList)
-        }
-        else {
+        } else {
             prepareLocations(callback)
         }
     }
@@ -33,7 +32,7 @@ class MapController : BaseController() {
 
         database.getAllRecords(
             "groups",
-            object : FirebaseCallback {
+            object : FirebaseDBCallback {
 
                 override fun onCallback(list: HashMap<String, Any>) {
 

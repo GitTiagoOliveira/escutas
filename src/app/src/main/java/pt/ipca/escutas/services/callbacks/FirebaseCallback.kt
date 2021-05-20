@@ -1,5 +1,5 @@
 package pt.ipca.escutas.services.callbacks
 
-interface FirebaseCallback {
+interface FirebaseDBCallback {
     fun onCallback(list: HashMap<String, Any>)
 }
