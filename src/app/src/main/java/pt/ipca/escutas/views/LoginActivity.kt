@@ -60,7 +60,6 @@ class LoginActivity : AppCompatActivity() {
             .requestIdToken(getString(R.string.default_web_client_id))
             .build()
         val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-        gmailView.setSize(SignInButton.SIZE_STANDARD)
         gmailView.setOnClickListener {
             facebookRequest = false
             val signInIntent = mGoogleSignInClient.signInIntent
@@ -78,6 +77,8 @@ class LoginActivity : AppCompatActivity() {
 
                     var credential = FacebookAuthProvider.getCredential(loginResult?.accessToken?.getToken())
                     loginController.loginUserWithCredential(credential)
+                    val intent = Intent(this@LoginActivity, BaseActivity::class.java)
+                    startActivity(intent)
                 }
 
                 override fun onCancel() {
