@@ -1,11 +1,14 @@
 package pt.ipca.escutas.views
 
 import android.content.Intent
+import android.database.Cursor
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import de.hdodenhof.circleimageview.CircleImageView
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.MapController
 import pt.ipca.escutas.controllers.RegistrationController
@@ -186,5 +189,24 @@ class RegistrationActivity : AppCompatActivity() {
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null && data.data != null) {
             fileUri = data.data!!
     }
+
+        val selectedImage: Uri = fileUri
+        val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+
+        val cursor: Cursor? = contentResolver.query(
+            selectedImage,
+            filePathColumn, null, null, null
+        )
+
+        if(cursor != null) {
+            cursor.moveToFirst()
+
+            val columnIndex: Int = cursor.getColumnIndex(filePathColumn[0])
+            val picturePath: String = cursor.getString(columnIndex)
+
+            cursor.close()
+            val image = findViewById<CircleImageView>(R.id.frameLayout_circleimage)
+            image.setImageBitmap(BitmapFactory.decodeFile(picturePath))
+        }
 }
 }
