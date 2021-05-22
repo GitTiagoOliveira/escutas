@@ -23,9 +23,11 @@ import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.LoginController
 import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.callbacks.AuthCallback
+import pt.ipca.escutas.services.callbacks.FirebaseDBCallback
 import pt.ipca.escutas.services.exceptions.AuthException
 import pt.ipca.escutas.utils.StringUtils.isValidEmail
 import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * Defines the login activity.
@@ -77,8 +79,19 @@ class LoginActivity : AppCompatActivity() {
 
                     var credential = FacebookAuthProvider.getCredential(loginResult?.accessToken?.getToken())
                     loginController.loginUserWithCredential(credential)
-                    val intent = Intent(this@LoginActivity, BaseActivity::class.java)
-                    startActivity(intent)
+                    loginController.userExists(object : FirebaseDBCallback {
+                        override fun onCallback(list: HashMap<String, Any>) {
+                            if(list.isEmpty()){
+                                val intent = Intent(this@LoginActivity, CustomRegistrationActivity::class.java)
+                                startActivity(intent)
+                            } else {
+                                val intent = Intent(this@LoginActivity, BaseActivity::class.java)
+                                startActivity(intent)
+                            }
+                        }
+
+                    })
+
                 }
 
                 override fun onCancel() {
@@ -149,8 +162,18 @@ class LoginActivity : AppCompatActivity() {
                     if (account.idToken != null) {
                         val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
                         loginController.loginUserWithCredential(credential)
-                        val intent = Intent(this@LoginActivity, BaseActivity::class.java)
-                        startActivity(intent)
+                        loginController.userExists(object : FirebaseDBCallback {
+                            override fun onCallback(list: HashMap<String, Any>) {
+                                if(list.isEmpty()){
+                                    val intent = Intent(this@LoginActivity, CustomRegistrationActivity::class.java)
+                                    startActivity(intent)
+                                } else {
+                                    val intent = Intent(this@LoginActivity, BaseActivity::class.java)
+                                    startActivity(intent)
+                                }
+                            }
+
+                        })
                     } else {
                         Log.w(ContentValues.TAG, Strings.MSG_FAIL_USER_LOGIN, task.exception)
                         throw AuthException(task.exception?.message ?: Strings.MSG_FAIL_USER_LOGIN)

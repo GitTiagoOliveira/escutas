@@ -6,7 +6,7 @@ import com.google.firebase.storage.StorageReference
 import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.contracts.IStorageService
 import pt.ipca.escutas.services.exceptions.StorageException
-import java.io.FileInputStream
+import java.io.InputStream
 
 /**
  * Defines a Firebase implementation of an [IStorageService].
@@ -29,7 +29,8 @@ class FirebaseStorageService : IStorageService {
      * @param filePath The destination file path in the storage service.
      * @param fileStream The file input stream.
      */
-    override fun createFile(filePath: String, fileStream: FileInputStream) {
+    override fun createFile(filePath: String, fileStream: InputStream) {
+
         this.storage
             .getReference(filePath)
             .putStream(fileStream)
@@ -70,7 +71,7 @@ class FirebaseStorageService : IStorageService {
      * @param filePath The file path in the storage service.
      * @param fileStream The file input stream.
      */
-    override fun updateFile(filePath: String, fileStream: FileInputStream) {
+    override fun updateFile(filePath: String, fileStream: InputStream) {
         try {
             this.deleteFile(filePath)
             this.createFile(filePath, fileStream)

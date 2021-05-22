@@ -24,7 +24,12 @@ class SqliteDatabaseService : IDatabaseService {
         TODO("Not yet implemented")
     }
 
-    override fun getRecordWithEqualFilter(model: String, recordKey: String, recordValue: Any): HashMap<String, Any> {
+    override fun getRecordWithEqualFilter(
+        model: String,
+        recordKey: String,
+        recordValue: Any,
+        firebaseDBCallback: FirebaseDBCallback
+    ): HashMap<String, Any> {
         TODO("Not yet implemented")
     }
 

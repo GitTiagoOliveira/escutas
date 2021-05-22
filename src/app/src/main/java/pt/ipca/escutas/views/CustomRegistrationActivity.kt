@@ -15,7 +15,7 @@ import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.callbacks.AuthCallback
 import pt.ipca.escutas.services.callbacks.GroupCallback
 import pt.ipca.escutas.utils.DateUtils.DateValue
-import pt.ipca.escutas.utils.StringUtils.isValidEmail
+import java.io.InputStream
 import java.util.*
 
 
@@ -23,7 +23,7 @@ import java.util.*
  * Defines the registration activity.
  *
  */
-class RegistrationActivity : AppCompatActivity() {
+class CustomRegistrationActivity : AppCompatActivity() {
 
     /**
      * The map controller.
@@ -38,7 +38,9 @@ class RegistrationActivity : AppCompatActivity() {
 
     private var RESULT_LOAD_IMAGE = 1
 
-    private lateinit var fileUri: Uri
+    private var fileUri: Uri? = null
+
+    private var inputStream: InputStream? = null
 
     /**
      * Invoked when the activity is starting.
@@ -47,7 +49,7 @@ class RegistrationActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_registration)
+        setContentView(R.layout.custom_activity_registration)
 
         mapController.getStoredGroupsList(object : GroupCallback {
             override fun onCallback(list: ArrayList<Group>) {
@@ -97,19 +99,8 @@ class RegistrationActivity : AppCompatActivity() {
      *
      */
     private fun registerUser() {
-        val emailField = findViewById<EditText>(R.id.editText_email)
-        val email = emailField.text.toString().trim()
 
-        if (email.isEmpty()) {
-            emailField.error = Strings.MSG_FIELD_BLANK
-            return
-        }
-
-        if (!email.isValidEmail()) {
-            emailField.error = Strings.MSG_INCORRECT_EMAIL
-            return
-        }
-
+        val email = registrationController.getCustomUserEmail()
         val nameField = findViewById<EditText>(R.id.editText_username)
         val name = nameField.text.toString().trim()
 
@@ -150,11 +141,10 @@ class RegistrationActivity : AppCompatActivity() {
         val groupSpinner = findViewById<Spinner>(R.id.editText_group)
         val group = groupSpinner.selectedItem.toString()
 
-        var inputStream = contentResolver.openInputStream(fileUri!!)
 
         var imagePath = ""
 
-        if (inputStream != null) {
+        if (fileUri != null) {
             imagePath = "users/" + UUID.randomUUID() + ".png"
         }
 
@@ -167,15 +157,14 @@ class RegistrationActivity : AppCompatActivity() {
             birthday,
             group)
 
-        registrationController.addUser(user, object : AuthCallback {
-            override fun onCallback() {
-                var inputStream = contentResolver.openInputStream(fileUri!!)
-                registrationController.saveUser(user, inputStream, object: AuthCallback{
-                    override fun onCallback() {
-                         finish()
-                    }
-                })
+        if(fileUri !== null) {
+                    inputStream = contentResolver.openInputStream(fileUri!!)
+        }
 
+        registrationController.saveUser(user, inputStream, object: AuthCallback{
+            override fun onCallback() {
+                val intent = Intent(this@CustomRegistrationActivity, BaseActivity::class.java)
+                startActivity(intent)
             }
         })
     }
@@ -185,6 +174,6 @@ class RegistrationActivity : AppCompatActivity() {
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null && data.data != null) {
             fileUri = data.data!!
+        }
     }
-}
 }
