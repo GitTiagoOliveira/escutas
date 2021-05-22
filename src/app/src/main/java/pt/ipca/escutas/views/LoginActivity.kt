@@ -1,7 +1,10 @@
 package pt.ipca.escutas.views
 
+import android.Manifest
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,6 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.facebook.*
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
@@ -41,6 +45,11 @@ class LoginActivity : AppCompatActivity() {
     private val callbackManager = CallbackManager.Factory.create()
     private val RC_SIGN_IN = 123
     private var facebookRequest = true
+    private val REQUEST_EXTERNAL_STORAGE = 1
+    private val PERMISSIONS_STORAGE = arrayOf(
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
 
     /**
      * Invoked when the activity is starting.
@@ -82,6 +91,7 @@ class LoginActivity : AppCompatActivity() {
                     loginController.userExists(object : FirebaseDBCallback {
                         override fun onCallback(list: HashMap<String, Any>) {
                             if(list.isEmpty()){
+                                verifyStoragePermissions(this@LoginActivity)
                                 val intent = Intent(this@LoginActivity, CustomRegistrationActivity::class.java)
                                 startActivity(intent)
                             } else {
@@ -139,6 +149,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         registerView.setOnClickListener {
+            this.verifyStoragePermissions(this)
             val intent = Intent(this@LoginActivity, RegistrationActivity::class.java)
             startActivity(intent)
         }
@@ -165,6 +176,7 @@ class LoginActivity : AppCompatActivity() {
                         loginController.userExists(object : FirebaseDBCallback {
                             override fun onCallback(list: HashMap<String, Any>) {
                                 if(list.isEmpty()){
+                                    verifyStoragePermissions(this@LoginActivity)
                                     val intent = Intent(this@LoginActivity, CustomRegistrationActivity::class.java)
                                     startActivity(intent)
                                 } else {
@@ -183,6 +195,22 @@ class LoginActivity : AppCompatActivity() {
                     throw AuthException(e?.message ?: Strings.MSG_FAIL_USER_LOGIN)
                 }
             }
+        }
+    }
+
+    fun verifyStoragePermissions(activity: Activity?) {
+        // Check if we have write permission
+        val permission = ActivityCompat.checkSelfPermission(
+            activity!!,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                activity,
+                PERMISSIONS_STORAGE,
+                REQUEST_EXTERNAL_STORAGE
+            )
         }
     }
 }
