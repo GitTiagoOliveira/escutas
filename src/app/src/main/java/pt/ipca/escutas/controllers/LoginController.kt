@@ -2,6 +2,7 @@ package pt.ipca.escutas.controllers
 
 import com.google.firebase.auth.AuthCredential
 import pt.ipca.escutas.services.callbacks.AuthCallback
+import pt.ipca.escutas.services.callbacks.FirebaseDBCallback
 import pt.ipca.escutas.views.LoginActivity
 
 /**
@@ -21,5 +22,9 @@ class LoginController : BaseController() {
 
     fun loginUserWithCredential(credential: AuthCredential) {
         auth.loginUserWithCredential(credential)
+    }
+
+    fun userExists(firebaseDBCallback: FirebaseDBCallback) {
+        database.getRecordWithEqualFilter("users", "email" , auth.getCurrentUser().email, firebaseDBCallback)
     }
 }

@@ -19,7 +19,7 @@ class FirebaseAuthService : IAuthService {
 
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    private fun getCurrentUser(): FirebaseUser {
+    fun getCurrentUser(): FirebaseUser {
         val user = mAuth.currentUser
 
         if (user != null) {
@@ -29,12 +29,13 @@ class FirebaseAuthService : IAuthService {
         }
     }
 
-    override fun addUser(user: User) {
+    override fun addUser(user: User, callback: AuthCallback) {
 
         mAuth.createUserWithEmailAndPassword(user.email, user.password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, Strings.MSG_USER_CREATED)
+                    callback.onCallback()
                 } else {
                     Log.w(TAG, Strings.MSG_FAILED_USER_CREATE, task.exception)
                     throw AuthException(task.exception?.message ?: Strings.MSG_FAILED_USER_CREATE)
@@ -55,13 +56,14 @@ class FirebaseAuthService : IAuthService {
         }
     }
 
-    override fun updateUserEmail(user: User) {
+    override fun updateUserEmail(user: User, callback: AuthCallback) {
         val firebaseUser = getCurrentUser()
 
         firebaseUser.updateEmail(user.email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, Strings.MSG_USER_EMAIL_UPDATE)
+                    callback.onCallback()
                 } else {
                     Log.w(TAG, Strings.MSG_FAILED_USER_EMAIL_UPDATE, task.exception)
                     throw AuthException(task.exception?.message ?: Strings.MSG_FAILED_USER_EMAIL_UPDATE)
@@ -69,13 +71,14 @@ class FirebaseAuthService : IAuthService {
             }
     }
 
-    override fun updateUserPassword(user: User) {
+    override fun updateUserPassword(user: User, callback: AuthCallback) {
         val firebaseUser = getCurrentUser()
 
         firebaseUser.updatePassword(user.password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, Strings.MSG_USER_PASSWORD_UPDATE)
+                    callback.onCallback()
                 } else {
                     Log.w(TAG, Strings.MSG_FAILED_USER_PASSWORD_UPDATE, task.exception)
                     throw AuthException(task.exception?.message ?: Strings.MSG_FAILED_USER_PASSWORD_UPDATE)
@@ -83,12 +86,13 @@ class FirebaseAuthService : IAuthService {
             }
     }
 
-    override fun sendPasswordResetEmail(user: User) {
+    override fun sendPasswordResetEmail(user: User, callback: AuthCallback) {
 
         mAuth.sendPasswordResetEmail(user.email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, Strings.MSG_EMAIL_SENT)
+                    callback.onCallback()
                 } else {
                     Log.w(TAG, Strings.MSG_FAIL_EMAIL, task.exception)
                     throw AuthException(task.exception?.message ?: Strings.MSG_FAIL_EMAIL)
