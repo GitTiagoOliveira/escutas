@@ -38,14 +38,35 @@ import kotlin.collections.HashMap
  *
  */
 class LoginActivity : AppCompatActivity() {
+
     /**
      * The login controller.
      */
     private val loginController by lazy { LoginController() }
+
+    /**
+     * The facebook callback controller.
+     */
     private val callbackManager = CallbackManager.Factory.create()
+
+    /**
+     * The gmail login number representation.
+     */
     private val RC_SIGN_IN = 123
+
+    /**
+     * boolean flag to distinguish facebook login from gmail.
+     */
     private var facebookRequest = true
+
+    /**
+     * The number representation for android external access request.
+     */
     private val REQUEST_EXTERNAL_STORAGE = 1
+
+    /**
+     * The required permissions to upload image from external storage.
+     */
     private val PERMISSIONS_STORAGE = arrayOf(
         Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -65,6 +86,7 @@ class LoginActivity : AppCompatActivity() {
         val registerView = findViewById<TextView>(R.id.Button_Register)
         val gmailView = findViewById<SignInButton>(R.id.gmail_login_button)
         val facebookView = findViewById<View>(R.id.facebook_login_button) as LoginButton
+        val forgotView = findViewById<TextView>(R.id.forgotPassword)
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
@@ -138,13 +160,17 @@ class LoginActivity : AppCompatActivity() {
             }
 
             loginController.loginUser(
-                email, password,
-                object : AuthCallback {
-                    override fun onCallback() {
-                        val intent = Intent(this@LoginActivity, BaseActivity::class.java)
-                        startActivity(intent)
+                    email, password,
+                    object : AuthCallback {
+                        override fun onCallback() {
+                            val intent = Intent(this@LoginActivity, BaseActivity::class.java)
+                            startActivity(intent)
+                        }
+
+                        override fun onCallbackError(error: String) {
+                            emailField.error = error
+                        }
                     }
-                }
             )
         }
 
@@ -158,8 +184,20 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this@LoginActivity, AboutActivity::class.java)
             startActivity(intent)
         }
+
+        forgotView.setOnClickListener {
+            val intent = Intent(this@LoginActivity, PalavraChave::class.java)
+            startActivity(intent)
+        }
     }
 
+    /**
+     * Invoked after login via providers.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (facebookRequest) {
@@ -198,6 +236,11 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Request user permission to access extenal storage.
+     *
+     * @param activity
+     */
     fun verifyStoragePermissions(activity: Activity?) {
         // Check if we have write permission
         val permission = ActivityCompat.checkSelfPermission(

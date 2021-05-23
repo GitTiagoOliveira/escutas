@@ -29,4 +29,6 @@ object Strings {
     const val MSG_FAIL_DATABASE_ADD = "Erro ao adicionar registo."
     const val MSG_FAIL_DATABASE_REMOVE = "Erro ao remover registo."
     const val MSG_FAIL_DATABASE_UPDATE = "Erro ao actualizar registo."
+    const val MSG_STORAGE_USER_LOCATION = "users"
+    const val MSG_STORAGE_GROUP_LOCATION = "groups"
 }

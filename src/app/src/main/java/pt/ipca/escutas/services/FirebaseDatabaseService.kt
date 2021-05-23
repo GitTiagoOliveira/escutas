@@ -16,6 +16,12 @@ class FirebaseDatabaseService : IDatabaseService {
 
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
+    /**
+     * Adds a new document [record] to a specific collection [model].
+     *
+     * @param model The model represents the collection.
+     * @param record The record represents the document.
+     */
     override fun addRecord(model: String, record: Any) {
 
         val modelData = this.db.collection(model)
@@ -28,6 +34,13 @@ class FirebaseDatabaseService : IDatabaseService {
         }
     }
 
+    /**
+     * Updates a record [record] associated to document [documentId] of a specific collection [model].
+     *
+     * @param model The model represents the collection.
+     * @param documentId The documentId represents the document identifier.
+     * @param record The record represents the document.
+     */
     override fun updateRecord(model: String, documentId: String, record: Any) {
 
         val modelData = this.db.collection(model)
@@ -40,6 +53,12 @@ class FirebaseDatabaseService : IDatabaseService {
         }
     }
 
+    /**
+     * Deletes a document [documentId] of a specific collection [model].
+     *
+     * @param model The model represents the collection.
+     * @param documentId The documentId represents the document identifier.
+     */
     override fun deleteRecord(model: String, documentId: String) {
 
         val modelData = this.db.collection(model)
@@ -52,6 +71,12 @@ class FirebaseDatabaseService : IDatabaseService {
         }
     }
 
+    /**
+     * Retrieves all records of a specific collection [model].
+     *
+     * @param model The model represents the collection.
+     * @return
+     */
     override fun getAllRecords(model: String, firebaseCallback: FirebaseDBCallback) {
 
         val modelData = this.db.collection(model)
@@ -70,6 +95,14 @@ class FirebaseDatabaseService : IDatabaseService {
         }
     }
 
+    /**
+     * Retrieves all records that respect an equal filter based on [recordKey] and [recordValue] of a specific collection [model].
+     *
+     * @param model The model represents the collection.
+     * @param recordKey The recordKey represents the filter column.
+     * @param recordValue The recordValue represents the filter column value.
+     * @return
+     */
     override fun getRecordWithEqualFilter(
         model: String,
         recordKey: String,
@@ -95,6 +128,14 @@ class FirebaseDatabaseService : IDatabaseService {
         return output
     }
 
+    /**
+     * Retrieves all records that respect an greater than filter based on [recordKey] and [recordValue] of a specific collection [model].
+     *
+     * @param model The model represents the collection.
+     * @param recordKey The recordKey represents the filter column.
+     * @param recordValue The recordValue represents the filter column value.
+     * @return
+     */
     override fun getRecordWithGreaterThanFilter(model: String, recordKey: String, recordValue: Any): HashMap<String, Any> {
 
         val modelData = this.db.collection(model)
@@ -114,6 +155,14 @@ class FirebaseDatabaseService : IDatabaseService {
         return output
     }
 
+    /**
+     * Retrieves all records that respect an lesser than filter based on [recordKey] and [recordValue] of a specific collection [model].
+     *
+     * @param model The model represents the collection.
+     * @param recordKey The recordKey represents the filter column.
+     * @param recordValue The recordValue represents the filter column value.
+     * @return
+     */
     override fun getRecordWithLessThanFilter(model: String, recordKey: String, recordValue: Any): HashMap<String, Any> {
 
         val modelData = this.db.collection(model)

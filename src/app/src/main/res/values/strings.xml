@@ -25,6 +25,7 @@
     <string name="activity_registration_birthday"><b><font color='black'>Data de nascimento </font><font color='red'>*</font></b></string>
     <string name="activity_registration_create">Criar</string>
     <string name="activity_registration_update">Actualizar</string>
+    <string name="activity_recuperar">Recuperar</string>
     <string name="activity_about_title">Sobre</string>
     <string name="activity_about_content">A presente aplicação móvel foi desenvolvida no âmbito da unidade curricular Programação de Dispositivos Móveis e Multissensoriais da oitava edição do Mestrado em Engenharia Informática da Escola Superior de Tecnologia do Instituto Politécnico do Cávado e do Ave.</string>
     <string name="activity_about_working_group">Grupo de trabalho:</string>

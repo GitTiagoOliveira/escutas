@@ -19,6 +19,11 @@ class FirebaseAuthService : IAuthService {
 
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
+    /**
+     * Returns current user.
+     *
+     * @return
+     */
     fun getCurrentUser(): FirebaseUser {
         val user = mAuth.currentUser
 
@@ -29,6 +34,11 @@ class FirebaseAuthService : IAuthService {
         }
     }
 
+    /**
+     * Adds a new user via authentication service based on the details available in [user].
+     *
+     * @param user The user object contains all necessary data as email and password.
+     */
     override fun addUser(user: User, callback: AuthCallback) {
 
         mAuth.createUserWithEmailAndPassword(user.email, user.password)
@@ -43,6 +53,10 @@ class FirebaseAuthService : IAuthService {
             }
     }
 
+    /**
+     * Deletes current user via authentication service.
+     *
+     */
     override fun deleteUser() {
         val user = getCurrentUser()
 
@@ -56,6 +70,11 @@ class FirebaseAuthService : IAuthService {
         }
     }
 
+    /**
+     * Updated user email via authentication service based on the details available in [user].
+     *
+     * @param user The user object contains all necessary data as email and password.
+     */
     override fun updateUserEmail(user: User, callback: AuthCallback) {
         val firebaseUser = getCurrentUser()
 
@@ -71,6 +90,11 @@ class FirebaseAuthService : IAuthService {
             }
     }
 
+    /**
+     * Updated user password via authentication service based on the details available in [user].
+     *
+     * @param user The user object contains all necessary data as email and password.
+     */
     override fun updateUserPassword(user: User, callback: AuthCallback) {
         val firebaseUser = getCurrentUser()
 
@@ -86,9 +110,14 @@ class FirebaseAuthService : IAuthService {
             }
     }
 
-    override fun sendPasswordResetEmail(user: User, callback: AuthCallback) {
+    /**
+     * Sends user email to reset user password via authentication service based on the details available in [user].
+     *
+     * @param user The user object contains all necessary data as email and password.
+     */
+    override fun sendPasswordResetEmail(email: String, callback: AuthCallback) {
 
-        mAuth.sendPasswordResetEmail(user.email)
+        mAuth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, Strings.MSG_EMAIL_SENT)
@@ -100,6 +129,12 @@ class FirebaseAuthService : IAuthService {
             }
     }
 
+    /**
+     * Login user via authentication service based on the provided [email] and [password].
+     *
+     * @param email The user email.
+     * @param password The user password.
+     */
     override fun loginUser(email: String, password: String, callback: AuthCallback) {
 
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
@@ -108,11 +143,16 @@ class FirebaseAuthService : IAuthService {
                 callback.onCallback()
             } else {
                 Log.w(TAG, Strings.MSG_FAIL_USER_LOGIN, task.exception)
-                throw AuthException(task.exception?.message ?: Strings.MSG_FAIL_USER_LOGIN)
+                callback.onCallbackError(task.exception?.message ?: Strings.MSG_FAIL_USER_LOGIN)
             }
         }
     }
 
+    /**
+     * Create auth token based on [credential].
+     *
+     * @param credential
+     */
     override fun loginUserWithCredential(credential: AuthCredential) {
 
         mAuth.signInWithCredential(credential).addOnCompleteListener { task ->
@@ -125,11 +165,19 @@ class FirebaseAuthService : IAuthService {
         }
     }
 
+    /**
+     * Delete auth token for current session.
+     *
+     */
     override fun logout() {
 
         mAuth.signOut()
     }
 
+    /**
+     * Retrieves current user details such as email, photo url.
+     *
+     */
     override fun getCurrentUserDetails() {
         val user = getCurrentUser()
 
@@ -149,6 +197,10 @@ class FirebaseAuthService : IAuthService {
         }
     }
 
+    /**
+     * Retrieve current session provider user details.
+     *
+     */
     override fun getCurrentUserDetailsViaProvider() {
         val user = getCurrentUser()
 
