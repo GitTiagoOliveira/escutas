@@ -6,8 +6,11 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.MenuItem
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import de.hdodenhof.circleimageview.CircleImageView
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.MapController
@@ -38,9 +41,14 @@ class RegistrationActivity : AppCompatActivity() {
      */
     private var registrationController = RegistrationController()
 
-
+    /**
+     * The number representation of android action.
+     */
     private var RESULT_LOAD_IMAGE = 1
 
+    /**
+     * The profile image uri.
+     */
     private lateinit var fileUri: Uri
 
     /**
@@ -74,10 +82,25 @@ class RegistrationActivity : AppCompatActivity() {
             selectImageInAlbum()
         }
 
+        // toolbar
+        val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+
+        toolbar.title = "Registo"
+        setSupportActionBar(toolbar)
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar()?.setDisplayShowHomeEnabled(true);
+        }
+
 
     }
 
-
+    /**
+     * Selects user image for profile data.
+     *
+     */
     fun selectImageInAlbum() {
 
         val i = Intent(
@@ -86,9 +109,12 @@ class RegistrationActivity : AppCompatActivity() {
         )
 
         startActivityForResult(i, RESULT_LOAD_IMAGE)
-
     }
 
+    /**
+     * Populates group list for selection.
+     *
+     */
     private fun refreshGroupList(items: Array<String>) {
         val dropdown = findViewById<Spinner>(R.id.editText_group)
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
@@ -171,18 +197,33 @@ class RegistrationActivity : AppCompatActivity() {
             group)
 
         registrationController.addUser(user, object : AuthCallback {
-            override fun onCallback() {
-                var inputStream = contentResolver.openInputStream(fileUri!!)
-                registrationController.saveUser(user, inputStream, object: AuthCallback{
-                    override fun onCallback() {
-                         finish()
-                    }
-                })
+                override fun onCallback() {
+                    var inputStream = contentResolver.openInputStream(fileUri!!)
+                    registrationController.saveUser(user, inputStream, object : AuthCallback {
+                        override fun onCallback() {
+                            finish()
+                        }
 
+                        override fun onCallbackError(error: String) {
+                            emailField.error = error
+                        }
+                    })
+
+                }
+
+            override fun onCallbackError(error: String) {
+                emailField.error = error
             }
         })
     }
 
+    /**
+     * This method provides selected image Uri and populated circle image view.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -208,5 +249,19 @@ class RegistrationActivity : AppCompatActivity() {
             val image = findViewById<CircleImageView>(R.id.frameLayout_circleimage)
             image.setImageBitmap(BitmapFactory.decodeFile(picturePath))
         }
-}
+    }
+
+    /**
+     * This method implements return toolbar action.
+     *
+     * @param item
+     * @return
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // handle arrow click here
+        if (item.getItemId() === android.R.id.home) {
+            finish() // close this activity and return to preview activity (if there is any)
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }

@@ -2,7 +2,6 @@ package pt.ipca.escutas.services
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.contracts.IStorageService
 import pt.ipca.escutas.services.exceptions.StorageException
@@ -52,17 +51,6 @@ class FirebaseStorageService : IStorageService {
             .addOnFailureListener {
                 throw StorageException(Strings.MSG_FAIL_STORAGE_READ)
             }
-    }
-
-    /**
-     * Reads a file storage reference in the storage service through the specified [filePath].
-     *
-     * @param filePath The file path in the storage service.
-     * @return The file reference in the storage service.
-     */
-    fun readReference(filePath: String): StorageReference {
-        return this.storage
-            .getReference(filePath)
     }
 
     /**

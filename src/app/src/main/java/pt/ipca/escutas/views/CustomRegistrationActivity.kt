@@ -1,11 +1,14 @@
 package pt.ipca.escutas.views
 
 import android.content.Intent
+import android.database.Cursor
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import de.hdodenhof.circleimageview.CircleImageView
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.MapController
 import pt.ipca.escutas.controllers.RegistrationController
@@ -35,11 +38,19 @@ class CustomRegistrationActivity : AppCompatActivity() {
      */
     private var registrationController = RegistrationController()
 
-
+    /**
+     * The number representation of android action.
+     */
     private var RESULT_LOAD_IMAGE = 1
 
-    private var fileUri: Uri? = null
+    /**
+     * The profile image uri.
+     */
+    private lateinit var fileUri: Uri
 
+    /**
+     * The photo upload stream.
+     */
     private var inputStream: InputStream? = null
 
     /**
@@ -77,6 +88,10 @@ class CustomRegistrationActivity : AppCompatActivity() {
     }
 
 
+    /**
+     * Selects user image for profile data.
+     *
+     */
     fun selectImageInAlbum() {
 
         val i = Intent(
@@ -85,9 +100,12 @@ class CustomRegistrationActivity : AppCompatActivity() {
         )
 
         startActivityForResult(i, RESULT_LOAD_IMAGE)
-
     }
 
+    /**
+     * Populates group list for selection.
+     *
+     */
     private fun refreshGroupList(items: Array<String>) {
         val dropdown = findViewById<Spinner>(R.id.editText_group)
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
@@ -158,7 +176,7 @@ class CustomRegistrationActivity : AppCompatActivity() {
             group)
 
         if(fileUri !== null) {
-                    inputStream = contentResolver.openInputStream(fileUri!!)
+            inputStream = contentResolver.openInputStream(fileUri!!)
         }
 
         registrationController.saveUser(user, inputStream, object: AuthCallback{
@@ -166,14 +184,44 @@ class CustomRegistrationActivity : AppCompatActivity() {
                 val intent = Intent(this@CustomRegistrationActivity, BaseActivity::class.java)
                 startActivity(intent)
             }
+
+            override fun onCallbackError(error: String) {
+                nameField.error = error
+            }
         })
     }
 
+    /**
+     * This method provides selected image Uri and populated circle image view.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null && data.data != null) {
             fileUri = data.data!!
+        }
+
+        val selectedImage: Uri = fileUri
+        val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+
+        val cursor: Cursor? = contentResolver.query(
+            selectedImage,
+            filePathColumn, null, null, null
+        )
+
+        if(cursor != null) {
+            cursor.moveToFirst()
+
+            val columnIndex: Int = cursor.getColumnIndex(filePathColumn[0])
+            val picturePath: String = cursor.getString(columnIndex)
+
+            cursor.close()
+            val image = findViewById<CircleImageView>(R.id.frameLayout_circleimage)
+            image.setImageBitmap(BitmapFactory.decodeFile(picturePath))
         }
     }
 }

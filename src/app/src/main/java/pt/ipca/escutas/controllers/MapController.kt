@@ -1,6 +1,7 @@
 package pt.ipca.escutas.controllers
 
 import pt.ipca.escutas.models.Group
+import pt.ipca.escutas.resources.Strings.MSG_STORAGE_GROUP_LOCATION
 import pt.ipca.escutas.services.callbacks.FirebaseDBCallback
 import pt.ipca.escutas.services.callbacks.GroupCallback
 import pt.ipca.escutas.views.fragments.MapFragment
@@ -12,6 +13,9 @@ import java.util.*
  */
 class MapController : BaseController() {
 
+    /**
+     * Internal group list cache.
+     */
     private var groupList: ArrayList<Group> = arrayListOf()
 
     /**
@@ -28,10 +32,15 @@ class MapController : BaseController() {
         }
     }
 
+    /**
+     * Retrieves all groups from database service and populates cache [groupList].
+     *
+     * @param callback
+     */
     private fun prepareGroups(callback: GroupCallback) {
 
         database.getAllRecords(
-            "groups",
+            MSG_STORAGE_GROUP_LOCATION,
             object : FirebaseDBCallback {
 
                 override fun onCallback(list: HashMap<String, Any>) {
