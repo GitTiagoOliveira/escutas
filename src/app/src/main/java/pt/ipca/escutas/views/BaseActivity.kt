@@ -1,14 +1,21 @@
 package pt.ipca.escutas.views
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import de.hdodenhof.circleimageview.CircleImageView
 import pt.ipca.escutas.R
+import pt.ipca.escutas.controllers.ProfileController
+import pt.ipca.escutas.models.User
+import pt.ipca.escutas.services.callbacks.StorageCallback
+import pt.ipca.escutas.services.callbacks.UserCallback
 import pt.ipca.escutas.views.fragments.CalendarFragment
 import pt.ipca.escutas.views.fragments.GalleryFragment
 import pt.ipca.escutas.views.fragments.MapFragment
+import java.util.*
 
 /**
  * Defines the base activity. This activity defines the base layout, state and behavior.
@@ -24,6 +31,11 @@ open class BaseActivity : AppCompatActivity() {
      * The navigation menu.
      */
     protected lateinit var navigationMenu: BottomNavigationView
+
+    /**
+     * The profile controller.
+     */
+    private val profileController by lazy { ProfileController() }
 
     /**
      * The navigation menu item listener.
@@ -73,6 +85,18 @@ open class BaseActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        profileController.getUser(object : UserCallback {
+            override fun onCallback(user: User) {
+                profileController.getUserImage(user.photo, object : StorageCallback{
+                    override fun onCallback(image: Bitmap) {
+                        val imageLayout = findViewById<CircleImageView>(R.id.toolbar_profile_avatar)
+                        imageLayout.setImageBitmap(image)
+                    }
+                })
+            }
+        })
+
 
         setContentView(R.layout.activity_base)
 
