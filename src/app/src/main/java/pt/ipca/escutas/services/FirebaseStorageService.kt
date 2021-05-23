@@ -1,9 +1,14 @@
 package pt.ipca.escutas.services
 
+import android.content.ContentValues
+import android.graphics.BitmapFactory
+import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FirebaseStorage
 import pt.ipca.escutas.resources.Strings
+import pt.ipca.escutas.services.callbacks.StorageCallback
 import pt.ipca.escutas.services.contracts.IStorageService
+import pt.ipca.escutas.services.exceptions.DatabaseException
 import pt.ipca.escutas.services.exceptions.StorageException
 import java.io.InputStream
 
@@ -44,12 +49,19 @@ class FirebaseStorageService : IStorageService {
      * @param filePath The file path in the storage service.
      * @return The file byte sequence.
      */
-    override fun readFile(filePath: String): Task<ByteArray> {
+    override fun readFile(filePath: String, callback: StorageCallback): Task<ByteArray> {
         return this.storage
             .getReference(filePath)
-            .getBytes(maxBytes)
-            .addOnFailureListener {
-                throw StorageException(Strings.MSG_FAIL_STORAGE_READ)
+            .getBytes(maxBytes).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val options = BitmapFactory.Options()
+                    options.inMutable = true
+                    val image = BitmapFactory.decodeByteArray(task.result, 0, task.result.size, options)
+                    callback.onCallback(image)
+                } else {
+                    Log.w(ContentValues.TAG, Strings.MSG_FAIL_STORAGE_READ, task.exception)
+                    throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_STORAGE_READ)
+                }
             }
     }
 

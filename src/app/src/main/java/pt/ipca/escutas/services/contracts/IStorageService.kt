@@ -1,7 +1,7 @@
 package pt.ipca.escutas.services.contracts
 
 import com.google.android.gms.tasks.Task
-import java.io.FileInputStream
+import pt.ipca.escutas.services.callbacks.StorageCallback
 import java.io.InputStream
 
 /**
@@ -21,9 +21,10 @@ interface IStorageService {
      * Reads a file in the storage service through the specified [filePath].
      *
      * @param filePath The file path in the storage service.
+     * @param callback The callback function to handle async request.
      * @return The file byte sequence.
      */
-    fun readFile(filePath: String): Task<ByteArray>
+    fun readFile(filePath: String, callback: StorageCallback): Task<ByteArray>
 
     /**
      * Updates a file in the storage service through the specified [filePath] and [fileStream].
