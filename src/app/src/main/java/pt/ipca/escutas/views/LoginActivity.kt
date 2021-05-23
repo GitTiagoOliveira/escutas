@@ -237,7 +237,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     /**
-     * Request user permission to access extenal storage.
+     * Request user permission to access external storage.
      *
      * @param activity
      */
@@ -247,7 +247,12 @@ class LoginActivity : AppCompatActivity() {
             activity!!,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
-        if (permission != PackageManager.PERMISSION_GRANTED) {
+
+        val permission2 = ActivityCompat.checkSelfPermission(
+            activity!!,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+        if (permission != PackageManager.PERMISSION_GRANTED || permission2 != PackageManager.PERMISSION_GRANTED) {
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(
                 activity,
