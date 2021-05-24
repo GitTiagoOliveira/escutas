@@ -109,21 +109,28 @@ class LoginActivity : AppCompatActivity() {
                 override fun onSuccess(loginResult: LoginResult?) {
 
                     var credential = FacebookAuthProvider.getCredential(loginResult?.accessToken?.getToken())
-                    loginController.loginUserWithCredential(credential)
-                    loginController.userExists(object : FirebaseDBCallback {
-                        override fun onCallback(list: HashMap<String, Any>) {
-                            if(list.isEmpty()){
-                                verifyStoragePermissions(this@LoginActivity)
-                                val intent = Intent(this@LoginActivity, CustomRegistrationActivity::class.java)
-                                startActivity(intent)
-                            } else {
-                                val intent = Intent(this@LoginActivity, BaseActivity::class.java)
-                                startActivity(intent)
-                            }
+                    loginController.loginUserWithCredential(credential, object : AuthCallback{
+                        override fun onCallback() {
+                            loginController.userExists(object : FirebaseDBCallback {
+                                override fun onCallback(list: HashMap<String, Any>) {
+                                    if(list.isEmpty()){
+                                        verifyStoragePermissions(this@LoginActivity)
+                                        val intent = Intent(this@LoginActivity, CustomRegistrationActivity::class.java)
+                                        startActivity(intent)
+                                    } else {
+                                        val intent = Intent(this@LoginActivity, BaseActivity::class.java)
+                                        startActivity(intent)
+                                    }
+                                }
+
+                            })
+                        }
+
+                        override fun onCallbackError(error: String) {
+                            TODO("Not yet implemented")
                         }
 
                     })
-
                 }
 
                 override fun onCancel() {
@@ -210,20 +217,29 @@ class LoginActivity : AppCompatActivity() {
                     val account = task.getResult(ApiException::class.java)!!
                     if (account.idToken != null) {
                         val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
-                        loginController.loginUserWithCredential(credential)
-                        loginController.userExists(object : FirebaseDBCallback {
-                            override fun onCallback(list: HashMap<String, Any>) {
-                                if(list.isEmpty()){
-                                    verifyStoragePermissions(this@LoginActivity)
-                                    val intent = Intent(this@LoginActivity, CustomRegistrationActivity::class.java)
-                                    startActivity(intent)
-                                } else {
-                                    val intent = Intent(this@LoginActivity, BaseActivity::class.java)
-                                    startActivity(intent)
-                                }
+                        loginController.loginUserWithCredential(credential, object : AuthCallback{
+                            override fun onCallback() {
+                                loginController.userExists(object : FirebaseDBCallback {
+                                    override fun onCallback(list: HashMap<String, Any>) {
+                                        if(list.isEmpty()){
+                                            verifyStoragePermissions(this@LoginActivity)
+                                            val intent = Intent(this@LoginActivity, CustomRegistrationActivity::class.java)
+                                            startActivity(intent)
+                                        } else {
+                                            val intent = Intent(this@LoginActivity, BaseActivity::class.java)
+                                            startActivity(intent)
+                                        }
+                                    }
+
+                                })
+                            }
+
+                            override fun onCallbackError(error: String) {
+                                throw AuthException(error)
                             }
 
                         })
+
                     } else {
                         Log.w(ContentValues.TAG, Strings.MSG_FAIL_USER_LOGIN, task.exception)
                         throw AuthException(task.exception?.message ?: Strings.MSG_FAIL_USER_LOGIN)

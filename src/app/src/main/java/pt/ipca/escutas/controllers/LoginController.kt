@@ -28,8 +28,8 @@ class LoginController : BaseController() {
      *
      * @param credential
      */
-    fun loginUserWithCredential(credential: AuthCredential) {
-        auth.loginUserWithCredential(credential)
+    fun loginUserWithCredential(credential: AuthCredential, callback: AuthCallback) {
+        auth.loginUserWithCredential(credential, callback)
     }
 
     /**

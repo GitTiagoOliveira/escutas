@@ -14,7 +14,7 @@ interface IDatabaseService {
      * @param model The model represents the collection.
      * @param record The record represents the document.
      */
-    fun addRecord(model: String, record: Any)
+    fun addRecord(model: String, record: Any, param: FirebaseDBCallback)
 
     /**
      * Updates a record [record] associated to document [documentId] of a specific collection [model].

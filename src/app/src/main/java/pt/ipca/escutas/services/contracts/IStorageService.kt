@@ -15,7 +15,7 @@ interface IStorageService {
      * @param filePath The destination file path in the storage service.
      * @param fileStream The file input stream.
      */
-    fun createFile(filePath: String, fileStream: InputStream)
+    fun createFile(filePath: String, fileStream: InputStream, callback: StorageCallback)
 
     /**
      * Reads a file in the storage service through the specified [filePath].

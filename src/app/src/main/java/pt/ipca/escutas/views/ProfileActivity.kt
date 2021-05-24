@@ -40,8 +40,9 @@ class ProfileActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
 
         val imageLayout = findViewById<CircleImageView>(R.id.frameLayout_circleimage)
-        imageLayout.setImageBitmap(profileImage as Bitmap?)
-
+        if(profileImage != null) {
+            imageLayout.setImageBitmap(profileImage as Bitmap?)
+        }
 
         toolbar.title = "Área Pessoal"
         setSupportActionBar(toolbar)
@@ -55,7 +56,7 @@ class ProfileActivity : AppCompatActivity() {
         val logoutButton = findViewById<Button>(R.id.Button_logout)
 
         logoutButton.setOnClickListener {
-            profileController.logoutUser()
+            profileController.logoutUser(this@ProfileActivity)
             val intent = Intent(this@ProfileActivity, LoginActivity::class.java)
             startActivity(intent)
         }

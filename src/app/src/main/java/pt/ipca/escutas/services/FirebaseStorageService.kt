@@ -1,6 +1,7 @@
 package pt.ipca.escutas.services
 
 import android.content.ContentValues
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import com.google.android.gms.tasks.Task
@@ -33,14 +34,19 @@ class FirebaseStorageService : IStorageService {
      * @param filePath The destination file path in the storage service.
      * @param fileStream The file input stream.
      */
-    override fun createFile(filePath: String, fileStream: InputStream) {
+    override fun createFile(filePath: String, fileStream: InputStream, callback: StorageCallback) {
 
         this.storage
             .getReference(filePath)
             .putStream(fileStream)
-            .addOnFailureListener {
-                throw StorageException(Strings.MSG_FAIL_STORAGE_CREATE)
-            }
+            .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                       callback.onCallback(null)
+                    } else {
+                        Log.w(ContentValues.TAG, Strings.MSG_FAIL_STORAGE_CREATE, task.exception)
+                        throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_STORAGE_CREATE)
+                    }
+                }
     }
 
     /**
@@ -74,7 +80,11 @@ class FirebaseStorageService : IStorageService {
     override fun updateFile(filePath: String, fileStream: InputStream) {
         try {
             this.deleteFile(filePath)
-            this.createFile(filePath, fileStream)
+            this.createFile(filePath, fileStream, object : StorageCallback{
+                override fun onCallback(image: Bitmap?) {
+                    TODO("Not yet implemented")
+                }
+            })
         } catch (e: StorageException) {
             throw StorageException(Strings.MSG_FAIL_STORAGE_UPDATE)
         }

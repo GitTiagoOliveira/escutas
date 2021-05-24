@@ -93,12 +93,16 @@ open class BaseActivity : AppCompatActivity() {
 
         profileController.getUser(object : UserCallback {
             override fun onCallback(user: User) {
-                profileController.getUserImage(user.photo, object : StorageCallback{
-                    override fun onCallback(image: Bitmap) {
-                        imageLayout.setImageBitmap(image)
-                        profileController.saveImage(image);
-                    }
-                })
+                if(user.photo != null && user.photo != ""){
+                    profileController.getUserImage(user.photo, object : StorageCallback{
+                        override fun onCallback(image: Bitmap?) {
+                            if (image != null) {
+                                imageLayout.setImageBitmap(image)
+                                profileController.saveImage(image)
+                            };
+                        }
+                    })
+                }
             }
         })
 
