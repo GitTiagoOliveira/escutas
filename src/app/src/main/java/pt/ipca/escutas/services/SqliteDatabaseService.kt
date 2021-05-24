@@ -8,7 +8,7 @@ import pt.ipca.escutas.services.contracts.IDatabaseService
  *
  */
 class SqliteDatabaseService : IDatabaseService {
-    override fun addRecord(model: String, record: Any) {
+    override fun addRecord(model: String, record: Any, param: FirebaseDBCallback) {
         TODO("Not yet implemented")
     }
 

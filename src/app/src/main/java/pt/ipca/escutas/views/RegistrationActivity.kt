@@ -192,11 +192,10 @@ class RegistrationActivity : AppCompatActivity() {
             imagePath,
             email,
             name,
-            password,
             birthday,
             group)
 
-        registrationController.addUser(user, object : AuthCallback {
+        registrationController.addUser(user.email, password, object : AuthCallback {
                 override fun onCallback() {
                     var inputStream = contentResolver.openInputStream(fileUri!!)
                     registrationController.saveUser(user, inputStream, object : AuthCallback {

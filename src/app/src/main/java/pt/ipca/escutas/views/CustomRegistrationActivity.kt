@@ -46,7 +46,7 @@ class CustomRegistrationActivity : AppCompatActivity() {
     /**
      * The profile image uri.
      */
-    private lateinit var fileUri: Uri
+    private var fileUri: Uri? = null
 
     /**
      * The photo upload stream.
@@ -130,32 +130,6 @@ class CustomRegistrationActivity : AppCompatActivity() {
         val birthdayPicker = findViewById<DatePicker>(R.id.datePicker_birthday)
         val birthday = DateValue(birthdayPicker.year, birthdayPicker.month, birthdayPicker.dayOfMonth)
 
-        val passwordField = findViewById<EditText>(R.id.editText_password)
-        val password = passwordField.text.toString().trim()
-
-        if (password.isEmpty()) {
-            passwordField.error = Strings.MSG_FIELD_BLANK
-            return
-        }
-
-        if (password.length < 6) {
-            passwordField.error = Strings.MSG_SMALL_PASSWORD
-            return
-        }
-
-        val repeatedPasswordField = findViewById<EditText>(R.id.editText_password_repeat)
-        val repeatedPassword = repeatedPasswordField.text.toString().trim()
-
-        if (repeatedPassword.isEmpty()) {
-            repeatedPasswordField.error = Strings.MSG_FIELD_BLANK
-            return
-        }
-
-        if (repeatedPassword != password) {
-            repeatedPasswordField.error = Strings.MSG_INCORRECT_PASSWORDS
-            return
-        }
-
         val groupSpinner = findViewById<Spinner>(R.id.editText_group)
         val group = groupSpinner.selectedItem.toString()
 
@@ -171,7 +145,6 @@ class CustomRegistrationActivity : AppCompatActivity() {
             imagePath,
             email,
             name,
-            password,
             birthday,
             group)
 
@@ -179,7 +152,7 @@ class CustomRegistrationActivity : AppCompatActivity() {
             inputStream = contentResolver.openInputStream(fileUri!!)
         }
 
-        registrationController.saveUser(user, inputStream, object: AuthCallback{
+         registrationController.saveUser(user, inputStream, object: AuthCallback{
             override fun onCallback() {
                 val intent = Intent(this@CustomRegistrationActivity, BaseActivity::class.java)
                 startActivity(intent)
@@ -205,7 +178,7 @@ class CustomRegistrationActivity : AppCompatActivity() {
             fileUri = data.data!!
         }
 
-        val selectedImage: Uri = fileUri
+        val selectedImage: Uri = fileUri!!
         val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
 
         val cursor: Cursor? = contentResolver.query(

@@ -30,11 +30,6 @@ data class User(
     var name: String,
 
     /**
-     * The user password.
-     */
-    var password: String,
-
-    /**
      * The user birthday.
      */
     var birthday: Date,

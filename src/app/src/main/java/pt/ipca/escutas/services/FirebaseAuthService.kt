@@ -39,9 +39,9 @@ class FirebaseAuthService : IAuthService {
      *
      * @param user The user object contains all necessary data as email and password.
      */
-    override fun addUser(user: User, callback: AuthCallback) {
+    override fun addUser(email: String, password: String, callback: AuthCallback) {
 
-        mAuth.createUserWithEmailAndPassword(user.email, user.password)
+        mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, Strings.MSG_USER_CREATED)
@@ -95,10 +95,10 @@ class FirebaseAuthService : IAuthService {
      *
      * @param user The user object contains all necessary data as email and password.
      */
-    override fun updateUserPassword(user: User, callback: AuthCallback) {
+    override fun updateUserPassword(password: String, callback: AuthCallback) {
         val firebaseUser = getCurrentUser()
 
-        firebaseUser.updatePassword(user.password)
+        firebaseUser.updatePassword(password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, Strings.MSG_USER_PASSWORD_UPDATE)
@@ -153,14 +153,15 @@ class FirebaseAuthService : IAuthService {
      *
      * @param credential
      */
-    override fun loginUserWithCredential(credential: AuthCredential) {
+    override fun loginUserWithCredential(credential: AuthCredential, callback: AuthCallback) {
 
         mAuth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d(TAG, Strings.MSG_USER_LOGIN)
+                callback.onCallback()
             } else {
                 Log.w(TAG, Strings.MSG_FAIL_USER_LOGIN, task.exception)
-                throw AuthException(task.exception?.message ?: Strings.MSG_FAIL_USER_LOGIN)
+                callback.onCallbackError(task.exception?.message ?: Strings.MSG_FAIL_USER_LOGIN)
             }
         }
     }

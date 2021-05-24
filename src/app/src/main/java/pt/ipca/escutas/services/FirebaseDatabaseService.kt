@@ -22,7 +22,7 @@ class FirebaseDatabaseService : IDatabaseService {
      * @param model The model represents the collection.
      * @param record The record represents the document.
      */
-    override fun addRecord(model: String, record: Any) {
+    override fun addRecord(model: String, record: Any, callback: FirebaseDBCallback) {
 
         val modelData = this.db.collection(model)
 
@@ -30,6 +30,8 @@ class FirebaseDatabaseService : IDatabaseService {
             if (!task.isSuccessful) {
                 Log.w(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_ADD, task.exception)
                 throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_ADD)
+            } else {
+                callback.onCallback(hashMapOf())
             }
         }
     }

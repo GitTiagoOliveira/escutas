@@ -9,5 +9,5 @@ interface StorageCallback {
      *
      * @param image
      */
-    fun onCallback(image: Bitmap)
+    fun onCallback(image: Bitmap?)
 }
