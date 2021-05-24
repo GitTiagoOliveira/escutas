@@ -1,5 +1,6 @@
 package pt.ipca.escutas.views
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import pt.ipca.escutas.services.callbacks.UserCallback
 import pt.ipca.escutas.views.fragments.CalendarFragment
 import pt.ipca.escutas.views.fragments.GalleryFragment
 import pt.ipca.escutas.views.fragments.MapFragment
+import java.io.ByteArrayOutputStream
 import java.util.*
 
 /**
@@ -85,20 +87,28 @@ open class BaseActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_base)
+
+        val imageLayout = findViewById<CircleImageView>(R.id.toolbar_profile_avatar)
 
         profileController.getUser(object : UserCallback {
             override fun onCallback(user: User) {
                 profileController.getUserImage(user.photo, object : StorageCallback{
                     override fun onCallback(image: Bitmap) {
-                        val imageLayout = findViewById<CircleImageView>(R.id.toolbar_profile_avatar)
                         imageLayout.setImageBitmap(image)
+                        profileController.saveImage(image);
                     }
                 })
             }
         })
 
-
-        setContentView(R.layout.activity_base)
+        imageLayout.setOnClickListener {
+            val intent = Intent(this@BaseActivity, ProfileActivity::class.java)
+            val bs = ByteArrayOutputStream()
+            profileController.getProfileImage()?.compress(Bitmap.CompressFormat.PNG, 50, bs)
+            intent.putExtra("ProfileImage", bs.toByteArray())
+            startActivity(intent)
+        }
 
         this.toolbar = findViewById(R.id.toolbar)
         this.navigationMenu = findViewById(R.id.navigation_menu)

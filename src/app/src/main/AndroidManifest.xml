@@ -51,6 +51,7 @@
         <activity android:name=".views.NewsFeedActivity" />
         <activity android:name=".views.NewsActivity" />
         <activity android:name=".views.PalavraChave"/>
+        <activity android:name=".views.ProfileActivity"/>
         <activity
             android:name=".views.SplashActivity"
             android:theme="@style/Theme.FullScreen">

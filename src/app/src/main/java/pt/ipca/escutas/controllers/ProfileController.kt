@@ -1,24 +1,30 @@
 package pt.ipca.escutas.controllers
 
+import android.graphics.Bitmap
 import com.google.firebase.Timestamp
 import pt.ipca.escutas.models.User
 import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.callbacks.FirebaseDBCallback
 import pt.ipca.escutas.services.callbacks.StorageCallback
 import pt.ipca.escutas.services.callbacks.UserCallback
-import pt.ipca.escutas.views.fragments.ProfileFragment
 import java.util.*
 
 /**
- * Defines the [ProfileFragment] controller.
+ * Defines the [ProfileController] controller.
  *
  */
-class ProfileController : BaseController() {
+class ProfileController : BaseController()  {
 
     /**
-     * Internal group list cache.
+     * Internal user cache.
      */
     private var user: User? = null
+
+    /**
+     * Internal profile user image cache.
+     */
+    private var profileImage: Bitmap? = null
+
 
     /**
      * Retrieves current session user.
@@ -67,6 +73,23 @@ class ProfileController : BaseController() {
      */
     fun getUserImage(imagePath: String, callback: StorageCallback) {
         storage.readFile(imagePath, callback)
+    }
+
+    /**
+     * Saves profile image in cache
+     *
+     * @param image
+     */
+    fun saveImage(image: Bitmap) {
+        profileImage = image;
+    }
+
+    fun getProfileImage(): Bitmap? {
+        return profileImage
+    }
+
+    fun logoutUser() {
+        auth.logout()
     }
 
 }
