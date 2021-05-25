@@ -25,5 +25,5 @@ data class News(
     /**
      * The news [Image].
      */
-    var image: Image,
+    var image: String,
 )
