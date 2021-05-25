@@ -36,7 +36,7 @@ data class Event(
     /**
      * The event attachment [Image].
      */
-    var attachment: Image,
+    var attachment: String,
 
     /**
      * Whether the event should be shared or not.
