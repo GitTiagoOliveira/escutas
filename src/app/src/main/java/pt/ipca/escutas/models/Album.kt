@@ -20,5 +20,5 @@ data class Album(
     /**
      * The album [Image] collection.
      */
-    var images: Collection<Image>,
+    var images: Collection<String>,
 )

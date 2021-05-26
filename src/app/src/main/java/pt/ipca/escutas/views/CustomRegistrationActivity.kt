@@ -6,11 +6,8 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.MenuItem
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import de.hdodenhof.circleimageview.CircleImageView
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.MapController
@@ -21,7 +18,7 @@ import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.callbacks.AuthCallback
 import pt.ipca.escutas.services.callbacks.GroupCallback
 import pt.ipca.escutas.utils.DateUtils.DateValue
-import pt.ipca.escutas.utils.StringUtils.isValidEmail
+import java.io.InputStream
 import java.util.*
 
 
@@ -29,7 +26,7 @@ import java.util.*
  * Defines the registration activity.
  *
  */
-class RegistrationActivity : AppCompatActivity() {
+class CustomRegistrationActivity : AppCompatActivity() {
 
     /**
      * The map controller.
@@ -49,7 +46,12 @@ class RegistrationActivity : AppCompatActivity() {
     /**
      * The profile image uri.
      */
-    private lateinit var fileUri: Uri
+    private var fileUri: Uri? = null
+
+    /**
+     * The photo upload stream.
+     */
+    private var inputStream: InputStream? = null
 
     /**
      * Invoked when the activity is starting.
@@ -58,7 +60,7 @@ class RegistrationActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_registration)
+        setContentView(R.layout.custom_activity_registration)
 
         mapController.getStoredGroupsList(object : GroupCallback {
             override fun onCallback(list: ArrayList<Group>) {
@@ -82,20 +84,9 @@ class RegistrationActivity : AppCompatActivity() {
             selectImageInAlbum()
         }
 
-        // toolbar
-        val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
-
-        toolbar.title = "Registo"
-        setSupportActionBar(toolbar)
-
-        // add back arrow to toolbar
-        if (getSupportActionBar() != null){
-            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar()?.setDisplayShowHomeEnabled(true);
-        }
-
 
     }
+
 
     /**
      * Selects user image for profile data.
@@ -126,19 +117,8 @@ class RegistrationActivity : AppCompatActivity() {
      *
      */
     private fun registerUser() {
-        val emailField = findViewById<EditText>(R.id.editText_email)
-        val email = emailField.text.toString().trim()
 
-        if (email.isEmpty()) {
-            emailField.error = Strings.MSG_FIELD_BLANK
-            return
-        }
-
-        if (!email.isValidEmail()) {
-            emailField.error = Strings.MSG_INCORRECT_EMAIL
-            return
-        }
-
+        val email = registrationController.getCustomUserEmail()
         val nameField = findViewById<EditText>(R.id.editText_username)
         val name = nameField.text.toString().trim()
 
@@ -150,40 +130,13 @@ class RegistrationActivity : AppCompatActivity() {
         val birthdayPicker = findViewById<DatePicker>(R.id.datePicker_birthday)
         val birthday = DateValue(birthdayPicker.year, birthdayPicker.month, birthdayPicker.dayOfMonth)
 
-        val passwordField = findViewById<EditText>(R.id.editText_password)
-        val password = passwordField.text.toString().trim()
-
-        if (password.isEmpty()) {
-            passwordField.error = Strings.MSG_FIELD_BLANK
-            return
-        }
-
-        if (password.length < 6) {
-            passwordField.error = Strings.MSG_SMALL_PASSWORD
-            return
-        }
-
-        val repeatedPasswordField = findViewById<EditText>(R.id.editText_password_repeat)
-        val repeatedPassword = repeatedPasswordField.text.toString().trim()
-
-        if (repeatedPassword.isEmpty()) {
-            repeatedPasswordField.error = Strings.MSG_FIELD_BLANK
-            return
-        }
-
-        if (repeatedPassword != password) {
-            repeatedPasswordField.error = Strings.MSG_INCORRECT_PASSWORDS
-            return
-        }
-
         val groupSpinner = findViewById<Spinner>(R.id.editText_group)
         val group = groupSpinner.selectedItem.toString()
 
-        var inputStream = contentResolver.openInputStream(fileUri!!)
 
         var imagePath = ""
 
-        if (inputStream != null) {
+        if (fileUri != null) {
             imagePath = "users/" + UUID.randomUUID() + ".png"
         }
 
@@ -195,23 +148,18 @@ class RegistrationActivity : AppCompatActivity() {
             birthday,
             group)
 
-        registrationController.addUser(user.email, password, object : AuthCallback {
-                override fun onCallback() {
-                    var inputStream = contentResolver.openInputStream(fileUri!!)
-                    registrationController.saveUser(user, inputStream, object : AuthCallback {
-                        override fun onCallback() {
-                            finish()
-                        }
+        if(fileUri !== null) {
+            inputStream = contentResolver.openInputStream(fileUri!!)
+        }
 
-                        override fun onCallbackError(error: String) {
-                            emailField.error = error
-                        }
-                    })
-
-                }
+         registrationController.saveUser(user, inputStream, object: AuthCallback{
+            override fun onCallback() {
+                val intent = Intent(this@CustomRegistrationActivity, BaseActivity::class.java)
+                startActivity(intent)
+            }
 
             override fun onCallbackError(error: String) {
-                emailField.error = error
+                nameField.error = error
             }
         })
     }
@@ -228,9 +176,9 @@ class RegistrationActivity : AppCompatActivity() {
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null && data.data != null) {
             fileUri = data.data!!
-    }
+        }
 
-        val selectedImage: Uri = fileUri
+        val selectedImage: Uri = fileUri!!
         val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
 
         val cursor: Cursor? = contentResolver.query(
@@ -248,19 +196,5 @@ class RegistrationActivity : AppCompatActivity() {
             val image = findViewById<CircleImageView>(R.id.frameLayout_circleimage)
             image.setImageBitmap(BitmapFactory.decodeFile(picturePath))
         }
-    }
-
-    /**
-     * This method implements return toolbar action.
-     *
-     * @param item
-     * @return
-     */
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // handle arrow click here
-        if (item.getItemId() === android.R.id.home) {
-            finish() // close this activity and return to preview activity (if there is any)
-        }
-        return super.onOptionsItemSelected(item)
     }
 }
