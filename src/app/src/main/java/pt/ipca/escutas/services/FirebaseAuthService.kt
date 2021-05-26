@@ -19,7 +19,12 @@ class FirebaseAuthService : IAuthService {
 
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    private fun getCurrentUser(): FirebaseUser {
+    /**
+     * Returns current user.
+     *
+     * @return
+     */
+    fun getCurrentUser(): FirebaseUser {
         val user = mAuth.currentUser
 
         if (user != null) {
@@ -29,12 +34,18 @@ class FirebaseAuthService : IAuthService {
         }
     }
 
-    override fun addUser(user: User) {
+    /**
+     * Adds a new user via authentication service based on the details available in [user].
+     *
+     * @param user The user object contains all necessary data as email and password.
+     */
+    override fun addUser(email: String, password: String, callback: AuthCallback) {
 
-        mAuth.createUserWithEmailAndPassword(user.email, user.password)
+        mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, Strings.MSG_USER_CREATED)
+                    callback.onCallback()
                 } else {
                     Log.w(TAG, Strings.MSG_FAILED_USER_CREATE, task.exception)
                     throw AuthException(task.exception?.message ?: Strings.MSG_FAILED_USER_CREATE)
@@ -42,6 +53,10 @@ class FirebaseAuthService : IAuthService {
             }
     }
 
+    /**
+     * Deletes current user via authentication service.
+     *
+     */
     override fun deleteUser() {
         val user = getCurrentUser()
 
@@ -55,13 +70,19 @@ class FirebaseAuthService : IAuthService {
         }
     }
 
-    override fun updateUserEmail(user: User) {
+    /**
+     * Updated user email via authentication service based on the details available in [user].
+     *
+     * @param user The user object contains all necessary data as email and password.
+     */
+    override fun updateUserEmail(user: User, callback: AuthCallback) {
         val firebaseUser = getCurrentUser()
 
         firebaseUser.updateEmail(user.email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, Strings.MSG_USER_EMAIL_UPDATE)
+                    callback.onCallback()
                 } else {
                     Log.w(TAG, Strings.MSG_FAILED_USER_EMAIL_UPDATE, task.exception)
                     throw AuthException(task.exception?.message ?: Strings.MSG_FAILED_USER_EMAIL_UPDATE)
@@ -69,13 +90,19 @@ class FirebaseAuthService : IAuthService {
             }
     }
 
-    override fun updateUserPassword(user: User) {
+    /**
+     * Updated user password via authentication service based on the details available in [user].
+     *
+     * @param user The user object contains all necessary data as email and password.
+     */
+    override fun updateUserPassword(password: String, callback: AuthCallback) {
         val firebaseUser = getCurrentUser()
 
-        firebaseUser.updatePassword(user.password)
+        firebaseUser.updatePassword(password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, Strings.MSG_USER_PASSWORD_UPDATE)
+                    callback.onCallback()
                 } else {
                     Log.w(TAG, Strings.MSG_FAILED_USER_PASSWORD_UPDATE, task.exception)
                     throw AuthException(task.exception?.message ?: Strings.MSG_FAILED_USER_PASSWORD_UPDATE)
@@ -83,12 +110,18 @@ class FirebaseAuthService : IAuthService {
             }
     }
 
-    override fun sendPasswordResetEmail(user: User) {
+    /**
+     * Sends user email to reset user password via authentication service based on the details available in [user].
+     *
+     * @param user The user object contains all necessary data as email and password.
+     */
+    override fun sendPasswordResetEmail(email: String, callback: AuthCallback) {
 
-        mAuth.sendPasswordResetEmail(user.email)
+        mAuth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, Strings.MSG_EMAIL_SENT)
+                    callback.onCallback()
                 } else {
                     Log.w(TAG, Strings.MSG_FAIL_EMAIL, task.exception)
                     throw AuthException(task.exception?.message ?: Strings.MSG_FAIL_EMAIL)
@@ -96,6 +129,12 @@ class FirebaseAuthService : IAuthService {
             }
     }
 
+    /**
+     * Login user via authentication service based on the provided [email] and [password].
+     *
+     * @param email The user email.
+     * @param password The user password.
+     */
     override fun loginUser(email: String, password: String, callback: AuthCallback) {
 
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
@@ -104,28 +143,42 @@ class FirebaseAuthService : IAuthService {
                 callback.onCallback()
             } else {
                 Log.w(TAG, Strings.MSG_FAIL_USER_LOGIN, task.exception)
-                throw AuthException(task.exception?.message ?: Strings.MSG_FAIL_USER_LOGIN)
+                callback.onCallbackError(task.exception?.message ?: Strings.MSG_FAIL_USER_LOGIN)
             }
         }
     }
 
-    override fun loginUserWithCredential(credential: AuthCredential) {
+    /**
+     * Create auth token based on [credential].
+     *
+     * @param credential
+     */
+    override fun loginUserWithCredential(credential: AuthCredential, callback: AuthCallback) {
 
         mAuth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d(TAG, Strings.MSG_USER_LOGIN)
+                callback.onCallback()
             } else {
                 Log.w(TAG, Strings.MSG_FAIL_USER_LOGIN, task.exception)
-                throw AuthException(task.exception?.message ?: Strings.MSG_FAIL_USER_LOGIN)
+                callback.onCallbackError(task.exception?.message ?: Strings.MSG_FAIL_USER_LOGIN)
             }
         }
     }
 
+    /**
+     * Delete auth token for current session.
+     *
+     */
     override fun logout() {
 
         mAuth.signOut()
     }
 
+    /**
+     * Retrieves current user details such as email, photo url.
+     *
+     */
     override fun getCurrentUserDetails() {
         val user = getCurrentUser()
 
@@ -145,6 +198,10 @@ class FirebaseAuthService : IAuthService {
         }
     }
 
+    /**
+     * Retrieve current session provider user details.
+     *
+     */
     override fun getCurrentUserDetailsViaProvider() {
         val user = getCurrentUser()
 

@@ -8,7 +8,7 @@ import pt.ipca.escutas.services.contracts.IDatabaseService
  *
  */
 class SqliteDatabaseService : IDatabaseService {
-    override fun addRecord(model: String, record: Any) {
+    override fun addRecord(model: String, record: Any, param: FirebaseDBCallback) {
         TODO("Not yet implemented")
     }
 
@@ -24,7 +24,12 @@ class SqliteDatabaseService : IDatabaseService {
         TODO("Not yet implemented")
     }
 
-    override fun getRecordWithEqualFilter(model: String, recordKey: String, recordValue: Any): HashMap<String, Any> {
+    override fun getRecordWithEqualFilter(
+        model: String,
+        recordKey: String,
+        recordValue: Any,
+        firebaseDBCallback: FirebaseDBCallback
+    ): HashMap<String, Any> {
         TODO("Not yet implemented")
     }
 

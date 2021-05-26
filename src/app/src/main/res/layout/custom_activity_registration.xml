@@ -4,19 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.RegistrationActivity">
-
-    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/grey"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:titleTextColor="@color/blue">
-
-    </androidx.appcompat.widget.Toolbar>
+    tools:context=".views.CustomRegistrationActivity">
 
     <ScrollView
         android:id="@+id/root_layout"
@@ -24,7 +12,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,31 +44,6 @@
             </FrameLayout>
 
             <TextView
-                android:id="@+id/textView_emailLabel"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:textStyle="bold"
-                android:text="@string/activity_registration_email"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView_userImage" />
-
-            <EditText
-                android:id="@+id/editText_email"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="3dp"
-                android:hint="@string/activity_registration_email_hint"
-                android:background="@drawable/shape_edittext"
-                android:layout_gravity="center"
-                android:inputType="textEmailAddress"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_emailLabel" />
-
-            <TextView
                 android:id="@+id/textView_usernameLabel"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
@@ -90,7 +53,7 @@
                 android:text="@string/activity_registration_username"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_email" />
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout_avatar" />
 
             <EditText
                 android:id="@+id/editText_username"
@@ -106,44 +69,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView_userLabel" />
 
             <TextView
-                android:id="@+id/textView_passwordLabel"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_gravity="center"
-                android:textStyle="bold"
-                android:text="@string/activity_registration_password"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_username" />
-
-            <EditText
-                android:id="@+id/editText_password"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="3dp"
-                android:layout_gravity="center"
-                android:hint="@string/activity_registration_password_hint"
-                android:inputType="textPassword"
-                android:background="@drawable/shape_edittext"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_passwordLabel" />
-
-            <EditText
-                android:id="@+id/editText_password_repeat"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="5dp"
-                android:hint="@string/activity_registration_password_hint_repeat"
-                android:inputType="textPassword"
-                android:background="@drawable/shape_edittext"
-                android:layout_gravity="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_password1" />
-
-            <TextView
                 android:id="@+id/textView_birthdayLabel"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
@@ -153,7 +78,7 @@
                 android:text="@string/activity_registration_birthday"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_password2" />
+                app:layout_constraintTop_toBottomOf="@+id/editText_username" />
 
             <DatePicker
                 android:id="@+id/datePicker_birthday"
@@ -193,8 +118,8 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="80dp"
-                android:text="@string/activity_registration_create"
+                android:layout_marginBottom="20dp"
+                android:text="@string/activity_registration_update"
                 android:textStyle="bold"
                 android:background="@drawable/shape_button"
                 android:textColor="@android:color/white"

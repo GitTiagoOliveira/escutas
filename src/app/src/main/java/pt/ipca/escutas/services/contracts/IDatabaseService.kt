@@ -14,7 +14,7 @@ interface IDatabaseService {
      * @param model The model represents the collection.
      * @param record The record represents the document.
      */
-    fun addRecord(model: String, record: Any)
+    fun addRecord(model: String, record: Any, param: FirebaseDBCallback)
 
     /**
      * Updates a record [record] associated to document [documentId] of a specific collection [model].
@@ -49,7 +49,12 @@ interface IDatabaseService {
      * @param recordValue The recordValue represents the filter column value.
      * @return
      */
-    fun getRecordWithEqualFilter(model: String, recordKey: String, recordValue: Any): HashMap<String, Any>
+    fun getRecordWithEqualFilter(
+        model: String,
+        recordKey: String,
+        recordValue: Any,
+        firebaseDBCallback: FirebaseDBCallback
+    ): HashMap<String, Any>
 
     /**
      * Retrieves all records that respect an greater than filter based on [recordKey] and [recordValue] of a specific collection [model].

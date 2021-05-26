@@ -15,10 +15,10 @@ interface IAuthService {
      *
      * @param user The user object contains all necessary data as email and password.
      */
-    fun addUser(user: User)
+    fun addUser(user: String, password: String, callback: AuthCallback)
 
     /**
-     * Deletes current user via authentication service
+     * Deletes current user via authentication service.
      *
      */
     fun deleteUser()
@@ -28,21 +28,21 @@ interface IAuthService {
      *
      * @param user The user object contains all necessary data as email and password.
      */
-    fun updateUserEmail(user: User)
+    fun updateUserEmail(user: User, callback: AuthCallback)
 
     /**
      * Updated user password via authentication service based on the details available in [user].
      *
      * @param user The user object contains all necessary data as email and password.
      */
-    fun updateUserPassword(user: User)
+    fun updateUserPassword(password: String, callback: AuthCallback)
 
     /**
      * Sends user email to reset user password via authentication service based on the details available in [user].
      *
      * @param user The user object contains all necessary data as email and password.
      */
-    fun sendPasswordResetEmail(user: User)
+    fun sendPasswordResetEmail(email: String, callback: AuthCallback)
 
     /**
      * Login user via authentication service based on the provided [email] and [password].
@@ -64,7 +64,16 @@ interface IAuthService {
      */
     fun getCurrentUserDetailsViaProvider()
 
-    fun loginUserWithCredential(credential: AuthCredential)
+    /**
+     * Create auth token based on [credential].
+     *
+     * @param credential
+     */
+    fun loginUserWithCredential(credential: AuthCredential, callback: AuthCallback)
 
+    /**
+     * Delete auth token for current session.
+     *
+     */
     fun logout()
 }

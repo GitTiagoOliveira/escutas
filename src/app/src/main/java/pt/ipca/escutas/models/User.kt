@@ -17,7 +17,7 @@ data class User(
     /**
      * The user photo.
      */
-    var photo: Photo?,
+    var photo: String,
 
     /**
      * The user email.
@@ -30,11 +30,6 @@ data class User(
     var name: String,
 
     /**
-     * The user password.
-     */
-    var password: String,
-
-    /**
      * The user birthday.
      */
     var birthday: Date,
@@ -42,5 +37,5 @@ data class User(
     /**
      * The [Group] that the user belongs to.
      */
-    var group: Group?,
+    var groupName: String,
 )
