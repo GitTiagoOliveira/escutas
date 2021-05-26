@@ -108,9 +108,6 @@ open class BaseActivity : AppCompatActivity() {
 
         imageLayout.setOnClickListener {
             val intent = Intent(this@BaseActivity, ProfileActivity::class.java)
-            val bs = ByteArrayOutputStream()
-            profileController.getProfileImage()?.compress(Bitmap.CompressFormat.PNG, 50, bs)
-            intent.putExtra("ProfileImage", bs.toByteArray())
             startActivity(intent)
         }
 

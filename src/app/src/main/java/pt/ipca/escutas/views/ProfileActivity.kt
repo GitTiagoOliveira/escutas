@@ -12,6 +12,9 @@ import androidx.appcompat.widget.Toolbar
 import de.hdodenhof.circleimageview.CircleImageView
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.ProfileController
+import pt.ipca.escutas.models.User
+import pt.ipca.escutas.services.callbacks.StorageCallback
+import pt.ipca.escutas.services.callbacks.UserCallback
 
 
 /**
@@ -33,16 +36,26 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        val profileImage = BitmapFactory.decodeByteArray(
-            intent.getByteArrayExtra("ProfileImage"), 0, intent.getByteArrayExtra("ProfileImage")!!.size
-        )
+
         // toolbar
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
 
         val imageLayout = findViewById<CircleImageView>(R.id.frameLayout_circleimage)
-        if(profileImage != null) {
-            imageLayout.setImageBitmap(profileImage as Bitmap?)
-        }
+
+        profileController.getUser(object : UserCallback {
+            override fun onCallback(user: User) {
+                if(user.photo != null && user.photo != ""){
+                    profileController.getUserImage(user.photo, object : StorageCallback {
+                        override fun onCallback(image: Bitmap?) {
+                            if (image != null) {
+                                imageLayout.setImageBitmap(image)
+                                profileController.saveImage(image)
+                            };
+                        }
+                    })
+                }
+            }
+        })
 
         toolbar.title = "Área Pessoal"
         setSupportActionBar(toolbar)
