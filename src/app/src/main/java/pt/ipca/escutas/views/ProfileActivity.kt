@@ -2,11 +2,11 @@ package pt.ipca.escutas.views
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import de.hdodenhof.circleimageview.CircleImageView
@@ -15,6 +15,7 @@ import pt.ipca.escutas.controllers.ProfileController
 import pt.ipca.escutas.models.User
 import pt.ipca.escutas.services.callbacks.StorageCallback
 import pt.ipca.escutas.services.callbacks.UserCallback
+import java.util.*
 
 
 /**
@@ -42,6 +43,11 @@ class ProfileActivity : AppCompatActivity() {
 
         val imageLayout = findViewById<CircleImageView>(R.id.frameLayout_circleimage)
 
+        val emailText = findViewById<TextView>(R.id.textView_emailUser)
+        val nameText = findViewById<TextView>(R.id.textView_nameUser)
+        val birthdayText = findViewById<TextView>(R.id.textView_birthdayUser)
+        val groupText = findViewById<TextView>(R.id.textView_groupUser)
+
         profileController.getUser(object : UserCallback {
             override fun onCallback(user: User) {
                 if(user.photo != null && user.photo != ""){
@@ -50,6 +56,16 @@ class ProfileActivity : AppCompatActivity() {
                             if (image != null) {
                                 imageLayout.setImageBitmap(image)
                                 profileController.saveImage(image)
+                                profileController.getUser(object: UserCallback{
+                                    override fun onCallback(user: User) {
+                                        nameText.setText(user.name)
+                                        emailText.setText(user.email)
+                                        var calendar = Calendar.getInstance()
+                                        calendar.time = user.birthday
+                                        birthdayText.setText(calendar[Calendar.DAY_OF_MONTH].toString() + "-" + calendar[Calendar.MONTH].toString() + "-"  + calendar[Calendar.YEAR])
+                                        groupText.setText(user.groupName)
+                                    }
+                                })
                             };
                         }
                     })
