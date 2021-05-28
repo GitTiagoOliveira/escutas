@@ -1,6 +1,7 @@
 package pt.ipca.escutas.views.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +13,14 @@ import kotlinx.android.synthetic.main.fragment_calendar.*
 import kotlinx.android.synthetic.main.fragment_news_feed.*
 import kotlinx.android.synthetic.main.fragment_news_feed.recyclerView
 import pt.ipca.escutas.R
+import pt.ipca.escutas.controllers.CalendarController
+import pt.ipca.escutas.controllers.MapController
+import pt.ipca.escutas.models.Event
+import pt.ipca.escutas.models.Group
+import pt.ipca.escutas.services.callbacks.EventCallBack
+import pt.ipca.escutas.services.callbacks.GroupCallback
 import pt.ipca.escutas.views.adapters.CalendarAdapter
-import pt.ipca.escutas.views.dataclasses.Events
+import java.util.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -23,23 +30,34 @@ class CalendarFragment : Fragment() {
 
     private lateinit var calendarAdapter: CalendarAdapter
 
+    /**
+     * The calendar controller.
+     */
+    private val calendarController: CalendarController = CalendarController()
+
+    /**
+     * The list of events.
+     */
+    private var events: List<Event> = emptyList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initRecyclerView()
-        addData()
+        calendarController.getStoredEventsList(object : EventCallBack {
+            override fun onCallback(list: ArrayList<Event>) {
+                events = list
+
+                initRecyclerView()
+            }
+        })
+
     }
 
-
-    private fun addData() {
-        //val data =
-        //calendarAdapter.submitList(data)
-    }
 
     private fun initRecyclerView(){
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this.context)
-            calendarAdapter = CalendarAdapter()
+            calendarAdapter = CalendarAdapter(events)
             adapter = calendarAdapter
         }
 
@@ -53,7 +71,10 @@ class CalendarFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
         // Inflate the layout for this fragment
+
 
         return inflater.inflate(R.layout.fragment_calendar, container, false)
     }

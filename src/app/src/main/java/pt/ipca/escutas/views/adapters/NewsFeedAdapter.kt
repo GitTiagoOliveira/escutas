@@ -7,45 +7,32 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.event_recyclerview.view.*
 import pt.ipca.escutas.R
-import pt.ipca.escutas.views.dataclasses.News
+import pt.ipca.escutas.models.Event
+import pt.ipca.escutas.models.News
 import pt.ipca.escutas.views.fragments.NewsFeedFragment
 import pt.ipca.escutas.views.fragments.NewsFragment
 
 
-class NewsFeedAdapter(var items: ArrayList<News>, var clickListener: OnNewItemClickListener) : RecyclerView.Adapter<NewsFeedAdapter.ViewHolder>() {
+class NewsFeedAdapter(var items: List<News>, var clickListener: OnNewItemClickListener) : RecyclerView.Adapter<NewsFeedAdapter.NewsViewHolder>() {
 
-    private val itemTitles = arrayOf(
-            "Isto é uma noticia",
-            "Isto quase que poderia ser uma noticia",
-            "testezinho bonito numero 3",
-            "mais um para aqui meu amigo",
-            "estao aqui as cinco"
-    )
 
-    private val itemDetails = arrayOf(
-            "detalhes numero 1", "detalhes numero 2", "detalhes numero 3", "detalhes numero 4",
-            "detalhes numero 5"
-    )
-
-    private val itemImages = intArrayOf(
-            R.drawable.ic_vector_gallery_heart,
-            R.drawable.ic_vector_gallery_heart_full,
-            R.drawable.ic_vector_logo,
-            R.drawable.ic_vector_logo_alt,
-            R.drawable.ic_vector_social_facebook
-    )
-
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var image: ImageView = itemView.findViewById(R.id.item_image)
         var textTitle: TextView = itemView.findViewById(R.id.item_title)
         var textDes: TextView = itemView.findViewById(R.id.item_details)
 
+        val newsTitle: TextView = textTitle
+        val newsDetails: TextView = textDes
+        val newsImage: ImageView = image
+
         fun inititalize(item: News, action:OnNewItemClickListener) {
-            textDes.text = item.description
-            textTitle.text = item.title
-            image.setImageResource(item.image)
+            newsTitle.setText(item.title)
+            newsDetails.setText(item.body)
+            Glide.with(itemView.context).load(item.image).into(newsImage)
 
             itemView.setOnClickListener{
                 action.onItemClick(item, absoluteAdapterPosition)
@@ -55,33 +42,29 @@ class NewsFeedAdapter(var items: ArrayList<News>, var clickListener: OnNewItemCl
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.card_news, parent, false)
-        return ViewHolder(v)
+        return NewsViewHolder(v)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textTitle.text = itemTitles[position]
-        holder.textDes.text = itemDetails[position]
-        holder.image.setImageResource(itemImages[position])
+    override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
 
-        holder.inititalize(items.get(position), clickListener)
+        when (holder) {
 
-        holder.itemView.setOnClickListener { v: View ->
-
-            val intent = Intent(v.context, NewsFragment::class.java)
-            intent.putExtra("Title", itemTitles[position])
-            intent.putExtra("Description", itemDetails[position])
-            intent.putExtra("Image", itemImages[position])
-
-            v.context.startActivity(intent)
+            is NewsFeedAdapter.NewsViewHolder ->{
+                holder.inititalize(items.get(position), clickListener)
+            }
         }
 
     }
 
 
     override fun getItemCount(): Int {
-        return itemTitles.size
+        return items.size
+    }
+
+    fun submitList(newsList: List<News>) {
+        items = newsList
     }
 
 }

@@ -1,5 +1,6 @@
 package pt.ipca.escutas.views.adapters
 
+import android.provider.CalendarContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,35 +11,16 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.event_recyclerview.view.*
 import pt.ipca.escutas.R
-import pt.ipca.escutas.views.dataclasses.Events
+import pt.ipca.escutas.models.Event
+import pt.ipca.escutas.models.News
+import pt.ipca.escutas.utils.DateUtils
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
-class CalendarAdapter : RecyclerView.Adapter<CalendarAdapter.EventViewHolder>() {
+class CalendarAdapter(var items: List<Event>) : RecyclerView.Adapter<CalendarAdapter.EventViewHolder>() {
 
-    private var items : List<Events> = ArrayList()
-
-
-    private val itemTitles = arrayOf(
-        "Isto é um evento", "Isto quase que poderia ser um evento", "testezinho bonito numero 3",
-        "mais um para aqui meu amigo", "estao aqui os cinco"
-    )
-
-    private val itemDetails = arrayOf(
-        "detalhes numero 1", "detalhes numero 2", "detalhes numero 3", "detalhes numero 4",
-        "detalhes numero 5"
-    )
-
-    private val itemImages = intArrayOf(
-        R.drawable.ic_vector_gallery_heart,
-        R.drawable.ic_vector_gallery_heart_full,
-        R.drawable.ic_vector_logo,
-        R.drawable.ic_vector_logo_alt,
-        R.drawable.ic_vector_social_facebook
-    )
     class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        //var image: ImageView
-        //var textTitle: TextView
-        //var textDes: TextView
 
         val eventTitle: TextView = itemView.item_title
         val eventDetails: TextView = itemView.item_details
@@ -46,12 +28,14 @@ class CalendarAdapter : RecyclerView.Adapter<CalendarAdapter.EventViewHolder>() 
         val eventDay: TextView = itemView.event_day
         val eventMonth: TextView = itemView.event_month
 
-        fun bind(events: Events) {
-            eventTitle.setText(events.title)
-            eventDetails.setText(events.details)
-            Glide.with(itemView.context).load(events.image).into(eventImage)
-            eventDay.setText(events.day)
-            eventMonth.setText(events.month)
+        fun bind(events: Event) {
+            eventTitle.setText(events.name)
+            eventDetails.setText(events.description)
+            Glide.with(itemView.context).load(events.attachment).into(eventImage)
+            val month = DateUtils.getMonth(events.startDate)
+            val day = DateUtils.getDay(events.startDate)
+            eventDay.setText(day)
+            eventMonth.setText(month)
         }
     }
 
@@ -77,7 +61,7 @@ class CalendarAdapter : RecyclerView.Adapter<CalendarAdapter.EventViewHolder>() 
         return items.size
     }
 
-    fun submitList(eventList: List<Events>) {
+    fun submitList(eventList: List<Event>) {
         items = eventList
     }
 }

@@ -31,4 +31,5 @@ object Strings {
     const val MSG_FAIL_DATABASE_UPDATE = "Erro ao actualizar registo."
     const val MSG_STORAGE_USER_LOCATION = "users"
     const val MSG_STORAGE_GROUP_LOCATION = "groups"
+    const val MSG_STORAGE_EVENT = "events"
 }
