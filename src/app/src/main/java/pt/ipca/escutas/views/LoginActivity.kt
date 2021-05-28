@@ -107,7 +107,6 @@ class LoginActivity : AppCompatActivity() {
             callbackManager,
             object : FacebookCallback<LoginResult?> {
                 override fun onSuccess(loginResult: LoginResult?) {
-
                     var credential = FacebookAuthProvider.getCredential(loginResult?.accessToken?.getToken())
                     loginController.loginUserWithCredential(credential, object : AuthCallback{
                         override fun onCallback() {
@@ -127,7 +126,7 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                         override fun onCallbackError(error: String) {
-                            TODO("Not yet implemented")
+                            // Do Nothing
                         }
 
                     })

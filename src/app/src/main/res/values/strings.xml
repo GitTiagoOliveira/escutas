@@ -36,7 +36,10 @@
     <string name="activity_about_working_group_to">Tiago Oliveira - a21585@alunos.ipca.pt</string>
     <string name="facebook_app_id">558851585113368</string>
     <string name="fb_login_protocol_scheme">fb558851585113368</string>
-
+    <string name="activity_profile_name">Nome de Utilizador: </string>
+    <string name="activity_profile_email">Email: </string>
+    <string name="activity_profile_birthday">Data de Nascimento: </string>
+    <string name="activity_profile_group">Grupo: </string>
     <!-- TODO: Remove below strings when application is complete. -->
     <string name="tmp_title">Lorem Ipsum</string>
     <string name="tmp_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
