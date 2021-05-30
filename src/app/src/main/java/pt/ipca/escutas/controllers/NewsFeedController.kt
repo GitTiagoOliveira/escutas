@@ -4,15 +4,12 @@ import android.media.Image
 import pt.ipca.escutas.models.Event
 import pt.ipca.escutas.models.Group
 import pt.ipca.escutas.models.News
-import pt.ipca.escutas.services.callbacks.EventCallBack
-import pt.ipca.escutas.services.callbacks.FirebaseDBCallback
-import pt.ipca.escutas.services.callbacks.GroupCallback
-import pt.ipca.escutas.services.callbacks.NewsCallBack
+import pt.ipca.escutas.services.callbacks.*
 import pt.ipca.escutas.views.fragments.CalendarFragment
 import java.util.*
 
 /**
- * Defines the [CalendarFragment] controller.
+ * Defines the [NewsFeedFragment] controller.
  *
  */
 class NewsFeedController : BaseController() {
@@ -20,9 +17,9 @@ class NewsFeedController : BaseController() {
     private var newsList: ArrayList<News> = arrayListOf()
 
     /**
-     * Gets the stored events.
+     * Gets the stored news.
      *
-     * @return A list containing the stored events.
+     * @return A list containing the stored news.
      */
     fun getStoredNewsList(callback: NewsCallBack) {
 
@@ -57,5 +54,15 @@ class NewsFeedController : BaseController() {
                     }
                 }
         )
+    }
+
+    /**
+     * Retrieves the news image.
+     *
+     * @param imagePath
+     * @param callback
+     */
+    fun getNewsImage(imagePath: String, callback: StorageCallback) {
+        storage.readFile(imagePath, callback)
     }
 }

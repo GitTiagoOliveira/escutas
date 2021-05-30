@@ -49,6 +49,10 @@ class CalendarFragment : Fragment() {
 
                 initRecyclerView()
             }
+
+            override fun onCallback() {
+                // do nothing
+            }
         })
 
     }

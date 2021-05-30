@@ -1,6 +1,7 @@
 package pt.ipca.escutas.views.fragments
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import pt.ipca.escutas.R
+import pt.ipca.escutas.controllers.NewsFeedController
+import pt.ipca.escutas.services.callbacks.StorageCallback
 
 /**
  * A simple [Fragment] subclass.
@@ -32,6 +35,7 @@ class NewsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val newsfeedController: NewsFeedController = NewsFeedController()
         val detailsText2 = getString(R.string.news_fulldetail)
 
         val textViewDetails: TextView = view!!.findViewById(R.id.details_news)
@@ -41,13 +45,22 @@ class NewsFragment : Fragment() {
 
         textViewDetails.text = detailsText2
 
-        val intent = Intent()
-        val tTitle = intent.getStringExtra("Title")
-        val tDesc = intent.getStringExtra("Description")
-        val tImage = intent.getIntExtra("Image", 0)
+        val tTitle = arguments?.getString("title")
+        val tDesc = arguments?.getString("body")
+        val tImage = arguments?.getString("image")
+
+
+        if(tImage != null && tImage != ""){
+            newsfeedController.getNewsImage(tImage, object : StorageCallback {
+                override fun onCallback(image: Bitmap?) {
+                    if (image != null) {
+                        imageView.setImageBitmap(image)
+                    };
+                }
+            })
+        }
 
         textViewDesc.text = tDesc
         textViewTitle.text = tTitle
-        imageView.setImageResource(tImage)
     }
 }

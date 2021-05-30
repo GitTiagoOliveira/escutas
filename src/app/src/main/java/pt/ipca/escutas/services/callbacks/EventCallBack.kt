@@ -5,4 +5,7 @@ import java.util.ArrayList
 
 interface EventCallBack {
     fun onCallback(list: ArrayList<Event>)
+
+    fun onCallback()
+
 }
