@@ -4,8 +4,10 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +17,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_add_event.*
 import kotlinx.android.synthetic.main.fragment_calendar.*
 import pt.ipca.escutas.R
@@ -22,6 +25,8 @@ import pt.ipca.escutas.controllers.CalendarController
 import pt.ipca.escutas.models.Event
 import pt.ipca.escutas.models.User
 import pt.ipca.escutas.resources.Strings
+import pt.ipca.escutas.services.callbacks.AuthCallback
+import pt.ipca.escutas.services.callbacks.EventCallBack
 import pt.ipca.escutas.utils.DateUtils
 import pt.ipca.escutas.utils.StringUtils.isValidEmail
 import java.io.InputStream
@@ -48,6 +53,11 @@ class AddEventFragment : Fragment() {
      */
     private val calendarController: CalendarController = CalendarController()
 
+    /**
+     * The number representation of android action.
+     */
+    private var RESULT_LOAD_IMAGE = 111
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,14 +80,14 @@ class AddEventFragment : Fragment() {
 
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH) + 1
+        val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         editText_beginDate.setOnClickListener {
             val dpd = DatePickerDialog(
                 this.context!!,
                 DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mdayOfMonth ->
-                    editText_beginDate.setText(getString(R.string.date_string, mYear, mMonth, mdayOfMonth))
+                    editText_beginDate.setText(getString(R.string.date_string, mYear, mMonth + 1, mdayOfMonth))
                 },
                 year, month, day
             )
@@ -89,7 +99,7 @@ class AddEventFragment : Fragment() {
             val dpd = DatePickerDialog(
                 this.context!!,
                 DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mdayOfMonth ->
-                    editText_endDate.setText(getString(R.string.date_string, mYear, mMonth, mdayOfMonth))
+                    editText_endDate.setText(getString(R.string.date_string, mYear, mMonth + 1, mdayOfMonth))
                 },
                 year, month, day
             )
@@ -133,20 +143,44 @@ class AddEventFragment : Fragment() {
 
 
     }
-
+    /**
+     * This method provides selected image Uri
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 111 && resultCode == AppCompatActivity.RESULT_OK) {
-            val selectedFile = data?.data
-            val filepath = selectedFile.toString()
-
-            editText_group.setText(filepath)
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == AppCompatActivity.RESULT_OK && data != null && data.data != null) {
+            fileUri = data.data!!
         }
+
+        val selectedImage: Uri = fileUri!!
+        val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+
+        val cursor: Cursor? = activity?.contentResolver?.query(
+                selectedImage,
+                filePathColumn, null, null, null
+        )
+/*
+        if(cursor != null) {
+            cursor.moveToFirst()
+
+            val columnIndex: Int = cursor.getColumnIndex(filePathColumn[0])
+            val picturePath: String = cursor.getString(columnIndex)
+
+            cursor.close()
+            val image = view!!.findViewById<EditText>((R.id.textView_addAnexo))
+            //image.setImageBitmap(BitmapFactory.decodeFile(picturePath))
+        }
+
+ */
     }
 
     /**
-     * Registers the user through the specified input data.
+     * Registers the event through the specified input data.
      *
      */
     fun addEvent() {
@@ -184,16 +218,14 @@ class AddEventFragment : Fragment() {
         if (beginDate.isEmpty()) {
             beginDatePicker.error = Strings.MSG_FIELD_BLANK
             return
-        }
-        else {
+        } else {
             date = SimpleDateFormat("yyyy-MM-dd").parse(beginDate)
         }
 
         if (endDate.isEmpty()) {
             endDatePicker.error = Strings.MSG_FIELD_BLANK
             return
-        }
-        else {
+        } else {
             date2 = SimpleDateFormat("yyyy-MM-dd").parse(endDate)
         }
 
@@ -210,11 +242,11 @@ class AddEventFragment : Fragment() {
         //val attachmentField = view!!.findViewById<EditText>(R.id.textView_addAnexo)
         //val attachment = attachmentField.text.toString().trim()
 
-        //var inputStream = contentResolver.openInputStream(fileUri!!)
+        var inputStream = getActivity()!!.getContentResolver().openInputStream(fileUri!!)
 
         var imagePath = ""
 
-        if (fileUri != null) {
+        if (inputStream != null) {
             imagePath = "events/" + UUID.randomUUID() + ".png"
         }
 
@@ -222,10 +254,6 @@ class AddEventFragment : Fragment() {
         val shareAllField = view!!.findViewById<CheckBox>(R.id.checkbox_share)
         val share = shareAllField.isChecked
 
-
-        if(fileUri !== null) {
-            inputStream = getActivity()!!.getContentResolver().openInputStream(fileUri!!)
-        }
 
         var event = Event(
                 UUID.randomUUID(),
@@ -236,14 +264,23 @@ class AddEventFragment : Fragment() {
                 imagePath,
                 share)
 
-        calendarController.addEvent(event)
+                var inputStreamM = activity?.contentResolver?.openInputStream(fileUri!!)
+                calendarController.addEvent(event, inputStreamM, object : EventCallBack {
+                    override fun onCallback(list: ArrayList<Event>) {
+
+                    }
+
+                    override fun onCallback() {
+
+                    }
+                })
+
         val fragment = CalendarFragment()
         val fragmentManager = activity!!.supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.container, fragment)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
-
     }
 
 

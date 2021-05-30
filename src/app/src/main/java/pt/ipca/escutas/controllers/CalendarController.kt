@@ -2,15 +2,18 @@ package pt.ipca.escutas.controllers
 
 import android.graphics.Bitmap
 import android.media.Image
+import android.view.inputmethod.InputMethodSession
 import io.grpc.InternalChannelz
 import pt.ipca.escutas.models.Event
 import pt.ipca.escutas.models.Group
 import pt.ipca.escutas.models.User
 import pt.ipca.escutas.resources.Strings.MSG_STORAGE_EVENT
 import pt.ipca.escutas.services.callbacks.*
+import pt.ipca.escutas.services.callbacks.EventCallBack
 import pt.ipca.escutas.views.fragments.CalendarFragment
 import java.io.InputStream
 import com.google.firebase.Timestamp
+import pt.ipca.escutas.resources.Strings
 import java.util.*
 
 /**
@@ -34,6 +37,11 @@ if (eventList.size > 0) {
     prepareEvents(callback)
 }
 }
+
+
+    fun saveEvent(event: Event, callback: EventCallBack) {
+
+    }
 
 private fun prepareEvents(callback: EventCallBack) {
 
@@ -75,20 +83,37 @@ database.getAllRecords(
         storage.createFile(filePath, fileStream, callback)
     }
 
-    fun addEventWithAttachment(event: Event, inputStream: InputStream?) {
+
+    fun addEvent(event: Event, inputStream: InputStream?, eventCallback: EventCallBack) {
         if (inputStream != null && event.attachment.isNotEmpty()) {
             uploadImage(event.attachment,inputStream, object : StorageCallback{
                 override fun onCallback(image: Bitmap?) {
-                    database.addRecord(MSG_STORAGE_EVENT, event)
+                    database.addRecord(Strings.MSG_STORAGE_EVENT, event, object : FirebaseDBCallback{
+                        override fun onCallback(list: HashMap<String, Any>) {
+                            eventCallback.onCallback(eventList)
+                        }
+
+                    })
                 }
 
+            })
+        } else {
+            database.addRecord(Strings.MSG_STORAGE_EVENT, event, object : FirebaseDBCallback {
+                override fun onCallback(list: HashMap<String, Any>) {
+                    eventCallback.onCallback(eventList)
+                }
             })
         }
     }
 
-    fun addEvent(event: Event) {
-            database.addRecord(MSG_STORAGE_EVENT, event)
-
+    /**
+     * Retrieves the event image.
+     *
+     * @param imagePath
+     * @param callback
+     */
+    fun getEventImage(imagePath: String, callback: StorageCallback) {
+        storage.readFile(imagePath, callback)
     }
 
 
