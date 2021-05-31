@@ -229,6 +229,12 @@ class AddEventFragment : Fragment() {
             date2 = SimpleDateFormat("yyyy-MM-dd").parse(endDate)
         }
 
+        if (date2.before(date)) {
+            endDatePicker.error = Strings.MSG_DATE_INVALID
+            return
+        }
+
+
         if (beginHour.isEmpty()) {
             beginHourPicker.error = Strings.MSG_FIELD_BLANK
             return
@@ -242,7 +248,9 @@ class AddEventFragment : Fragment() {
         //val attachmentField = view!!.findViewById<EditText>(R.id.textView_addAnexo)
         //val attachment = attachmentField.text.toString().trim()
 
-        var inputStream = getActivity()!!.getContentResolver().openInputStream(fileUri!!)
+        if (fileUri != null) {
+            inputStream = activity?.contentResolver?.openInputStream(fileUri!!)
+        }
 
         var imagePath = ""
 
@@ -264,16 +272,15 @@ class AddEventFragment : Fragment() {
                 imagePath,
                 share)
 
-                var inputStreamM = activity?.contentResolver?.openInputStream(fileUri!!)
-                calendarController.addEvent(event, inputStreamM, object : EventCallBack {
-                    override fun onCallback(list: ArrayList<Event>) {
+        calendarController.addEvent(event, inputStream, object : EventCallBack {
+            override fun onCallback(list: ArrayList<Event>) {
 
-                    }
+            }
 
-                    override fun onCallback() {
+            override fun onCallback() {
 
-                    }
-                })
+            }
+        })
 
         val fragment = CalendarFragment()
         val fragmentManager = activity!!.supportFragmentManager

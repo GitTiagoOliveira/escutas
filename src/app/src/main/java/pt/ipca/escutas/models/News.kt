@@ -23,6 +23,11 @@ data class News(
     var body: String,
 
     /**
+     * The news details.
+     */
+    var details: String,
+
+    /**
      * The news [Image].
      */
     var image: String,

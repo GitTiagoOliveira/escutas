@@ -45,6 +45,7 @@ class NewsFeedController : BaseController() {
                                     UUID.randomUUID(),
                                     values["title"] as String,
                                     values["body"] as String,
+                                    values["details"] as String,
                                     values["image"] as String
                             )
 

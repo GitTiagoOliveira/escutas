@@ -7,7 +7,7 @@ import io.grpc.InternalChannelz
 import pt.ipca.escutas.models.Event
 import pt.ipca.escutas.models.Group
 import pt.ipca.escutas.models.User
-import pt.ipca.escutas.resources.Strings.MSG_STORAGE_EVENT
+import pt.ipca.escutas.resources.Strings.MSG_STORAGE_EVENT_LOCATION
 import pt.ipca.escutas.services.callbacks.*
 import pt.ipca.escutas.services.callbacks.EventCallBack
 import pt.ipca.escutas.views.fragments.CalendarFragment
@@ -22,39 +22,34 @@ import java.util.*
  */
 class CalendarController : BaseController() {
 
-private var eventList: ArrayList<Event> = arrayListOf()
+    private var eventList: ArrayList<Event> = arrayListOf()
 
-/**
-* Gets the stored events.
-*
-* @return A list containing the stored events.
-*/
-fun getStoredEventsList(callback: EventCallBack) {
+    /**
+     * Gets the stored events.
+     *
+     * @return A list containing the stored events.
+     */
+    fun getStoredEventsList(callback: EventCallBack) {
 
-if (eventList.size > 0) {
-    callback.onCallback(eventList)
-} else {
-    prepareEvents(callback)
-}
-}
-
-
-    fun saveEvent(event: Event, callback: EventCallBack) {
-
+        if (eventList.size > 0) {
+            callback.onCallback(eventList)
+        } else {
+            prepareEvents(callback)
+        }
     }
 
-private fun prepareEvents(callback: EventCallBack) {
+    private fun prepareEvents(callback: EventCallBack) {
 
-database.getAllRecords(
-        "events",
-        object : FirebaseDBCallback {
+        database.getAllRecords(
+                "events",
+                object : FirebaseDBCallback {
 
-            override fun onCallback(list: HashMap<String, Any>) {
+                    override fun onCallback(list: HashMap<String, Any>) {
 
-                list.forEach { (key, value) ->
+                        list.forEach { (key, value) ->
 
-                    val values = value as HashMap<String, Any>
-                    val event = Event(
+                            val values = value as HashMap<String, Any>
+                            val event = Event(
                                     UUID.randomUUID(),
                                     values["name"] as String,
                                     values["description"] as String,
@@ -64,7 +59,7 @@ database.getAllRecords(
                                     values["shared"] as Boolean,
                             )
 
-                         eventList.add(event)
+                            eventList.add(event)
                         }
                         callback.onCallback(eventList)
                     }
@@ -86,9 +81,9 @@ database.getAllRecords(
 
     fun addEvent(event: Event, inputStream: InputStream?, eventCallback: EventCallBack) {
         if (inputStream != null && event.attachment.isNotEmpty()) {
-            uploadImage(event.attachment,inputStream, object : StorageCallback{
+            uploadImage(event.attachment, inputStream, object : StorageCallback {
                 override fun onCallback(image: Bitmap?) {
-                    database.addRecord(Strings.MSG_STORAGE_EVENT, event, object : FirebaseDBCallback{
+                    database.addRecord(Strings.MSG_STORAGE_EVENT_LOCATION, event, object : FirebaseDBCallback {
                         override fun onCallback(list: HashMap<String, Any>) {
                             eventCallback.onCallback(eventList)
                         }
@@ -98,7 +93,7 @@ database.getAllRecords(
 
             })
         } else {
-            database.addRecord(Strings.MSG_STORAGE_EVENT, event, object : FirebaseDBCallback {
+            database.addRecord(Strings.MSG_STORAGE_EVENT_LOCATION, event, object : FirebaseDBCallback {
                 override fun onCallback(list: HashMap<String, Any>) {
                     eventCallback.onCallback(eventList)
                 }
@@ -115,7 +110,6 @@ database.getAllRecords(
     fun getEventImage(imagePath: String, callback: StorageCallback) {
         storage.readFile(imagePath, callback)
     }
-
 
 
 }
