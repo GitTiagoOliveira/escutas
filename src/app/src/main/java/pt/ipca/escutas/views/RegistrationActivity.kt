@@ -22,6 +22,7 @@ import pt.ipca.escutas.services.callbacks.AuthCallback
 import pt.ipca.escutas.services.callbacks.GroupCallback
 import pt.ipca.escutas.utils.DateUtils.DateValue
 import pt.ipca.escutas.utils.StringUtils.isValidEmail
+import java.io.InputStream
 import java.util.*
 
 
@@ -52,6 +53,11 @@ class RegistrationActivity : AppCompatActivity() {
     private lateinit var fileUri: Uri
 
     /**
+     * The photo upload stream.
+     */
+    private var inputStream: InputStream? = null
+
+    /**
      * Invoked when the activity is starting.
      *
      * @param savedInstanceState The saved instance state.
@@ -70,21 +76,40 @@ class RegistrationActivity : AppCompatActivity() {
                 refreshGroupList(groupNameList.toTypedArray());
             }
         })
-        val registerButton = findViewById<Button>(R.id.Button_Register)
 
+        var isCustom = intent.getBooleanExtra("isCustom", false)
+
+        val registerButton = findViewById<Button>(R.id.Button_Register)
         registerButton.setOnClickListener {
-            registerUser()
+            if(isCustom){
+                registerUserCustom()
+            } else {
+                registerUser()
+            }
+        }
+
+        if(isCustom){
+            val emailLabel = findViewById<TextView>(R.id.textView_emailLabel)
+            val emailField = findViewById<EditText>(R.id.editText_email)
+            emailLabel.visibility = View.GONE
+            emailField.visibility = View.GONE
+
+            val passwordLabel = findViewById<TextView>(R.id.textView_passwordLabel)
+            val passwordField = findViewById<EditText>(R.id.editText_password)
+            passwordLabel.visibility = View.GONE
+            passwordField.visibility = View.GONE
+
+            val repeatedPasswordField = findViewById<EditText>(R.id.editText_password_repeat)
+            repeatedPasswordField.visibility = View.GONE
         }
 
         val uploadImage = findViewById<FrameLayout>(R.id.frameLayout_avatar)
-
         uploadImage.setOnClickListener{
             selectImageInAlbum()
         }
 
         // toolbar
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
-
         toolbar.title = "Registo"
         setSupportActionBar(toolbar)
 
@@ -212,6 +237,60 @@ class RegistrationActivity : AppCompatActivity() {
 
             override fun onCallbackError(error: String) {
                 emailField.error = error
+            }
+        })
+    }
+
+    /**
+     * Registers the user through the specified input data.
+     *
+     */
+    private fun registerUserCustom() {
+
+        val email = registrationController.getCustomUserEmail()
+        val nameField = findViewById<EditText>(R.id.editText_username)
+        val name = nameField.text.toString().trim()
+
+        if (name.isEmpty()) {
+            nameField.error = Strings.MSG_FIELD_BLANK
+            return
+        }
+
+        val birthdayPicker = findViewById<DatePicker>(R.id.datePicker_birthday)
+        val birthday = DateValue(birthdayPicker.year, birthdayPicker.month, birthdayPicker.dayOfMonth)
+
+        val groupSpinner = findViewById<Spinner>(R.id.editText_group)
+        val group = groupSpinner.selectedItem.toString()
+
+
+        var imagePath = ""
+
+        if (fileUri != null) {
+            imagePath = "users/" + UUID.randomUUID() + ".png"
+        }
+
+        var user = User(
+            UUID.randomUUID(),
+            imagePath,
+            email,
+            name,
+            birthday,
+            group)
+
+
+        if(fileUri !== null) {
+            inputStream = contentResolver.openInputStream(fileUri!!)
+        }
+
+
+        registrationController.saveUser(user, inputStream, object: AuthCallback{
+            override fun onCallback() {
+                val intent = Intent(this@RegistrationActivity, BaseActivity::class.java)
+                startActivity(intent)
+            }
+
+            override fun onCallbackError(error: String) {
+                nameField.error = error
             }
         })
     }

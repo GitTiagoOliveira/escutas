@@ -114,7 +114,8 @@ class LoginActivity : AppCompatActivity() {
                                 override fun onCallback(list: HashMap<String, Any>) {
                                     if(list.isEmpty()){
                                         verifyStoragePermissions(this@LoginActivity)
-                                        val intent = Intent(this@LoginActivity, CustomRegistrationActivity::class.java)
+                                        val intent = Intent(this@LoginActivity, RegistrationActivity::class.java)
+                                        intent.putExtra("isCustom", true);
                                         startActivity(intent)
                                     } else {
                                         val intent = Intent(this@LoginActivity, BaseActivity::class.java)
@@ -222,7 +223,8 @@ class LoginActivity : AppCompatActivity() {
                                     override fun onCallback(list: HashMap<String, Any>) {
                                         if(list.isEmpty()){
                                             verifyStoragePermissions(this@LoginActivity)
-                                            val intent = Intent(this@LoginActivity, CustomRegistrationActivity::class.java)
+                                            val intent = Intent(this@LoginActivity, RegistrationActivity::class.java)
+                                            intent.putExtra("isCustom", true);
                                             startActivity(intent)
                                         } else {
                                             val intent = Intent(this@LoginActivity, BaseActivity::class.java)

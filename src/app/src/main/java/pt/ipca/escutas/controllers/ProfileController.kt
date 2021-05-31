@@ -89,9 +89,6 @@ class ProfileController : BaseController()  {
         profileImage = image;
     }
 
-    fun getProfileImage(): Bitmap? {
-        return profileImage
-    }
 
     fun logoutUser(profileActivity: ProfileActivity) {
         //Firebase Logout
