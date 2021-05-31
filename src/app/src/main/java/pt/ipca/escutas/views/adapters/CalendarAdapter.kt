@@ -23,8 +23,6 @@ import java.util.*
 
 class CalendarAdapter(var items: List<Event>) : RecyclerView.Adapter<CalendarAdapter.EventViewHolder>() {
 
-
-
     class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         /**

@@ -79,6 +79,7 @@ class NewsFeedAdapter(var items: List<News>, var clickListener: OnNewItemClickLi
                 bundle.putString("title", items[position].title)
                 bundle.putString("body", items[position].body)
                 bundle.putString("image", items[position].image)
+                bundle.putString("details", items[position].details)
 
                 val fragment = NewsFragment()
                 fragment.arguments = bundle
