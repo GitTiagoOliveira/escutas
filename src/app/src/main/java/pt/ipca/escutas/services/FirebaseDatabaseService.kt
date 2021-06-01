@@ -110,7 +110,7 @@ class FirebaseDatabaseService : IDatabaseService {
         recordKey: String,
         recordValue: Any,
         firebaseDBCallback: FirebaseDBCallback
-    ): HashMap<String, Any> {
+    ){
 
         val modelData = this.db.collection(model)
         val output = HashMap<String, Any>()
@@ -126,8 +126,6 @@ class FirebaseDatabaseService : IDatabaseService {
                 throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_GET)
             }
         }
-
-        return output
     }
 
     /**
@@ -138,7 +136,7 @@ class FirebaseDatabaseService : IDatabaseService {
      * @param recordValue The recordValue represents the filter column value.
      * @return
      */
-    override fun getRecordWithGreaterThanFilter(model: String, recordKey: String, recordValue: Any): HashMap<String, Any> {
+    override fun getRecordWithGreaterThanFilter(model: String, recordKey: String, recordValue: Any, callback: FirebaseDBCallback) {
 
         val modelData = this.db.collection(model)
         val output = HashMap<String, Any>()
@@ -153,8 +151,6 @@ class FirebaseDatabaseService : IDatabaseService {
                 throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_GET)
             }
         }
-
-        return output
     }
 
     /**
@@ -165,7 +161,7 @@ class FirebaseDatabaseService : IDatabaseService {
      * @param recordValue The recordValue represents the filter column value.
      * @return
      */
-    override fun getRecordWithLessThanFilter(model: String, recordKey: String, recordValue: Any): HashMap<String, Any> {
+    override fun getRecordWithLessThanFilter(model: String, recordKey: String, recordValue: Any, callback: FirebaseDBCallback){
 
         val modelData = this.db.collection(model)
         val output = HashMap<String, Any>()
@@ -180,7 +176,5 @@ class FirebaseDatabaseService : IDatabaseService {
                 throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_GET)
             }
         }
-
-        return output
     }
 }
