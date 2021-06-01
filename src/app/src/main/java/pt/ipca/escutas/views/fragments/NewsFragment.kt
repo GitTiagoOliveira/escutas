@@ -1,6 +1,5 @@
 package pt.ipca.escutas.views.fragments
 
-import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_news.*
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.NewsFeedController
 import pt.ipca.escutas.services.callbacks.StorageCallback
+
 
 /**
  * A simple [Fragment] subclass.
@@ -26,9 +27,9 @@ class NewsFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_news, container, false)
@@ -66,9 +67,5 @@ class NewsFragment : Fragment() {
         textViewTitle.text = tTitle
         textViewDetails.text = tDetails
 
-
-        button_back.setOnClickListener {
-            fragmentManager?.popBackStack()
-        }
     }
 }

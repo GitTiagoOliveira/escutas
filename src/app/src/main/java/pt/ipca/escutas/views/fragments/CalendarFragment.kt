@@ -108,7 +108,7 @@ class CalendarFragment : Fragment() {
             val fragment = AddEventFragment()
             val fragmentManager = activity!!.supportFragmentManager
             val fragmentTransaction = fragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.container, fragment)
+            fragmentTransaction.add(R.id.container, fragment)
             fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()
         }
