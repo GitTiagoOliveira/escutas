@@ -45,7 +45,6 @@
 
         <activity android:name=".views.BaseActivity" />
         <activity android:name=".views.LoginActivity" />
-        <activity android:name=".views.CustomRegistrationActivity" />
         <activity android:name=".views.RegistrationActivity" />
         <activity android:name=".views.AboutActivity" />
         <activity android:name=".views.PalavraChave"/>
