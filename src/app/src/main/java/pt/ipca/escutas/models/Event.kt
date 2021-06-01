@@ -41,5 +41,5 @@ data class Event(
     /**
      * Whether the event should be shared or not.
      */
-    var isShared: Boolean,
+    var Shared: Boolean,
 )

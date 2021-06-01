@@ -16,6 +16,7 @@ import pt.ipca.escutas.services.callbacks.UserCallback
 import pt.ipca.escutas.views.fragments.CalendarFragment
 import pt.ipca.escutas.views.fragments.GalleryFragment
 import pt.ipca.escutas.views.fragments.MapFragment
+import pt.ipca.escutas.views.fragments.NewsFeedFragment
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -46,7 +47,7 @@ open class BaseActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.navigation_newsfeed -> {
                 this.toolbar.setTitle(R.string.menu_bottom_navigation_news_feed)
-                // TODO: Open news feed fragment when the respective activities are converted.
+                openFragment(NewsFeedFragment.getInstance())
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_map -> {

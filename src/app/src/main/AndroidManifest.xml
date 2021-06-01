@@ -48,8 +48,6 @@
         <activity android:name=".views.CustomRegistrationActivity" />
         <activity android:name=".views.RegistrationActivity" />
         <activity android:name=".views.AboutActivity" />
-        <activity android:name=".views.NewsFeedActivity" />
-        <activity android:name=".views.NewsActivity" />
         <activity android:name=".views.PalavraChave"/>
         <activity android:name=".views.ProfileActivity"/>
         <activity
