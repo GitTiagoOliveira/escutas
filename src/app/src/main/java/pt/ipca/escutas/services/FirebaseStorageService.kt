@@ -12,6 +12,7 @@ import pt.ipca.escutas.services.contracts.IStorageService
 import pt.ipca.escutas.services.exceptions.DatabaseException
 import pt.ipca.escutas.services.exceptions.StorageException
 import java.io.InputStream
+import java.io.FileInputStream
 
 /**
  * Defines a Firebase implementation of an [IStorageService].
