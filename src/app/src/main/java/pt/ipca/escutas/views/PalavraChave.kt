@@ -26,7 +26,7 @@ class PalavraChave : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_palavrachave)
+        setContentView(R.layout.activity_password_recovery)
 
         // toolbar
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
