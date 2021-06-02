@@ -154,6 +154,10 @@
     name = Pinterest,
     description = {Rede social, focada na partilha de ideias, sob a forma de vários meios audiovisuais}
 }
+\newglossaryentry{caching}{
+    name = Caching,
+    description = {Técnica que consiste em armazenar, de forma temporária, cópias de dados ou ficheiros, para estes sejam mais rapidamente acedidos}
+}
 
 \begin{document}
 
@@ -248,6 +252,8 @@ O comportamento de cada um dos serviços é primeiramente definido por um interf
     
     \item \emph{FirebaseDatabaseService}: serviço capaz de comunicar com o repositório de dados da aplicação. Para tal, são implementadas operações \gls{crud} genéricas, independentes do modelo de dados. Conforme os requisitos estabelecidos no enunciado do trabalho prático, o repositório de dados utilizado é o \gls{firebase} Firestore. O mesmo segue o padrão não-relacional, que se caracteriza pela disponibilidade e escalabilidade;
     
+    \item \emph{SqliteDatabaseService}: serviço semelhante ao serviço anteriormente descrito. Porém, comunica com um repositório de dados interno, contido na memória secundária do dispositivo, que implementa o padrão relacional. O mesmo tem o propósito de proporcionar mecanismos de \gls{caching} à aplicação;
+    
     \item \emph{FirebaseStorageService}: serviço focado na comunicação com o repositório de \gls{blobs}, denominado de \gls{firebase} Storage. À semelhança do serviço previamente citado, implementa também operações \gls{crud} genéricas, agnósticas à tipologia dos \gls{blobs} em questão. É sobretudo usado para guardar imagens intrínsecas à aplicação. Embora este serviço não estivesse disposto como um requisito do trabalho prático, optou-se por o implementar, dada a sua manifesta utilidade. Compreenda-se, na figura 4 abaixo exposta, a estrutura do repositório de \gls{blobs}:
     
     % TODO: escrever sobre serviço SqliteDatabaseService.
@@ -336,7 +342,7 @@ Considere-se, de seguida, uma explicação funcional, para cada uma das vistas p
     \bigskip
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.5\textwidth]{view-recover.png}
+        \includegraphics[width=0.5\textwidth]{img/view-recover.png}
         \caption{Vista Recover}
     \end{figure}
     
@@ -358,6 +364,22 @@ Considere-se, de seguida, uma explicação funcional, para cada uma das vistas p
         \caption{Vista Profile}
     \end{figure}
     
+    \item \emph{News Feed}: primeira vista a ser carregada após se efectuar a autenticação. Mostra as últimas notícias acerca do mundo do escutismo, sob a forma de lista, contendo o seu título, corpo e imagem. Quando o utilizador prime alguma das notícias presentes na lista, é reencaminhado para uma nova vista, onde a notícia é exibida em maior detalhe. De seguida, é possível verificar estas vistas, através das figuras 12 e 13:
+    
+    \bigskip
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.34\textwidth]{img/view-news-feed-1.png}
+        \caption{Vista News Feed}
+    \end{figure}
+    
+    \bigskip
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.34\textwidth]{img/view-news-feed-2.png}
+        \caption{Vista News Feed (continuação)}
+    \end{figure}
+    
     \item \emph{Map}: vista encarregue de apresentar, através de um mapa interactivo, os grupos de escutismo que se encontram nas proximidades do utilizador da aplicação. Para tal, recorre à \gls{api} do \gls{maps} e a mecanismos de localização do sistema operativo \gls{android}. Por sua vez, o referido sistema operativo utiliza o sensor \gls{gps} do dispositivo. Seguindo as boas práticas de desenvolvimento \gls{android}, as permissões de localização são meramente requeridas no momento em que se tornam indispensáveis. Perceba-se a vista na figura 12 que se segue:
     
     \bigskip
@@ -365,6 +387,24 @@ Considere-se, de seguida, uma explicação funcional, para cada uma das vistas p
         \centering
         \includegraphics[width=0.5\textwidth]{view-map.png}
         \caption{Vista Map}
+    \end{figure}
+    
+    \clearpage
+    
+    \item \emph{Calendar}: vista que oferece, ao utilizador, a possibilidade de ver os eventos existentes na comunidade ou criar um novo evento. Ao optar por criar um novo evento, é apresentada uma vista que permite ao utilizador adicionar o evento ao calendário, se este preencher correctamente os campos apresentados. Poderá escolher as datas através dos calendários, as horas através dos relógios ou até uma imagem para servir como capa do evento. Os eventos são expostos da mesma forma que as notícias, com o acrescento do dia e mês do evento, como se pode constatar nas figuras 15 e 16:
+
+    \bigskip
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\textwidth]{img/view-calendar-1.png}
+        \caption{Vista Calendar}
+    \end{figure}
+    
+    \bigskip
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\textwidth]{img/view-calendar-2.png}
+        \caption{Vista Calendar (continuação)}
     \end{figure}
 
     % TODO: escrever sobre vista de notícias, galeria e calendário.
@@ -374,12 +414,14 @@ Considere-se, de seguida, uma explicação funcional, para cada uma das vistas p
 
 \subsection{Utilitários}
 
-Os utilitários são componentes genéricos e transversais, que podem ser utilizados por uma qualquer camada da aplicação, e que visam promover a reutilização de código. Os mesmos não têm estado, encontram-se organizados por tipo de dados e incluem exclusivamente métodos estáticos, que realizam tarefas pequenas e repetidas. Considere-se uma síntese de cada um dos utilitários:
+Os utilitários são componentes genéricos e transversais, que podem ser utilizados por uma qualquer camada da aplicação, e que visam promover a reutilização de código. Os mesmos não têm estado, encontram-se organizados por tipo de dados ou propósito e incluem exclusivamente métodos estáticos, que realizam tarefas pequenas e repetidas. Considere-se uma síntese de cada um dos utilitários:
 
 \begin{itemize}
     \item \emph{StringUtils}: utilitário que guarda métodos intrínsecos ao tipo de dados \textit{string}. Por exemplo, um métodos de extensão contido neste utilitário, valida se uma determinada \textit{string} segue o padrão de um endereço de email, através do uso de expressões regulares; 
     
-    \item \emph{DateUtils}: utilitário que armazena métodos inerentes ao tipo de dados \textit{Date}. Exemplificando, neste utilitário, existe um método, que recebe como argumentos, um dia, mês e ano - no tipo de dados \textit{int}. Devolve, consequentemente, a respectiva data - no tipo de dados \textit{Date}.
+    \item \emph{DateUtils}: utilitário que armazena métodos inerentes ao tipo de dados \textit{Date}. Exemplificando, neste utilitário, existe um método, que recebe como argumentos, um dia, mês e ano - no tipo de dados \textit{int}. Devolve, consequentemente, a respectiva data - no tipo de dados \textit{Date};
+    
+    \item \emph{NetworkUtils:} utilitário referente às diferentes redes de comunicações onde o dispositivo poderá operar. Citando um caso de uso, através deste utilitário, é possível verificar se o dispositivo se encontra conectado a uma rede sem fios.
 \end{itemize}
 
 \clearpage
@@ -393,7 +435,7 @@ A metodologia de desenvolvimento da aplicação focou-se em três vectores de ac
 As operações de versionamento da aplicação, recorrem ao sistema de controlo de versões \gls{git}, cujo repositório encontra-se alojado na plataforma \gls{github}. Os elementos do grupo de trabalho têm o devido acesso ao repositório e podem, consequentemente, contribuir para o mesmo, conforme a organização e regras estipuladas. Começando pela organização do repositório, o mesmo é composto por diversos ramos, que servem diferentes propósitos. Considere-se cada um deles:
 
 \begin{itemize}
-    \item \emph{dev}: ramo de desenvolvimento ativo, para onde as contribuições provenientes dos ramos de cada elemento do grupo de trabalho, são fundidas. Dada a sua natureza, os binários resultantes da compilação do código fonte do presente ramo poderão encontrar-se num estado instável;
+    \item \emph{dev}: ramo de desenvolvimento activo, para onde as contribuições provenientes dos ramos de cada elemento do grupo de trabalho, são fundidas. Dada a sua natureza, os binários resultantes da compilação do código fonte do presente ramo poderão encontrar-se num estado instável;
     
     \item \emph{qa}: ramo exclusivamente dedicado a testes, com vista a assegurar a qualidade e estabilidade da aplicação desenvolvida. Ao contrário do ramo anteriormente referido, o presente ramo não acolhe contribuições individuais, sendo que é simplesmente sincronizado com o ramo anterior, em momentos considerado oportunos pelo grupo de trabalho;
     
@@ -433,7 +475,7 @@ Em cada uma das aulas da unidade curricular, onde o grupo de trabalho estava pre
     \caption{Backlog do projecto}
 \end{figure}
 
-Como é possível constatar na figura anteriormente citada, as tarefas assumem variadas tipologias. Para concretizar tal coisa, foram definidas \textit{labels}, através de cores sugestivas, que refletem a positividade da tarefa no contexto do desenvolvimento do projecto. Faça-se uma breve descrição de cada uma delas:
+Como é possível constatar na figura anteriormente citada, as tarefas assumem variadas tipologias. Para concretizar tal coisa, foram definidas \textit{labels}, através de cores sugestivas, que reflectem a positividade da tarefa no contexto do desenvolvimento do projecto. Faça-se uma breve descrição de cada uma delas:
 
 \begin{itemize}
     \item \emph{Feature}: representa uma tarefa que diz respeito ao desenvolvimento de uma qualquer nova funcionalidade na aplicação;
