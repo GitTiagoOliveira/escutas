@@ -16,8 +16,6 @@ import pt.ipca.escutas.services.callbacks.UserCallback
 import pt.ipca.escutas.views.fragments.CalendarFragment
 import pt.ipca.escutas.views.fragments.GalleryFragment
 import pt.ipca.escutas.views.fragments.MapFragment
-import java.io.ByteArrayOutputStream
-import java.util.*
 
 /**
  * Defines the base activity. This activity defines the base layout, state and behavior.
@@ -93,15 +91,18 @@ open class BaseActivity : AppCompatActivity() {
 
         profileController.getUser(object : UserCallback {
             override fun onCallback(user: User) {
-                if(user.photo != null && user.photo != ""){
-                    profileController.getUserImage(user.photo, object : StorageCallback{
-                        override fun onCallback(image: Bitmap?) {
-                            if (image != null) {
-                                imageLayout.setImageBitmap(image)
-                                profileController.saveImage(image)
-                            };
+                if (user.photo != null && user.photo != "") {
+                    profileController.getUserImage(
+                        user.photo,
+                        object : StorageCallback {
+                            override fun onCallback(image: Bitmap?) {
+                                if (image != null) {
+                                    imageLayout.setImageBitmap(image)
+                                    profileController.saveImage(image)
+                                }
+                            }
                         }
-                    })
+                    )
                 }
             }
         })
@@ -116,6 +117,6 @@ open class BaseActivity : AppCompatActivity() {
 
         setSupportActionBar(this.toolbar)
         this.navigationMenu.setOnNavigationItemSelectedListener(onNavigationMenuItemListener)
-        this.navigationMenu.selectedItemId = R.id.navigation_newsfeed;
+        this.navigationMenu.selectedItemId = R.id.navigation_newsfeed
     }
 }

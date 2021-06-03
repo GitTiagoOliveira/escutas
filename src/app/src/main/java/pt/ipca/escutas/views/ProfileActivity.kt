@@ -15,8 +15,7 @@ import pt.ipca.escutas.controllers.ProfileController
 import pt.ipca.escutas.models.User
 import pt.ipca.escutas.services.callbacks.StorageCallback
 import pt.ipca.escutas.services.callbacks.UserCallback
-import java.util.*
-
+import java.util.Calendar
 
 /**
  * The profile controller.
@@ -37,7 +36,6 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-
         // toolbar
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
 
@@ -50,25 +48,28 @@ class ProfileActivity : AppCompatActivity() {
 
         profileController.getUser(object : UserCallback {
             override fun onCallback(user: User) {
-                if(user.photo != null && user.photo != ""){
-                    profileController.getUserImage(user.photo, object : StorageCallback {
-                        override fun onCallback(image: Bitmap?) {
-                            if (image != null) {
-                                imageLayout.setImageBitmap(image)
-                                profileController.saveImage(image)
-                                profileController.getUser(object: UserCallback{
-                                    override fun onCallback(user: User) {
-                                        nameText.setText(user.name)
-                                        emailText.setText(user.email)
-                                        var calendar = Calendar.getInstance()
-                                        calendar.time = user.birthday
-                                        birthdayText.setText(calendar[Calendar.DAY_OF_MONTH].toString() + "-" + calendar[Calendar.MONTH].toString() + "-"  + calendar[Calendar.YEAR])
-                                        groupText.setText(user.groupName)
-                                    }
-                                })
-                            };
+                if (user.photo != null && user.photo != "") {
+                    profileController.getUserImage(
+                        user.photo,
+                        object : StorageCallback {
+                            override fun onCallback(image: Bitmap?) {
+                                if (image != null) {
+                                    imageLayout.setImageBitmap(image)
+                                    profileController.saveImage(image)
+                                    profileController.getUser(object : UserCallback {
+                                        override fun onCallback(user: User) {
+                                            nameText.setText(user.name)
+                                            emailText.setText(user.email)
+                                            var calendar = Calendar.getInstance()
+                                            calendar.time = user.birthday
+                                            birthdayText.setText(calendar[Calendar.DAY_OF_MONTH].toString() + "-" + calendar[Calendar.MONTH].toString() + "-" + calendar[Calendar.YEAR])
+                                            groupText.setText(user.groupName)
+                                        }
+                                    })
+                                }
+                            }
                         }
-                    })
+                    )
                 }
             }
         })
@@ -77,9 +78,9 @@ class ProfileActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         // add back arrow to toolbar
-        if (getSupportActionBar() != null){
-            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar()?.setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+            getSupportActionBar()?.setDisplayShowHomeEnabled(true)
         }
 
         val logoutButton = findViewById<Button>(R.id.Button_logout)

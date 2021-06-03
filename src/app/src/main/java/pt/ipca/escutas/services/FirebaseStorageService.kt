@@ -40,13 +40,13 @@ class FirebaseStorageService : IStorageService {
             .getReference(filePath)
             .putStream(fileStream)
             .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                       callback.onCallback(null)
-                    } else {
-                        Log.w(ContentValues.TAG, Strings.MSG_FAIL_STORAGE_CREATE, task.exception)
-                        throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_STORAGE_CREATE)
-                    }
+                if (task.isSuccessful) {
+                    callback.onCallback(null)
+                } else {
+                    Log.w(ContentValues.TAG, Strings.MSG_FAIL_STORAGE_CREATE, task.exception)
+                    throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_STORAGE_CREATE)
                 }
+            }
     }
 
     /**
@@ -80,11 +80,14 @@ class FirebaseStorageService : IStorageService {
     override fun updateFile(filePath: String, fileStream: InputStream) {
         try {
             this.deleteFile(filePath)
-            this.createFile(filePath, fileStream, object : StorageCallback{
-                override fun onCallback(image: Bitmap?) {
-                    TODO("Not yet implemented")
+            this.createFile(
+                filePath, fileStream,
+                object : StorageCallback {
+                    override fun onCallback(image: Bitmap?) {
+                        TODO("Not yet implemented")
+                    }
                 }
-            })
+            )
         } catch (e: StorageException) {
             throw StorageException(Strings.MSG_FAIL_STORAGE_UPDATE)
         }

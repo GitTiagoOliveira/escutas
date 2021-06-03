@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import pt.ipca.escutas.R
 
-
 /**
  * Defines the about activity.
  *
@@ -29,9 +28,9 @@ class AboutActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         // add back arrow to toolbar
-        if (getSupportActionBar() != null){
-            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar()?.setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+            getSupportActionBar()?.setDisplayShowHomeEnabled(true)
         }
     }
 

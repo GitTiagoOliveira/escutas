@@ -5,7 +5,7 @@ import pt.ipca.escutas.resources.Strings.MSG_STORAGE_GROUP_LOCATION
 import pt.ipca.escutas.services.callbacks.FirebaseDBCallback
 import pt.ipca.escutas.services.callbacks.GroupCallback
 import pt.ipca.escutas.views.fragments.MapFragment
-import java.util.*
+import java.util.UUID
 
 /**
  * Defines the [MapFragment] controller.
@@ -45,7 +45,7 @@ class MapController : BaseController() {
 
                 override fun onCallback(list: HashMap<String, Any>) {
 
-                    list.forEach { (key, value) ->
+                    list.forEach { (value) ->
 
                         val values = value as HashMap<String, Any>
                         val group = Group(
