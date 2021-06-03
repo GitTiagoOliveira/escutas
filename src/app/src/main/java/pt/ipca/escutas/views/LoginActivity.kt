@@ -14,7 +14,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.facebook.*
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
@@ -33,7 +35,6 @@ import pt.ipca.escutas.services.callbacks.FirebaseDBCallback
 import pt.ipca.escutas.services.exceptions.AuthException
 import pt.ipca.escutas.utils.StringUtils.isValidEmail
 import java.lang.Exception
-import java.util.*
 import kotlin.collections.HashMap
 
 /**
@@ -111,35 +112,36 @@ class LoginActivity : AppCompatActivity() {
             object : FacebookCallback<LoginResult?> {
                 override fun onSuccess(loginResult: LoginResult?) {
                     var credential = FacebookAuthProvider.getCredential(loginResult?.accessToken?.getToken())
-                    loginController.loginUserWithCredential(credential, object : AuthCallback{
-                        override fun onCallback() {
-                            loginController.userExists(object : FirebaseDBCallback {
-                                override fun onCallback(list: HashMap<String, Any>) {
-                                    if(list.isEmpty()){
-                                        verifyStoragePermissions(this@LoginActivity)
-                                        val intent = Intent(this@LoginActivity, RegistrationActivity::class.java)
-                                        intent.putExtra("isCustom", true);
-                                        startActivity(intent)
-                                    } else {
-                                        val intent = Intent(this@LoginActivity, BaseActivity::class.java)
-                                        startActivity(intent)
+                    loginController.loginUserWithCredential(
+                        credential,
+                        object : AuthCallback {
+                            override fun onCallback() {
+                                loginController.userExists(object : FirebaseDBCallback {
+                                    override fun onCallback(list: HashMap<String, Any>) {
+                                        if (list.isEmpty()) {
+                                            verifyStoragePermissions(this@LoginActivity)
+                                            val intent = Intent(this@LoginActivity, RegistrationActivity::class.java)
+                                            intent.putExtra("isCustom", true)
+                                            startActivity(intent)
+                                        } else {
+                                            val intent = Intent(this@LoginActivity, BaseActivity::class.java)
+                                            startActivity(intent)
+                                        }
                                     }
+                                })
+                            }
+
+                            override fun onCallbackError(error: String) {
+                                Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT).show()
+                                // Facebook Logout
+                                try {
+                                    LoginManager.getInstance().logOut()
+                                } catch (e: Exception) {
+                                    // Ignore
                                 }
-
-                            })
-                        }
-
-                        override fun onCallbackError(error: String) {
-                            Toast.makeText(applicationContext,error,Toast.LENGTH_SHORT).show()
-                            //Facebook Logout
-                            try {
-                                LoginManager.getInstance().logOut();
-                            }catch (e: Exception){
-                                //Ignore
                             }
                         }
-
-                    })
+                    )
                 }
 
                 override fun onCancel() {
@@ -176,17 +178,17 @@ class LoginActivity : AppCompatActivity() {
             }
 
             loginController.loginUser(
-                    email, password,
-                    object : AuthCallback {
-                        override fun onCallback() {
-                            val intent = Intent(this@LoginActivity, BaseActivity::class.java)
-                            startActivity(intent)
-                        }
-
-                        override fun onCallbackError(error: String) {
-                            emailField.error = error
-                        }
+                email, password,
+                object : AuthCallback {
+                    override fun onCallback() {
+                        val intent = Intent(this@LoginActivity, BaseActivity::class.java)
+                        startActivity(intent)
                     }
+
+                    override fun onCallbackError(error: String) {
+                        emailField.error = error
+                    }
+                }
             )
         }
 
@@ -226,37 +228,37 @@ class LoginActivity : AppCompatActivity() {
                     val account = task.getResult(ApiException::class.java)!!
                     if (account.idToken != null) {
                         val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
-                        loginController.loginUserWithCredential(credential, object : AuthCallback{
-                            override fun onCallback() {
-                                loginController.userExists(object : FirebaseDBCallback {
-                                    override fun onCallback(list: HashMap<String, Any>) {
-                                        if(list.isEmpty()){
-                                            verifyStoragePermissions(this@LoginActivity)
-                                            val intent = Intent(this@LoginActivity, RegistrationActivity::class.java)
-                                            intent.putExtra("isCustom", true);
-                                            startActivity(intent)
-                                        } else {
-                                            val intent = Intent(this@LoginActivity, BaseActivity::class.java)
-                                            startActivity(intent)
+                        loginController.loginUserWithCredential(
+                            credential,
+                            object : AuthCallback {
+                                override fun onCallback() {
+                                    loginController.userExists(object : FirebaseDBCallback {
+                                        override fun onCallback(list: HashMap<String, Any>) {
+                                            if (list.isEmpty()) {
+                                                verifyStoragePermissions(this@LoginActivity)
+                                                val intent = Intent(this@LoginActivity, RegistrationActivity::class.java)
+                                                intent.putExtra("isCustom", true)
+                                                startActivity(intent)
+                                            } else {
+                                                val intent = Intent(this@LoginActivity, BaseActivity::class.java)
+                                                startActivity(intent)
+                                            }
                                         }
+                                    })
+                                }
+
+                                override fun onCallbackError(error: String) {
+                                    Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT).show()
+                                    try {
+                                        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+                                        val googleSignInClient = GoogleSignIn.getClient(this@LoginActivity, gso)
+                                        googleSignInClient.signOut()
+                                    } catch (e: Exception) {
+                                        // Ignore
                                     }
-
-                                })
-                            }
-
-                            override fun onCallbackError(error: String) {
-                                Toast.makeText(applicationContext,error,Toast.LENGTH_SHORT).show()
-                                try{
-                                    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-                                    val googleSignInClient = GoogleSignIn.getClient(this@LoginActivity, gso)
-                                    googleSignInClient.signOut()
-                                }catch (e: Exception){
-                                    //Ignore
                                 }
                             }
-
-                        })
-
+                        )
                     } else {
                         Log.w(ContentValues.TAG, Strings.MSG_FAIL_USER_LOGIN, task.exception)
                         throw AuthException(task.exception?.message ?: Strings.MSG_FAIL_USER_LOGIN)

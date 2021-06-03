@@ -22,7 +22,6 @@ import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.MapController
 import pt.ipca.escutas.models.Group
 import pt.ipca.escutas.services.callbacks.GroupCallback
-import java.util.*
 
 /**
  * Defines the map fragment.

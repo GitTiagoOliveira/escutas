@@ -38,7 +38,7 @@ class LoginController : BaseController() {
      * @param firebaseDBCallback
      */
     fun userExists(firebaseDBCallback: FirebaseDBCallback) {
-        database.getRecordWithEqualFilter(MSG_STORAGE_USER_LOCATION, "email" , auth.getCurrentUser().email, firebaseDBCallback)
+        database.getRecordWithEqualFilter(MSG_STORAGE_USER_LOCATION, "email", auth.getCurrentUser().email, firebaseDBCallback)
     }
 
     /**

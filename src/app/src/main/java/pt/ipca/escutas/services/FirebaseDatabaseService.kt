@@ -110,7 +110,7 @@ class FirebaseDatabaseService : IDatabaseService {
         recordKey: String,
         recordValue: Any,
         firebaseDBCallback: FirebaseDBCallback
-    ){
+    ) {
 
         val modelData = this.db.collection(model)
         val output = HashMap<String, Any>()
@@ -161,7 +161,7 @@ class FirebaseDatabaseService : IDatabaseService {
      * @param recordValue The recordValue represents the filter column value.
      * @return
      */
-    override fun getRecordWithLessThanFilter(model: String, recordKey: String, recordValue: Any, callback: FirebaseDBCallback){
+    override fun getRecordWithLessThanFilter(model: String, recordKey: String, recordValue: Any, callback: FirebaseDBCallback) {
 
         val modelData = this.db.collection(model)
         val output = HashMap<String, Any>()

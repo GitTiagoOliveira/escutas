@@ -25,7 +25,6 @@ class RegistrationController : BaseController() {
         auth.addUser(email, password, callback)
     }
 
-
     /**
      * Upload image to the storage service.
      *
@@ -45,23 +44,30 @@ class RegistrationController : BaseController() {
      */
     fun saveUser(user: User, inputStream: InputStream?, authCallback: AuthCallback) {
         if (inputStream != null && user.photo.isNotEmpty()) {
-            uploadImage(user.photo,inputStream, object : StorageCallback{
-                override fun onCallback(image: Bitmap?) {
-                    database.addRecord(MSG_STORAGE_USER_LOCATION, user, object : FirebaseDBCallback{
-                        override fun onCallback(list: HashMap<String, Any>) {
-                            authCallback.onCallback()
-                        }
-
-                    })
+            uploadImage(
+                user.photo, inputStream,
+                object : StorageCallback {
+                    override fun onCallback(image: Bitmap?) {
+                        database.addRecord(
+                            MSG_STORAGE_USER_LOCATION, user,
+                            object : FirebaseDBCallback {
+                                override fun onCallback(list: HashMap<String, Any>) {
+                                    authCallback.onCallback()
+                                }
+                            }
+                        )
+                    }
                 }
-
-            })
+            )
         } else {
-            database.addRecord(MSG_STORAGE_USER_LOCATION, user, object : FirebaseDBCallback {
-                override fun onCallback(list: HashMap<String, Any>) {
-                    authCallback.onCallback()
+            database.addRecord(
+                MSG_STORAGE_USER_LOCATION, user,
+                object : FirebaseDBCallback {
+                    override fun onCallback(list: HashMap<String, Any>) {
+                        authCallback.onCallback()
+                    }
                 }
-            })
+            )
         }
     }
 

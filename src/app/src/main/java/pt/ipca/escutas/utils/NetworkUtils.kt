@@ -1,6 +1,5 @@
 package pt.ipca.escutas.utils
 
-import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
@@ -33,5 +32,4 @@ object NetworkUtils {
         val wifi = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
         return wifi.isWifiEnabled
     }
-
 }
