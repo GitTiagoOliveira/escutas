@@ -1,15 +1,15 @@
 package pt.ipca.escutas.utils
 
+import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import android.telephony.TelephonyManager
-import com.facebook.FacebookSdk.getApplicationContext
 
 object NetworkUtils {
 
-    fun isNetworkAvailable(): Boolean {
-        val connectivityManager = getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetworkInfo = connectivityManager!!.activeNetworkInfo
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
@@ -29,8 +29,8 @@ object NetworkUtils {
         return mobileYN
     }
 
-    fun isWifiOn(): Boolean {
-        val wifi = getApplicationContext().getSystemService(Context.WIFI_SERVICE) as WifiManager
+    fun isWifiOn(context: Context): Boolean {
+        val wifi = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
         return wifi.isWifiEnabled
     }
 
