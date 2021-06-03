@@ -11,9 +11,11 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.facebook.*
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -30,6 +32,7 @@ import pt.ipca.escutas.services.callbacks.AuthCallback
 import pt.ipca.escutas.services.callbacks.FirebaseDBCallback
 import pt.ipca.escutas.services.exceptions.AuthException
 import pt.ipca.escutas.utils.StringUtils.isValidEmail
+import java.lang.Exception
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -127,7 +130,13 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                         override fun onCallbackError(error: String) {
-                            // Do Nothing
+                            Toast.makeText(applicationContext,error,Toast.LENGTH_SHORT).show()
+                            //Facebook Logout
+                            try {
+                                LoginManager.getInstance().logOut();
+                            }catch (e: Exception){
+                                //Ignore
+                            }
                         }
 
                     })
@@ -236,7 +245,14 @@ class LoginActivity : AppCompatActivity() {
                             }
 
                             override fun onCallbackError(error: String) {
-                                throw AuthException(error)
+                                Toast.makeText(applicationContext,error,Toast.LENGTH_SHORT).show()
+                                try{
+                                    val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+                                    val googleSignInClient = GoogleSignIn.getClient(this@LoginActivity, gso)
+                                    googleSignInClient.signOut()
+                                }catch (e: Exception){
+                                    //Ignore
+                                }
                             }
 
                         })
