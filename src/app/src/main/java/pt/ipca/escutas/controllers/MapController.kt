@@ -1,8 +1,12 @@
 package pt.ipca.escutas.controllers
 
+import android.content.ContentValues
+import android.content.Context
 import pt.ipca.escutas.models.Group
 import pt.ipca.escutas.resources.Strings.MSG_STORAGE_GROUP_LOCATION
+import pt.ipca.escutas.services.SqliteDatabaseService
 import pt.ipca.escutas.services.callbacks.GenericCallback
+import pt.ipca.escutas.utils.NetworkUtils
 import pt.ipca.escutas.views.fragments.MapFragment
 import java.util.UUID
 
@@ -22,12 +26,12 @@ class MapController : BaseController() {
      *
      * @return A list containing the stored locations.
      */
-    fun getStoredGroupsList(callback: GenericCallback) {
+    fun getStoredGroupsList(context: Context, callback: GenericCallback) {
 
         if (groupList.size > 0) {
             callback.onCallback(groupList)
         } else {
-            prepareGroups(callback)
+            prepareGroups(context, callback)
         }
     }
 
@@ -36,30 +40,44 @@ class MapController : BaseController() {
      *
      * @param callback
      */
-    private fun prepareGroups(callback: GenericCallback) {
+    private fun prepareGroups(context: Context, callback: GenericCallback) {
 
-        database.getAllRecords(
-            MSG_STORAGE_GROUP_LOCATION,
-            object : GenericCallback {
-                override fun onCallback(value: Any?) {
+        var sqliteService = SqliteDatabaseService(context)
 
-                    var list = value as HashMap<String, Any>
-                    list.forEach { (key, value) ->
+        if (NetworkUtils.isNetworkAvailable(context) && (NetworkUtils.isWifiOn(context) || NetworkUtils.checkMobileDataIsEnabled(context))) {
+            database.getAllRecords(
+                MSG_STORAGE_GROUP_LOCATION,
+                object : GenericCallback {
+                    override fun onCallback(value: Any?) {
 
-                        val values = value as HashMap<String, Any>
-                        val group = Group(
-                            UUID.randomUUID(),
-                            values["name"] as String,
-                            values["description"] as String,
-                            values["latitude"] as Double,
-                            values["longitude"] as Double
-                        )
+                        var list = value as HashMap<String, Any>
+                        list.forEach { (key, value) ->
 
-                        groupList.add(group)
+                            val values = value as HashMap<String, Any>
+                            val group = Group(
+                                UUID.randomUUID(),
+                                values["name"] as String,
+                                values["description"] as String,
+                                values["latitude"] as Double,
+                                values["longitude"] as Double
+                            )
+
+                            var cv = ContentValues()
+                            cv.put("name", group.name)
+                            cv.put("description", group.description)
+                            cv.put("latitude", group.latitude)
+                            cv.put("longitude", group.longitude)
+                            sqliteService.addRecord(MSG_STORAGE_GROUP_LOCATION, cv, callback)
+
+                            groupList.add(group)
+                        }
+                        callback.onCallback(groupList)
                     }
-                    callback.onCallback(groupList)
                 }
-            }
-        )
+            )
+        } else {
+            // Retrieve from cache
+            sqliteService.getAllRecords(MSG_STORAGE_GROUP_LOCATION, callback)
+        }
     }
 }
