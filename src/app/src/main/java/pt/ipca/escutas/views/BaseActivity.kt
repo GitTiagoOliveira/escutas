@@ -116,5 +116,6 @@ open class BaseActivity : AppCompatActivity() {
 
         setSupportActionBar(this.toolbar)
         this.navigationMenu.setOnNavigationItemSelectedListener(onNavigationMenuItemListener)
+        this.navigationMenu.selectedItemId = R.id.navigation_newsfeed;
     }
 }
