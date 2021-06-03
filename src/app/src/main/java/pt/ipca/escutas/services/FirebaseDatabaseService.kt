@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import pt.ipca.escutas.resources.Strings
-import pt.ipca.escutas.services.callbacks.FirebaseDBCallback
+import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.services.contracts.IDatabaseService
 import pt.ipca.escutas.services.exceptions.DatabaseException
 
@@ -21,8 +21,9 @@ class FirebaseDatabaseService : IDatabaseService {
      *
      * @param model The model represents the collection.
      * @param record The record represents the document.
+     * @param callback The callback to control async request.
      */
-    override fun addRecord(model: String, record: Any, callback: FirebaseDBCallback) {
+    override fun addRecord(model: String, record: Any, callback: GenericCallback) {
 
         val modelData = this.db.collection(model)
 
@@ -31,7 +32,7 @@ class FirebaseDatabaseService : IDatabaseService {
                 Log.w(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_ADD, task.exception)
                 throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_ADD)
             } else {
-                callback.onCallback(hashMapOf())
+                callback.onCallback(null)
             }
         }
     }
@@ -79,7 +80,7 @@ class FirebaseDatabaseService : IDatabaseService {
      * @param model The model represents the collection.
      * @return
      */
-    override fun getAllRecords(model: String, firebaseCallback: FirebaseDBCallback) {
+    override fun getAllRecords(model: String, callback: GenericCallback) {
 
         val modelData = this.db.collection(model)
         val output = HashMap<String, Any>()
@@ -89,7 +90,7 @@ class FirebaseDatabaseService : IDatabaseService {
                 for (document in task.result!!) {
                     output[document.id] = document.data
                 }
-                firebaseCallback.onCallback(output)
+                callback.onCallback(output)
             } else {
                 Log.w(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_GET, task.exception)
                 throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_GET)
@@ -103,13 +104,14 @@ class FirebaseDatabaseService : IDatabaseService {
      * @param model The model represents the collection.
      * @param recordKey The recordKey represents the filter column.
      * @param recordValue The recordValue represents the filter column value.
+     * @param callback The callback to control async request.
      * @return
      */
     override fun getRecordWithEqualFilter(
         model: String,
         recordKey: String,
         recordValue: Any,
-        firebaseDBCallback: FirebaseDBCallback
+        callback: GenericCallback
     ) {
 
         val modelData = this.db.collection(model)
@@ -120,7 +122,7 @@ class FirebaseDatabaseService : IDatabaseService {
                 for (document in task.result!!) {
                     output[document.id] = document.data
                 }
-                firebaseDBCallback.onCallback(output)
+                callback.onCallback(output)
             } else {
                 Log.w(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_GET, task.exception)
                 throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_GET)
@@ -134,9 +136,10 @@ class FirebaseDatabaseService : IDatabaseService {
      * @param model The model represents the collection.
      * @param recordKey The recordKey represents the filter column.
      * @param recordValue The recordValue represents the filter column value.
+     * @param callback The callback to control async request.
      * @return
      */
-    override fun getRecordWithGreaterThanFilter(model: String, recordKey: String, recordValue: Any, callback: FirebaseDBCallback) {
+    override fun getRecordWithGreaterThanFilter(model: String, recordKey: String, recordValue: Any, callback: GenericCallback) {
 
         val modelData = this.db.collection(model)
         val output = HashMap<String, Any>()
@@ -159,9 +162,10 @@ class FirebaseDatabaseService : IDatabaseService {
      * @param model The model represents the collection.
      * @param recordKey The recordKey represents the filter column.
      * @param recordValue The recordValue represents the filter column value.
+     * @param callback The callback to control async request.
      * @return
      */
-    override fun getRecordWithLessThanFilter(model: String, recordKey: String, recordValue: Any, callback: FirebaseDBCallback) {
+    override fun getRecordWithLessThanFilter(model: String, recordKey: String, recordValue: Any, callback: GenericCallback) {
 
         val modelData = this.db.collection(model)
         val output = HashMap<String, Any>()

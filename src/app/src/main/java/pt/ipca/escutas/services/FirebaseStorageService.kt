@@ -1,13 +1,12 @@
 package pt.ipca.escutas.services
 
 import android.content.ContentValues
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FirebaseStorage
 import pt.ipca.escutas.resources.Strings
-import pt.ipca.escutas.services.callbacks.StorageCallback
+import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.services.contracts.IStorageService
 import pt.ipca.escutas.services.exceptions.DatabaseException
 import pt.ipca.escutas.services.exceptions.StorageException
@@ -34,7 +33,7 @@ class FirebaseStorageService : IStorageService {
      * @param filePath The destination file path in the storage service.
      * @param fileStream The file input stream.
      */
-    override fun createFile(filePath: String, fileStream: InputStream, callback: StorageCallback) {
+    override fun createFile(filePath: String, fileStream: InputStream, callback: GenericCallback) {
 
         this.storage
             .getReference(filePath)
@@ -55,7 +54,7 @@ class FirebaseStorageService : IStorageService {
      * @param filePath The file path in the storage service.
      * @return The file byte sequence.
      */
-    override fun readFile(filePath: String, callback: StorageCallback): Task<ByteArray> {
+    override fun readFile(filePath: String, callback: GenericCallback): Task<ByteArray> {
         return this.storage
             .getReference(filePath)
             .getBytes(maxBytes).addOnCompleteListener { task ->
@@ -82,8 +81,8 @@ class FirebaseStorageService : IStorageService {
             this.deleteFile(filePath)
             this.createFile(
                 filePath, fileStream,
-                object : StorageCallback {
-                    override fun onCallback(image: Bitmap?) {
+                object : GenericCallback {
+                    override fun onCallback(value: Any?) {
                         TODO("Not yet implemented")
                     }
                 }

@@ -2,8 +2,7 @@ package pt.ipca.escutas.controllers
 
 import pt.ipca.escutas.models.Group
 import pt.ipca.escutas.resources.Strings.MSG_STORAGE_GROUP_LOCATION
-import pt.ipca.escutas.services.callbacks.FirebaseDBCallback
-import pt.ipca.escutas.services.callbacks.GroupCallback
+import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.views.fragments.MapFragment
 import java.util.UUID
 
@@ -23,7 +22,7 @@ class MapController : BaseController() {
      *
      * @return A list containing the stored locations.
      */
-    fun getStoredGroupsList(callback: GroupCallback) {
+    fun getStoredGroupsList(callback: GenericCallback) {
 
         if (groupList.size > 0) {
             callback.onCallback(groupList)
@@ -37,15 +36,15 @@ class MapController : BaseController() {
      *
      * @param callback
      */
-    private fun prepareGroups(callback: GroupCallback) {
+    private fun prepareGroups(callback: GenericCallback) {
 
         database.getAllRecords(
             MSG_STORAGE_GROUP_LOCATION,
-            object : FirebaseDBCallback {
+            object : GenericCallback {
+                override fun onCallback(value: Any?) {
 
-                override fun onCallback(list: HashMap<String, Any>) {
-
-                    list.forEach { (value) ->
+                    var list = value as HashMap<String, Any>
+                    list.forEach { (key, value) ->
 
                         val values = value as HashMap<String, Any>
                         val group = Group(

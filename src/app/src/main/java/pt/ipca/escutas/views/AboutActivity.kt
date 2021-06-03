@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import pt.ipca.escutas.R
+import pt.ipca.escutas.resources.Strings
 
 /**
  * Defines the about activity.
@@ -24,7 +25,7 @@ class AboutActivity : AppCompatActivity() {
         // toolbar
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
 
-        toolbar.title = "Sobre"
+        toolbar.title = Strings.MSG_ABOUT_ACT_TITLE
         setSupportActionBar(toolbar)
 
         // add back arrow to toolbar

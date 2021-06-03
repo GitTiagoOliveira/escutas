@@ -12,7 +12,7 @@ import pt.ipca.escutas.controllers.LoginController
 import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.callbacks.AuthCallback
 
-class PalavraChave : AppCompatActivity() {
+class PasswordActivity : AppCompatActivity() {
 
     /**
      * The login controller.
@@ -31,7 +31,7 @@ class PalavraChave : AppCompatActivity() {
         // toolbar
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
 
-        toolbar.title = "Recuperar Palavra-Chave"
+        toolbar.title = Strings.MSG_PASSWORD_REC_ACT_TITLE
         setSupportActionBar(toolbar)
 
         // add back arrow to toolbar
