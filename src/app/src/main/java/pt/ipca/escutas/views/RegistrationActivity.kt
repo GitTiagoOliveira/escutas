@@ -25,7 +25,7 @@ import pt.ipca.escutas.models.Group
 import pt.ipca.escutas.models.User
 import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.callbacks.AuthCallback
-import pt.ipca.escutas.services.callbacks.GroupCallback
+import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.utils.DateUtils.DateValue
 import pt.ipca.escutas.utils.StringUtils.isValidEmail
 import java.io.InputStream
@@ -71,9 +71,10 @@ class RegistrationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 
-        mapController.getStoredGroupsList(object : GroupCallback {
-            override fun onCallback(list: ArrayList<Group>) {
+        mapController.getStoredGroupsList(object : GenericCallback {
+            override fun onCallback(value: Any?) {
                 var groupNameList: MutableList<String> = arrayOf("Nenhum").toMutableList()
+                var list = value as ArrayList<Group>
                 for (group in list) {
                     groupNameList.add(group.name)
                 }
@@ -115,7 +116,7 @@ class RegistrationActivity : AppCompatActivity() {
 
         // toolbar
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
-        toolbar.title = "Registo"
+        toolbar.title = Strings.MSG_REGISTRATION_AREA_ACT_TITLE
         setSupportActionBar(toolbar)
 
         // add back arrow to toolbar
