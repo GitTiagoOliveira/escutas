@@ -10,14 +10,19 @@ import pt.ipca.escutas.models.News
 import pt.ipca.escutas.models.User
 import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.services.contracts.IDatabaseService
+import java.util.ArrayList
 import java.util.UUID
-import kotlin.collections.HashMap
 
 /**
  * Defines a SQLite implementation of an [IDatabaseService].
  *
  */
 class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelper(context, "EscutasDB", null, 1) {
+
+    /**
+     * Internal group list cache.
+     */
+    private var outputList: ArrayList<Any> = arrayListOf()
 
     /**
      * This method is called the first time a database is accessed.
@@ -27,7 +32,7 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
     override fun onCreate(db: SQLiteDatabase?) {
 
         // Create User Table
-        val createUserTable = "CREATE TABLE Users (" +
+        val createUserTable = "CREATE TABLE users (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
             "photo VARCHAR(256)," +
             "email VARCHAR(256)," +
@@ -36,19 +41,19 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
             "groupName VARCHAR(256))"
 
         // Create User Table
-        val createNewsTable = "CREATE TABLE News (" +
+        val createNewsTable = "CREATE TABLE news (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
             "title VARCHAR(256)," +
             "body VARCHAR(256)," +
             "image VARCHAR(256))"
 
         // Create Group Table
-        val createGroupTable = "CREATE TABLE Group (" +
+        val createGroupTable = "CREATE TABLE groups (" +
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
             "name VARCHAR(256)," +
             "description VARCHAR(256)," +
-            "description REAL," +
-            "latitude REAL)"
+            "latitude REAL," +
+            "longitude REAL)"
 
         db?.execSQL(createUserTable)
         db?.execSQL(createNewsTable)
@@ -75,10 +80,7 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
      */
     override fun addRecord(model: String, record: Any, callback: GenericCallback) {
         val db = this.writableDatabase
-        var result = db.insert(model, null, record as ContentValues?)
-        var resultList: HashMap<String, Any> = HashMap<String, Any> ()
-        resultList["result"] = result
-        callback.onCallback(resultList)
+        db.insert(model, null, record as ContentValues?)
     }
 
     /**
@@ -115,7 +117,7 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
     override fun getAllRecords(model: String, callback: GenericCallback) {
         val selectQuery = "SELECT * FROM $model"
         val db = this.readableDatabase
-        val output = HashMap<String, Any>()
+        outputList.clear()
         val cursor: Cursor?
 
         try {
@@ -123,14 +125,14 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
 
             if (cursor != null && cursor.moveToFirst()) {
                 do {
-                    getRecord(cursor, model, output)
+                    getRecord(cursor, model, outputList)
                 } while (cursor.moveToNext())
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
-        callback.onCallback(output)
+        callback.onCallback(outputList)
     }
 
     /**
@@ -190,7 +192,8 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
     fun prepareRecordQuery(model: String, selectQuery: String, callback: GenericCallback) {
 
         val db = this.readableDatabase
-        val output = HashMap<String, Any>()
+        outputList.clear()
+
         val cursor: Cursor?
 
         try {
@@ -198,14 +201,14 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
 
             if (cursor != null && cursor.moveToFirst()) {
                 do {
-                    getRecord(cursor, model, output)
+                    getRecord(cursor, model, outputList)
                 } while (cursor.moveToNext())
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
-        callback.onCallback(output)
+        callback.onCallback(outputList)
     }
 
     /**
@@ -214,14 +217,14 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
      * @param cursor
      * @param output
      */
-    fun getUserRecord(cursor: Cursor, output: HashMap<String, Any>) {
+    fun getUserRecord(cursor: Cursor, output: ArrayList<Any>) {
         var photo = cursor.getString((cursor.getColumnIndex("photo")))
         var email = cursor.getString((cursor.getColumnIndex("email")))
         var name = cursor.getString((cursor.getColumnIndex("name")))
         var groupName = cursor.getString((cursor.getColumnIndex("groupName")))
         // TODO birthday
 
-        output.put(email, User(UUID.randomUUID(), photo, email, name, null, groupName))
+        output.add(User(UUID.randomUUID(), photo, email, name, null, groupName))
     }
 
     /**
@@ -230,12 +233,12 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
      * @param cursor
      * @param output
      */
-    fun getNewsRecord(cursor: Cursor, output: HashMap<String, Any>) {
+    fun getNewsRecord(cursor: Cursor, output: ArrayList<Any>) {
         var title = cursor.getString((cursor.getColumnIndex("title")))
         var body = cursor.getString((cursor.getColumnIndex("body")))
         var image = cursor.getString((cursor.getColumnIndex("image")))
 
-        output.put(UUID.randomUUID().toString(), News(UUID.randomUUID(), title, body, image))
+        output.add(News(UUID.randomUUID(), title, body, image))
     }
 
     /**
@@ -244,13 +247,13 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
      * @param cursor
      * @param output
      */
-    fun getGroupRecord(cursor: Cursor, output: HashMap<String, Any>) {
+    fun getGroupRecord(cursor: Cursor, output: ArrayList<Any>) {
         var name = cursor.getString((cursor.getColumnIndex("name")))
         var description = cursor.getString((cursor.getColumnIndex("description")))
         var latitude = cursor.getDouble((cursor.getColumnIndex("latitude")))
         var longitude = cursor.getDouble((cursor.getColumnIndex("longitude")))
 
-        output.put(UUID.randomUUID().toString(), Group(UUID.randomUUID(), name, description, latitude, longitude))
+        output.add(Group(UUID.randomUUID(), name, description, latitude, longitude))
     }
 
     /**
@@ -259,7 +262,7 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
      * @param cursor
      * @param output
      */
-    fun getRecord(cursor: Cursor, model: String, output: HashMap<String, Any>) {
+    fun getRecord(cursor: Cursor, model: String, output: ArrayList<Any>) {
         if (model.equals("Users")) {
             return getUserRecord(cursor, output)
         } else if (model.equals("News")) {

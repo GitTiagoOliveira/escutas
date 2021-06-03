@@ -71,17 +71,20 @@ class RegistrationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 
-        mapController.getStoredGroupsList(object : GenericCallback {
-            override fun onCallback(value: Any?) {
-                var groupNameList: MutableList<String> = arrayOf("Nenhum").toMutableList()
-                var list = value as ArrayList<Group>
-                for (group in list) {
-                    groupNameList.add(group.name)
-                }
+        mapController.getStoredGroupsList(
+            applicationContext,
+            object : GenericCallback {
+                override fun onCallback(value: Any?) {
+                    var groupNameList: MutableList<String> = arrayOf("Nenhum").toMutableList()
+                    var list = value as ArrayList<Group>
+                    for (group in list) {
+                        groupNameList.add(group.name)
+                    }
 
-                refreshGroupList(groupNameList.toTypedArray())
+                    refreshGroupList(groupNameList.toTypedArray())
+                }
             }
-        })
+        )
 
         var isCustom = intent.getBooleanExtra("isCustom", false)
 

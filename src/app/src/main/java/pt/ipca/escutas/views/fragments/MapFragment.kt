@@ -67,16 +67,20 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val fragmap: SupportMapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         this.locationProvider = LocationServices.getFusedLocationProviderClient(this.context!!)
         fragmap.getMapAsync(this)
+        val applicationContext = activity!!.applicationContext
 
-        mapController.getStoredGroupsList(object : GenericCallback {
-            override fun onCallback(value: Any?) {
-                if (value != null) {
-                    var list = value as ArrayList<Group>
-                    groups = list
-                    onMapReady(map)
+        mapController.getStoredGroupsList(
+            applicationContext,
+            object : GenericCallback {
+                override fun onCallback(value: Any?) {
+                    if (value != null) {
+                        var list = value as ArrayList<Group>
+                        groups = list
+                        onMapReady(map)
+                    }
                 }
             }
-        })
+        )
 
         return view
     }
