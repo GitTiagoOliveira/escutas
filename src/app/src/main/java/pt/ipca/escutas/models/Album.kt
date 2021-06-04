@@ -18,7 +18,7 @@ data class Album(
     var name: String,
 
     /**
-     * The album [Image] collection.
+     * The main Image from Album.
      */
-    var images: Collection<String>,
+    var image: String
 )

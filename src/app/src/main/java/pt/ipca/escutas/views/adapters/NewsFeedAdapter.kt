@@ -84,7 +84,7 @@ class NewsFeedAdapter(var items: List<News>, var clickListener: OnNewItemClickLi
                 val fragment = NewsFragment()
                 fragment.arguments = bundle
                 val activity = v!!.context as AppCompatActivity
-                val fragmentManager = activity!!.supportFragmentManager
+                val fragmentManager = activity.supportFragmentManager
                 val fragmentTransaction = fragmentManager.beginTransaction()
                 fragmentTransaction.replace(R.id.container, fragment)
                 fragmentTransaction.addToBackStack(null)

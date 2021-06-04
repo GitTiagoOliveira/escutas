@@ -6,13 +6,14 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ListResult
 import pt.ipca.escutas.resources.Strings
+import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.services.callbacks.StorageCallback
 import pt.ipca.escutas.services.contracts.IStorageService
 import pt.ipca.escutas.services.exceptions.DatabaseException
 import pt.ipca.escutas.services.exceptions.StorageException
 import java.io.InputStream
-import java.io.FileInputStream
 
 /**
  * Defines a Firebase implementation of an [IStorageService].
@@ -41,13 +42,15 @@ class FirebaseStorageService : IStorageService {
             .getReference(filePath)
             .putStream(fileStream)
             .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                       callback.onCallback(null)
-                    } else {
-                        Log.w(ContentValues.TAG, Strings.MSG_FAIL_STORAGE_CREATE, task.exception)
-                        throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_STORAGE_CREATE)
-                    }
+                if (task.isSuccessful) {
+                    callback.onCallback(null)
+                } else {
+                    Log.w(ContentValues.TAG, Strings.MSG_FAIL_STORAGE_CREATE, task.exception)
+                    throw DatabaseException(
+                        task.exception?.message ?: Strings.MSG_FAIL_STORAGE_CREATE
+                    )
                 }
+            }
     }
 
     /**
@@ -63,11 +66,14 @@ class FirebaseStorageService : IStorageService {
                 if (task.isSuccessful) {
                     val options = BitmapFactory.Options()
                     options.inMutable = true
-                    val image = BitmapFactory.decodeByteArray(task.result, 0, task.result.size, options)
+                    val image =
+                        BitmapFactory.decodeByteArray(task.result, 0, task.result.size, options)
                     callback.onCallback(image)
                 } else {
                     Log.w(ContentValues.TAG, Strings.MSG_FAIL_STORAGE_READ, task.exception)
-                    throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_STORAGE_READ)
+                    throw DatabaseException(
+                        task.exception?.message ?: Strings.MSG_FAIL_STORAGE_READ
+                    )
                 }
             }
     }
@@ -81,7 +87,7 @@ class FirebaseStorageService : IStorageService {
     override fun updateFile(filePath: String, fileStream: InputStream) {
         try {
             this.deleteFile(filePath)
-            this.createFile(filePath, fileStream, object : StorageCallback{
+            this.createFile(filePath, fileStream, object : StorageCallback {
                 override fun onCallback(image: Bitmap?) {
                     TODO("Not yet implemented")
                 }
@@ -102,6 +108,36 @@ class FirebaseStorageService : IStorageService {
             .delete()
             .addOnFailureListener {
                 throw StorageException(Strings.MSG_FAIL_STORAGE_DELETE)
+            }
+    }
+
+    /**
+     * List the files in the storage service through the specified [folderPath].
+     *
+     * @param folderPath The path in the storage service.
+     */
+    override fun listFolder(
+        folderPath: String,
+        callback: GenericCallback
+    ): Task<ListResult> {
+
+        val images = ArrayList<String>()
+
+        return this.storage
+            .getReference(folderPath)
+            .listAll()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    for (document in task.result.items) {
+                        images.add(document.path)
+                    }
+                    callback.onCallback(images)
+                } else {
+                    Log.w(ContentValues.TAG, Strings.MSG_FAIL_STORAGE_READ, task.exception)
+                    throw DatabaseException(
+                        task.exception?.message ?: Strings.MSG_FAIL_STORAGE_READ
+                    )
+                }
             }
     }
 }

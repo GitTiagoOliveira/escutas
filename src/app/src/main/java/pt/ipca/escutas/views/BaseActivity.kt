@@ -13,11 +13,7 @@ import pt.ipca.escutas.controllers.ProfileController
 import pt.ipca.escutas.models.User
 import pt.ipca.escutas.services.callbacks.StorageCallback
 import pt.ipca.escutas.services.callbacks.UserCallback
-import pt.ipca.escutas.views.fragments.CalendarFragment
-import pt.ipca.escutas.views.fragments.GalleryFragment
-import pt.ipca.escutas.views.fragments.MapFragment
-import pt.ipca.escutas.views.fragments.NewsFeedFragment
-import java.io.ByteArrayOutputStream
+import pt.ipca.escutas.views.fragments.*
 import java.util.*
 
 /**
@@ -43,31 +39,32 @@ open class BaseActivity : AppCompatActivity() {
     /**
      * The navigation menu item listener.
      */
-    private val onNavigationMenuItemListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_newsfeed -> {
-                this.toolbar.setTitle(R.string.menu_bottom_navigation_news_feed)
-                openFragment(NewsFeedFragment.getInstance())
-                return@OnNavigationItemSelectedListener true
+    private val onNavigationMenuItemListener =
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_newsfeed -> {
+                    this.toolbar.setTitle(R.string.menu_bottom_navigation_news_feed)
+                    openFragment(NewsFeedFragment.getInstance())
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_map -> {
+                    this.toolbar.setTitle(R.string.menu_bottom_navigation_map)
+                    openFragment(MapFragment.getInstance())
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_calendar -> {
+                    this.toolbar.setTitle(R.string.menu_bottom_navigation_calendar)
+                    openFragment(CalendarFragment.getInstance())
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_gallery -> {
+                    this.toolbar.setTitle(R.string.menu_bottom_navigation_gallery)
+                    openFragment(GalleryFeedFragment.getInstance())
+                    return@OnNavigationItemSelectedListener true
+                }
             }
-            R.id.navigation_map -> {
-                this.toolbar.setTitle(R.string.menu_bottom_navigation_map)
-                openFragment(MapFragment.getInstance())
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_calendar -> {
-                this.toolbar.setTitle(R.string.menu_bottom_navigation_calendar)
-                openFragment(CalendarFragment.getInstance())
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_gallery -> {
-                this.toolbar.setTitle(R.string.menu_bottom_navigation_gallery)
-                openFragment(GalleryFragment.getInstance())
-                return@OnNavigationItemSelectedListener true
-            }
+            false
         }
-        false
-    }
 
     /**
      * Opens the specified fragment.
@@ -94,8 +91,8 @@ open class BaseActivity : AppCompatActivity() {
 
         profileController.getUser(object : UserCallback {
             override fun onCallback(user: User) {
-                if(user.photo != null && user.photo != ""){
-                    profileController.getUserImage(user.photo, object : StorageCallback{
+                if (user.photo != null && user.photo != "") {
+                    profileController.getUserImage(user.photo, object : StorageCallback {
                         override fun onCallback(image: Bitmap?) {
                             if (image != null) {
                                 imageLayout.setImageBitmap(image)
