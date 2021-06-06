@@ -4,7 +4,8 @@
 
 ## Repository Structure
 
-- *docs*: includes project documentation - such as the [report](docs/report.md) and the presentation;
+- *bin*: contains the Android application binaries;
+- *docs*: includes project documentation - such as the report and the presentation;
 - *src*: incorporates the Android application source code.
 
 ## Working Group

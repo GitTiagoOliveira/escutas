@@ -5,6 +5,7 @@ package pt.ipca.escutas.resources
  */
 object Strings {
     const val MSG_FIELD_BLANK = "O campo não pode estar vazio."
+    const val MSG_DATE_INVALID = "A data de fim é menor que a data de início"
     const val MSG_INCORRECT_EMAIL = "O email está incorreto."
     const val MSG_INCORRECT_PASSWORDS = "As palavras-chave são diferentes."
     const val MSG_SMALL_PASSWORD = "A palavra-chave tem que ter pelo menos 6 caracteres."
@@ -35,4 +36,5 @@ object Strings {
     const val MSG_PASSWORD_REC_ACT_TITLE = "Recuperar Palavra-Chave"
     const val MSG_PERSONAL_AREA_ACT_TITLE = "Área Pessoal"
     const val MSG_REGISTRATION_AREA_ACT_TITLE = "Registo"
+    const val MSG_STORAGE_EVENT_LOCATION = "events"
 }
