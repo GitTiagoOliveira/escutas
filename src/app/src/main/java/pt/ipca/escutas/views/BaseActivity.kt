@@ -11,8 +11,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.ProfileController
 import pt.ipca.escutas.models.User
-import pt.ipca.escutas.services.callbacks.StorageCallback
-import pt.ipca.escutas.services.callbacks.UserCallback
+import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.views.fragments.CalendarFragment
 import pt.ipca.escutas.views.fragments.GalleryFragment
 import pt.ipca.escutas.views.fragments.MapFragment
@@ -89,20 +88,26 @@ open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
-
         val imageLayout = findViewById<CircleImageView>(R.id.toolbar_profile_avatar)
 
-        profileController.getUser(object : UserCallback {
-            override fun onCallback(user: User) {
-                if(user.photo != null && user.photo != ""){
-                    profileController.getUserImage(user.photo, object : StorageCallback{
-                        override fun onCallback(image: Bitmap?) {
-                            if (image != null) {
-                                imageLayout.setImageBitmap(image)
-                                profileController.saveImage(image)
-                            };
-                        }
-                    })
+        profileController.getUser(object : GenericCallback {
+            override fun onCallback(value: Any?) {
+                if (value != null) {
+                    var user = value as User
+                    if (user.photo != null && user.photo != "") {
+                        profileController.getUserImage(
+                            user.photo,
+                            object : GenericCallback {
+                                override fun onCallback(value: Any?) {
+                                    if (value != null) {
+                                        var image = value as Bitmap
+                                        imageLayout.setImageBitmap(image)
+                                        profileController.saveImage(image)
+                                    }
+                                }
+                            }
+                        )
+                    }
                 }
             }
         })
@@ -117,5 +122,6 @@ open class BaseActivity : AppCompatActivity() {
 
         setSupportActionBar(this.toolbar)
         this.navigationMenu.setOnNavigationItemSelectedListener(onNavigationMenuItemListener)
+        this.navigationMenu.selectedItemId = R.id.navigation_newsfeed
     }
 }

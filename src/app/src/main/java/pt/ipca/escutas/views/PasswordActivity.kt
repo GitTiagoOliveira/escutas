@@ -1,18 +1,18 @@
 package pt.ipca.escutas.views
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.LoginController
 import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.callbacks.AuthCallback
 
-class PalavraChave : AppCompatActivity() {
+class PasswordActivity : AppCompatActivity() {
 
     /**
      * The login controller.
@@ -31,13 +31,13 @@ class PalavraChave : AppCompatActivity() {
         // toolbar
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
 
-        toolbar.title = "Recuperar Palavra-Chave"
+        toolbar.title = Strings.MSG_PASSWORD_REC_ACT_TITLE
         setSupportActionBar(toolbar)
 
         // add back arrow to toolbar
-        if (getSupportActionBar() != null){
-            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar()?.setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+            getSupportActionBar()?.setDisplayShowHomeEnabled(true)
         }
 
         val submit = findViewById<Button>(R.id.Button_Recuperar)
@@ -51,7 +51,9 @@ class PalavraChave : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            loginController.resetPassword(email, object : AuthCallback {
+            loginController.resetPassword(
+                email,
+                object : AuthCallback {
                     override fun onCallback() {
                         finish()
                     }
@@ -59,8 +61,8 @@ class PalavraChave : AppCompatActivity() {
                     override fun onCallbackError(error: String) {
                         emailField.error = error
                     }
-            });
-
+                }
+            )
         }
     }
 

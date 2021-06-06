@@ -21,8 +21,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.MapController
 import pt.ipca.escutas.models.Group
-import pt.ipca.escutas.services.callbacks.GroupCallback
-import java.util.*
+import pt.ipca.escutas.services.callbacks.GenericCallback
 
 /**
  * Defines the map fragment.
@@ -68,13 +67,20 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val fragmap: SupportMapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         this.locationProvider = LocationServices.getFusedLocationProviderClient(this.context!!)
         fragmap.getMapAsync(this)
+        val applicationContext = activity!!.applicationContext
 
-        mapController.getStoredGroupsList(object : GroupCallback {
-            override fun onCallback(list: ArrayList<Group>) {
-                groups = list
-                onMapReady(map)
+        mapController.getStoredGroupsList(
+            applicationContext,
+            object : GenericCallback {
+                override fun onCallback(value: Any?) {
+                    if (value != null) {
+                        var list = value as ArrayList<Group>
+                        groups = list
+                        onMapReady(map)
+                    }
+                }
             }
-        })
+        )
 
         return view
     }
