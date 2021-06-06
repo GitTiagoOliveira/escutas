@@ -5,7 +5,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -47,7 +49,9 @@
         <activity android:name=".views.LoginActivity" />
         <activity android:name=".views.RegistrationActivity" />
         <activity android:name=".views.AboutActivity" />
-        <activity android:name=".views.PalavraChave"/>
+        <activity android:name=".views.NewsFeedActivity" />
+        <activity android:name=".views.NewsActivity" />
+        <activity android:name=".views.PasswordActivity"/>
         <activity android:name=".views.ProfileActivity"/>
         <activity
             android:name=".views.SplashActivity"

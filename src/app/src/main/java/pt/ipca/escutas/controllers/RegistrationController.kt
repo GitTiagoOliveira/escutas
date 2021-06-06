@@ -1,11 +1,9 @@
 package pt.ipca.escutas.controllers
 
-import android.graphics.Bitmap
 import pt.ipca.escutas.models.User
 import pt.ipca.escutas.resources.Strings.MSG_STORAGE_USER_LOCATION
 import pt.ipca.escutas.services.callbacks.AuthCallback
-import pt.ipca.escutas.services.callbacks.FirebaseDBCallback
-import pt.ipca.escutas.services.callbacks.StorageCallback
+import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.views.RegistrationActivity
 import java.io.InputStream
 
@@ -25,14 +23,13 @@ class RegistrationController : BaseController() {
         auth.addUser(email, password, callback)
     }
 
-
     /**
      * Upload image to the storage service.
      *
      * @param filePath
      * @param fileStream
      */
-    fun uploadImage(filePath: String, fileStream: InputStream, callback: StorageCallback) {
+    fun uploadImage(filePath: String, fileStream: InputStream, callback: GenericCallback) {
         storage.createFile(filePath, fileStream, callback)
     }
 
@@ -45,23 +42,30 @@ class RegistrationController : BaseController() {
      */
     fun saveUser(user: User, inputStream: InputStream?, authCallback: AuthCallback) {
         if (inputStream != null && user.photo.isNotEmpty()) {
-            uploadImage(user.photo,inputStream, object : StorageCallback{
-                override fun onCallback(image: Bitmap?) {
-                    database.addRecord(MSG_STORAGE_USER_LOCATION, user, object : FirebaseDBCallback{
-                        override fun onCallback(list: HashMap<String, Any>) {
-                            authCallback.onCallback()
-                        }
-
-                    })
+            uploadImage(
+                user.photo, inputStream,
+                object : GenericCallback {
+                    override fun onCallback(value: Any?) {
+                        database.addRecord(
+                            MSG_STORAGE_USER_LOCATION, user,
+                            object : GenericCallback {
+                                override fun onCallback(value: Any?) {
+                                    authCallback.onCallback()
+                                }
+                            }
+                        )
+                    }
                 }
-
-            })
+            )
         } else {
-            database.addRecord(MSG_STORAGE_USER_LOCATION, user, object : FirebaseDBCallback {
-                override fun onCallback(list: HashMap<String, Any>) {
-                    authCallback.onCallback()
+            database.addRecord(
+                MSG_STORAGE_USER_LOCATION, user,
+                object : GenericCallback {
+                    override fun onCallback(value: Any?) {
+                        authCallback.onCallback()
+                    }
                 }
-            })
+            )
         }
     }
 

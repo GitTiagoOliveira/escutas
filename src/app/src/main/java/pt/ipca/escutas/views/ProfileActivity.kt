@@ -13,10 +13,9 @@ import de.hdodenhof.circleimageview.CircleImageView
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.ProfileController
 import pt.ipca.escutas.models.User
-import pt.ipca.escutas.services.callbacks.StorageCallback
-import pt.ipca.escutas.services.callbacks.UserCallback
-import java.util.*
-
+import pt.ipca.escutas.resources.Strings
+import pt.ipca.escutas.services.callbacks.GenericCallback
+import java.util.Calendar
 
 /**
  * The profile controller.
@@ -37,7 +36,6 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-
         // toolbar
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
 
@@ -48,38 +46,49 @@ class ProfileActivity : AppCompatActivity() {
         val birthdayText = findViewById<TextView>(R.id.textView_birthdayUser)
         val groupText = findViewById<TextView>(R.id.textView_groupUser)
 
-        profileController.getUser(object : UserCallback {
-            override fun onCallback(user: User) {
-                if(user.photo != null && user.photo != ""){
-                    profileController.getUserImage(user.photo, object : StorageCallback {
-                        override fun onCallback(image: Bitmap?) {
-                            if (image != null) {
-                                imageLayout.setImageBitmap(image)
-                                profileController.saveImage(image)
-                                profileController.getUser(object: UserCallback{
-                                    override fun onCallback(user: User) {
-                                        nameText.setText(user.name)
-                                        emailText.setText(user.email)
-                                        var calendar = Calendar.getInstance()
-                                        calendar.time = user.birthday
-                                        birthdayText.setText(calendar[Calendar.DAY_OF_MONTH].toString() + "-" + calendar[Calendar.MONTH].toString() + "-"  + calendar[Calendar.YEAR])
-                                        groupText.setText(user.groupName)
+        profileController.getUser(object : GenericCallback {
+            override fun onCallback(value: Any?) {
+                if (value != null) {
+                    var user = value as User
+                    if (user.photo != null && user.photo != "") {
+                        profileController.getUserImage(
+                            user.photo,
+                            object : GenericCallback {
+                                override fun onCallback(value: Any?) {
+                                    if (value != null) {
+                                        var image = value as Bitmap
+                                        imageLayout.setImageBitmap(image)
+                                        profileController.saveImage(image)
+                                        profileController.getUser(object : GenericCallback {
+                                            override fun onCallback(value: Any?) {
+                                                if (value != null) {
+                                                    var user = value as User
+                                                    nameText.text = user.name
+                                                    emailText.text = user.email
+                                                    var calendar = Calendar.getInstance()
+                                                    calendar.time = user.birthday
+                                                    birthdayText.text =
+                                                        calendar[Calendar.DAY_OF_MONTH].toString() + "-" + calendar[Calendar.MONTH].toString() + "-" + calendar[Calendar.YEAR]
+                                                    groupText.text = user.groupName
+                                                }
+                                            }
+                                        })
                                     }
-                                })
-                            };
-                        }
-                    })
+                                }
+                            }
+                        )
+                    }
                 }
             }
         })
 
-        toolbar.title = "Área Pessoal"
+        toolbar.title = Strings.MSG_PERSONAL_AREA_ACT_TITLE
         setSupportActionBar(toolbar)
 
         // add back arrow to toolbar
-        if (getSupportActionBar() != null){
-            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar()?.setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+            getSupportActionBar()?.setDisplayShowHomeEnabled(true)
         }
 
         val logoutButton = findViewById<Button>(R.id.Button_logout)

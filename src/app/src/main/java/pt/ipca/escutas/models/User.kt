@@ -1,6 +1,5 @@
 package pt.ipca.escutas.models
 
-import android.provider.ContactsContract.CommonDataKinds.Photo
 import java.util.Date
 import java.util.UUID
 
@@ -32,7 +31,7 @@ data class User(
     /**
      * The user birthday.
      */
-    var birthday: Date,
+    var birthday: Date?,
 
     /**
      * The [Group] that the user belongs to.

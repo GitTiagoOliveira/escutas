@@ -8,7 +8,13 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.DatePicker
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import de.hdodenhof.circleimageview.CircleImageView
@@ -19,12 +25,11 @@ import pt.ipca.escutas.models.Group
 import pt.ipca.escutas.models.User
 import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.callbacks.AuthCallback
-import pt.ipca.escutas.services.callbacks.GroupCallback
+import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.utils.DateUtils.DateValue
 import pt.ipca.escutas.utils.StringUtils.isValidEmail
 import java.io.InputStream
-import java.util.*
-
+import java.util.UUID
 
 /**
  * Defines the registration activity.
@@ -66,29 +71,33 @@ class RegistrationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 
-        mapController.getStoredGroupsList(object : GroupCallback {
-            override fun onCallback(list: ArrayList<Group>) {
-                var groupNameList: MutableList<String> = arrayOf("Nenhum").toMutableList()
-                for(group in list){
-                    groupNameList.add(group.name)
-                }
+        mapController.getStoredGroupsList(
+            applicationContext,
+            object : GenericCallback {
+                override fun onCallback(value: Any?) {
+                    var groupNameList: MutableList<String> = arrayOf("Nenhum").toMutableList()
+                    var list = value as ArrayList<Group>
+                    for (group in list) {
+                        groupNameList.add(group.name)
+                    }
 
-                refreshGroupList(groupNameList.toTypedArray());
+                    refreshGroupList(groupNameList.toTypedArray())
+                }
             }
-        })
+        )
 
         var isCustom = intent.getBooleanExtra("isCustom", false)
 
         val registerButton = findViewById<Button>(R.id.Button_Register)
         registerButton.setOnClickListener {
-            if(isCustom){
+            if (isCustom) {
                 registerUserCustom()
             } else {
                 registerUser()
             }
         }
 
-        if(isCustom){
+        if (isCustom) {
             val emailLabel = findViewById<TextView>(R.id.textView_emailLabel)
             val emailField = findViewById<EditText>(R.id.editText_email)
             emailLabel.visibility = View.GONE
@@ -104,22 +113,20 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
         val uploadImage = findViewById<FrameLayout>(R.id.frameLayout_avatar)
-        uploadImage.setOnClickListener{
+        uploadImage.setOnClickListener {
             selectImageInAlbum()
         }
 
         // toolbar
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
-        toolbar.title = "Registo"
+        toolbar.title = Strings.MSG_REGISTRATION_AREA_ACT_TITLE
         setSupportActionBar(toolbar)
 
         // add back arrow to toolbar
-        if (getSupportActionBar() != null){
-            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar()?.setDisplayShowHomeEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+            getSupportActionBar()?.setDisplayShowHomeEnabled(true)
         }
-
-
     }
 
     /**
@@ -218,27 +225,33 @@ class RegistrationActivity : AppCompatActivity() {
             email,
             name,
             birthday,
-            group)
+            group
+        )
 
-        registrationController.addUser(user.email, password, object : AuthCallback {
+        registrationController.addUser(
+            user.email, password,
+            object : AuthCallback {
                 override fun onCallback() {
                     var inputStream = contentResolver.openInputStream(fileUri!!)
-                    registrationController.saveUser(user, inputStream, object : AuthCallback {
-                        override fun onCallback() {
-                            finish()
-                        }
+                    registrationController.saveUser(
+                        user, inputStream,
+                        object : AuthCallback {
+                            override fun onCallback() {
+                                finish()
+                            }
 
-                        override fun onCallbackError(error: String) {
-                            emailField.error = error
+                            override fun onCallbackError(error: String) {
+                                emailField.error = error
+                            }
                         }
-                    })
-
+                    )
                 }
 
-            override fun onCallbackError(error: String) {
-                emailField.error = error
+                override fun onCallbackError(error: String) {
+                    emailField.error = error
+                }
             }
-        })
+        )
     }
 
     /**
@@ -262,7 +275,6 @@ class RegistrationActivity : AppCompatActivity() {
         val groupSpinner = findViewById<Spinner>(R.id.editText_group)
         val group = groupSpinner.selectedItem.toString()
 
-
         var imagePath = ""
 
         if (fileUri != null) {
@@ -275,24 +287,26 @@ class RegistrationActivity : AppCompatActivity() {
             email,
             name,
             birthday,
-            group)
+            group
+        )
 
-
-        if(fileUri !== null) {
+        if (fileUri !== null) {
             inputStream = contentResolver.openInputStream(fileUri!!)
         }
 
+        registrationController.saveUser(
+            user, inputStream,
+            object : AuthCallback {
+                override fun onCallback() {
+                    val intent = Intent(this@RegistrationActivity, BaseActivity::class.java)
+                    startActivity(intent)
+                }
 
-        registrationController.saveUser(user, inputStream, object: AuthCallback{
-            override fun onCallback() {
-                val intent = Intent(this@RegistrationActivity, BaseActivity::class.java)
-                startActivity(intent)
+                override fun onCallbackError(error: String) {
+                    nameField.error = error
+                }
             }
-
-            override fun onCallbackError(error: String) {
-                nameField.error = error
-            }
-        })
+        )
     }
 
     /**
@@ -303,11 +317,11 @@ class RegistrationActivity : AppCompatActivity() {
      * @param data
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null && data.data != null) {
             fileUri = data.data!!
-    }
+        }
 
         val selectedImage: Uri = fileUri
         val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
@@ -317,7 +331,7 @@ class RegistrationActivity : AppCompatActivity() {
             filePathColumn, null, null, null
         )
 
-        if(cursor != null) {
+        if (cursor != null) {
             cursor.moveToFirst()
 
             val columnIndex: Int = cursor.getColumnIndex(filePathColumn[0])
