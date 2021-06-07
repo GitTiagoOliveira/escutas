@@ -15,6 +15,7 @@ import pt.ipca.escutas.controllers.NewsFeedController
 import pt.ipca.escutas.models.Event
 import pt.ipca.escutas.models.News
 import pt.ipca.escutas.services.callbacks.EventCallBack
+import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.services.callbacks.NewsCallBack
 import pt.ipca.escutas.views.adapters.CalendarAdapter
 import pt.ipca.escutas.views.adapters.NewsFeedAdapter
@@ -41,14 +42,20 @@ class NewsFeedFragment : Fragment(), OnNewItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        newsfeedController.getStoredNewsList(object : NewsCallBack {
-            override fun onCallback(list: ArrayList<News>) {
-                news = list
+        val applicationContext = activity!!.applicationContext
 
-                initRecyclerView()
-
-            }
-        })
+        newsfeedController.getStoredNewsList(
+                applicationContext,
+                object : GenericCallback {
+                    override fun onCallback(value: Any?) {
+                        if (value != null) {
+                            var list = value as ArrayList<News>
+                            news = list
+                            initRecyclerView()
+                        }
+                    }
+                }
+        )
     }
 
     private fun initRecyclerView(){
