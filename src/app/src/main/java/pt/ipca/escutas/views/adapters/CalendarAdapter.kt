@@ -15,7 +15,7 @@ import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.CalendarController
 import pt.ipca.escutas.models.Event
 import pt.ipca.escutas.models.News
-import pt.ipca.escutas.services.callbacks.StorageCallback
+import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.utils.DateUtils
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -46,8 +46,9 @@ class CalendarAdapter(var items: List<Event>) : RecyclerView.Adapter<CalendarAda
             eventMonth.setText(month)
 
             if(events.attachment != null && events.attachment != ""){
-                calendarController.getEventImage(events.attachment, object : StorageCallback {
-                    override fun onCallback(image: Bitmap?) {
+                calendarController.getEventImage(events.attachment, object : GenericCallback {
+                    override fun onCallback(value: Any?) {
+                        var image = value as Bitmap
                         if (image != null) {
                             eventImage.setImageBitmap(image)
                         };
