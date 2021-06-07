@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_news.*
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.NewsFeedController
-import pt.ipca.escutas.services.callbacks.StorageCallback
+import pt.ipca.escutas.services.callbacks.GenericCallback
 
 
 /**
@@ -53,8 +53,9 @@ class NewsFragment : Fragment() {
 
 
         if(tImage != null && tImage != ""){
-            newsfeedController.getNewsImage(tImage, object : StorageCallback {
-                override fun onCallback(image: Bitmap?) {
+            newsfeedController.getNewsImage(tImage, object : GenericCallback {
+                override fun onCallback(value: Any?) {
+                    var image = value as Bitmap
                     if (image != null) {
                         imageView.setImageBitmap(image)
                     };

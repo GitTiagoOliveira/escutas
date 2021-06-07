@@ -282,6 +282,8 @@ class AddEventFragment : Fragment() {
             }
         })
 
+
+
         val fragment = CalendarFragment()
         val fragmentManager = activity!!.supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
