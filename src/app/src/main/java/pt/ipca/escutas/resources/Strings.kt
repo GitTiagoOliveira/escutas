@@ -37,4 +37,5 @@ object Strings {
     const val MSG_PERSONAL_AREA_ACT_TITLE = "Área Pessoal"
     const val MSG_REGISTRATION_AREA_ACT_TITLE = "Registo"
     const val MSG_STORAGE_EVENT_LOCATION = "events"
+    const val MSG_STORAGE_NEWS_LOCATION = "news"
 }

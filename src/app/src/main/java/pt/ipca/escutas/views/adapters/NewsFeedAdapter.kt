@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.event_recyclerview.view.*
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.NewsFeedController
 import pt.ipca.escutas.models.News
-import pt.ipca.escutas.services.callbacks.StorageCallback
+import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.views.fragments.NewsFragment
 
 
@@ -41,8 +41,9 @@ class NewsFeedAdapter(var items: List<News>, var clickListener: OnNewItemClickLi
             newsDetails.setText(item.body)
 
             if(item.image != null && item.image != ""){
-                newsfeedController.getNewsImage(item.image, object : StorageCallback {
-                    override fun onCallback(image: Bitmap?) {
+                newsfeedController.getNewsImage(item.image, object : GenericCallback {
+                    override fun onCallback(value: Any?) {
+                        var image = value as Bitmap
                         if (image != null) {
                             newsImage.setImageBitmap(image)
                         };
@@ -86,7 +87,7 @@ class NewsFeedAdapter(var items: List<News>, var clickListener: OnNewItemClickLi
                 val activity = v!!.context as AppCompatActivity
                 val fragmentManager = activity!!.supportFragmentManager
                 val fragmentTransaction = fragmentManager.beginTransaction()
-                fragmentTransaction.replace(R.id.container, fragment)
+                fragmentTransaction.add(R.id.container, fragment)
                 fragmentTransaction.addToBackStack(null)
                 fragmentTransaction.commit()
             }

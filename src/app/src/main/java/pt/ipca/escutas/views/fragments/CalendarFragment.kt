@@ -18,7 +18,7 @@ import pt.ipca.escutas.controllers.MapController
 import pt.ipca.escutas.models.Event
 import pt.ipca.escutas.models.Group
 import pt.ipca.escutas.services.callbacks.EventCallBack
-import pt.ipca.escutas.services.callbacks.GroupCallback
+import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.views.adapters.CalendarAdapter
 import java.util.ArrayList
 
@@ -43,17 +43,21 @@ class CalendarFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        calendarController.getStoredEventsList(object : EventCallBack {
-            override fun onCallback(list: ArrayList<Event>) {
-                events = list
 
-                initRecyclerView()
-            }
+        val applicationContext = activity!!.applicationContext
 
-            override fun onCallback() {
-                // do nothing
-            }
-        })
+        calendarController.getStoredEventsList(
+                applicationContext,
+                object : GenericCallback {
+                    override fun onCallback(value: Any?) {
+                        if (value != null) {
+                            var list = value as ArrayList<Event>
+                            events = list
+                            initRecyclerView()
+                        }
+                    }
+                }
+        )
 
     }
 
@@ -108,7 +112,7 @@ class CalendarFragment : Fragment() {
             val fragment = AddEventFragment()
             val fragmentManager = activity!!.supportFragmentManager
             val fragmentTransaction = fragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.container, fragment)
+            fragmentTransaction.add(R.id.container, fragment)
             fragmentTransaction.addToBackStack(null)
             fragmentTransaction.commit()
         }

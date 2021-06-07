@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.RegistrationActivity">
+    tools:context=".views.RegistrationActivity"
+    android:background="@color/white">
 
 
     <ScrollView
@@ -31,6 +32,7 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/event_name"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView_userImage" />
@@ -55,6 +57,7 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/event_description"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText_addEvent" />
@@ -80,6 +83,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/begin_date"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText_descEvent" />
@@ -88,10 +92,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="55dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="50dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="50dp">
 
 
                 <EditText
@@ -119,6 +121,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/end_date"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView_beginDate" />
@@ -127,7 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="55dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginEnd="50dp">
 
 
@@ -151,12 +154,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="35dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="50dp"
-                android:orientation="horizontal"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:orientation="horizontal">
 
 
                 <LinearLayout
@@ -174,6 +175,7 @@
                         android:inputType="text"
                         android:text="@string/begin_hour"
                         android:textStyle="bold"
+                        android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView_endDate" />
@@ -185,7 +187,7 @@
 
                         <EditText
                             android:id="@+id/editText_beginHour"
-                            android:layout_width="70dp"
+                            android:layout_width="90dp"
                             android:layout_height="30dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="3dp"
@@ -206,7 +208,7 @@
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="60dp"
+                    android:layout_marginStart="30dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -218,6 +220,7 @@
                         android:layout_marginTop="0dp"
                         android:text="@string/end_hour"
                         android:textStyle="bold"
+                        android:textColor="@color/black"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView_beginHour" />
@@ -229,7 +232,7 @@
 
                         <EditText
                             android:id="@+id/editText_endHour"
-                            android:layout_width="70dp"
+                            android:layout_width="90dp"
                             android:layout_height="30dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="3dp"
@@ -255,17 +258,18 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/add_anex"
                 android:textSize="14sp"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText_endHour" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="48dp"
                 android:layout_marginBottom="15dp"
                 android:orientation="horizontal">
 
@@ -311,6 +315,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="7dp"
                     android:layout_marginEnd="5dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:layout_toEndOf="@+id/checkbox_share"
                     android:text="@string/share_all" />
 

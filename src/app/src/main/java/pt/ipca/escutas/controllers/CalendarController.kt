@@ -1,5 +1,7 @@
 package pt.ipca.escutas.controllers
 
+import android.content.ContentValues
+import android.content.Context
 import android.graphics.Bitmap
 import android.media.Image
 import android.view.inputmethod.InputMethodSession
@@ -13,7 +15,10 @@ import pt.ipca.escutas.services.callbacks.EventCallBack
 import pt.ipca.escutas.views.fragments.CalendarFragment
 import java.io.InputStream
 import com.google.firebase.Timestamp
+import pt.ipca.escutas.models.News
 import pt.ipca.escutas.resources.Strings
+import pt.ipca.escutas.services.SqliteDatabaseService
+import pt.ipca.escutas.utils.NetworkUtils
 import java.util.*
 
 /**
@@ -29,42 +34,58 @@ class CalendarController : BaseController() {
      *
      * @return A list containing the stored events.
      */
-    fun getStoredEventsList(callback: EventCallBack) {
+    fun getStoredEventsList(context: Context, callback: GenericCallback) {
 
         if (eventList.size > 0) {
             callback.onCallback(eventList)
         } else {
-            prepareEvents(callback)
+            prepareEvents(context, callback)
         }
     }
 
-    private fun prepareEvents(callback: EventCallBack) {
+    private fun prepareEvents(context: Context, callback: GenericCallback) {
 
-        database.getAllRecords(
-                "events",
-                object : FirebaseDBCallback {
+        var sqliteService = SqliteDatabaseService(context)
 
-                    override fun onCallback(list: HashMap<String, Any>) {
+        if (NetworkUtils.isNetworkAvailable(context) && (NetworkUtils.isWifiOn(context) || NetworkUtils.checkMobileDataIsEnabled(context))) {
+            database.getAllRecords(
+                    Strings.MSG_STORAGE_EVENT_LOCATION,
+                    object : GenericCallback {
+                        override fun onCallback(value: Any?) {
 
-                        list.forEach { (key, value) ->
+                            var list = value as HashMap<String, Any>
+                            list.forEach { (key, value) ->
 
-                            val values = value as HashMap<String, Any>
-                            val event = Event(
-                                    UUID.randomUUID(),
-                                    values["name"] as String,
-                                    values["description"] as String,
-                                    (values["startDate"] as Timestamp).toDate(),
-                                    (values["endDate"] as Timestamp).toDate(),
-                                    values["attachment"] as String,
-                                    values["shared"] as Boolean,
-                            )
+                                val values = value as HashMap<String, Any>
+                                val event = Event(
+                                        UUID.randomUUID(),
+                                        values["name"] as String,
+                                        values["description"] as String,
+                                        (values["startDate"] as Timestamp).toDate(),
+                                        (values["endDate"] as Timestamp).toDate(),
+                                        values["attachment"] as String,
+                                        values["shared"] as Boolean,
+                                )
 
-                            eventList.add(event)
+                                var cv = ContentValues()
+                                cv.put("name", event.name)
+                                cv.put("description", event.description)
+                                cv.put("startDate", event.startDate.toString())
+                                cv.put("endDate", event.endDate.toString())
+                                cv.put("attachment", event.attachment)
+                                cv.put("shared", event.Shared)
+                                sqliteService.addRecord(Strings.MSG_STORAGE_EVENT_LOCATION, cv, callback)
+
+                                eventList.add(event)
+                            }
+                            callback.onCallback(eventList)
                         }
-                        callback.onCallback(eventList)
                     }
-                }
-        )
+            )
+        } else {
+            // Retrieve from cache
+            sqliteService.getAllRecords(Strings.MSG_STORAGE_EVENT_LOCATION, callback)
+        }
     }
 
 
@@ -74,29 +95,41 @@ class CalendarController : BaseController() {
      * @param filePath
      * @param fileStream
      */
-    fun uploadImage(filePath: String, fileStream: InputStream, callback: StorageCallback) {
+    fun uploadImage(filePath: String, fileStream: InputStream, callback: GenericCallback) {
         storage.createFile(filePath, fileStream, callback)
     }
 
-
+    /**
+     * Adds an event to the calendar
+     *
+     * @param event
+     * @param inputStream
+     * @param eventCallback
+     */
     fun addEvent(event: Event, inputStream: InputStream?, eventCallback: EventCallBack) {
         if (inputStream != null && event.attachment.isNotEmpty()) {
-            uploadImage(event.attachment, inputStream, object : StorageCallback {
-                override fun onCallback(image: Bitmap?) {
-                    database.addRecord(Strings.MSG_STORAGE_EVENT_LOCATION, event, object : FirebaseDBCallback {
-                        override fun onCallback(list: HashMap<String, Any>) {
-                            eventCallback.onCallback(eventList)
-                        }
+            uploadImage(
+                    event.attachment, inputStream,
+                    object : GenericCallback {
+                        override fun onCallback(value: Any?) {
+                            database.addRecord(
+                                    Strings.MSG_STORAGE_EVENT_LOCATION, event,
+                                    object : GenericCallback {
+                                        override fun onCallback(value: Any?) {
+                                            eventCallback.onCallback()
+                                        }
 
-                    })
+                            })
                 }
 
             })
         } else {
-            database.addRecord(Strings.MSG_STORAGE_EVENT_LOCATION, event, object : FirebaseDBCallback {
-                override fun onCallback(list: HashMap<String, Any>) {
-                    eventCallback.onCallback(eventList)
-                }
+            database.addRecord(
+                    Strings.MSG_STORAGE_EVENT_LOCATION, event,
+                    object : GenericCallback {
+                        override fun onCallback(lvalue: Any?) {
+                            eventCallback.onCallback()
+                        }
             })
         }
     }
@@ -107,7 +140,7 @@ class CalendarController : BaseController() {
      * @param imagePath
      * @param callback
      */
-    fun getEventImage(imagePath: String, callback: StorageCallback) {
+    fun getEventImage(imagePath: String, callback: GenericCallback) {
         storage.readFile(imagePath, callback)
     }
 
