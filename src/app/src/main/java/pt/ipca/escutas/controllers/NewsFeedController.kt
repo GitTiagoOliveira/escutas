@@ -2,15 +2,11 @@ package pt.ipca.escutas.controllers
 
 import android.content.ContentValues
 import android.content.Context
-import android.media.Image
-import pt.ipca.escutas.models.Event
-import pt.ipca.escutas.models.Group
 import pt.ipca.escutas.models.News
 import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.SqliteDatabaseService
 import pt.ipca.escutas.services.callbacks.*
 import pt.ipca.escutas.utils.NetworkUtils
-import pt.ipca.escutas.views.fragments.CalendarFragment
 import java.util.*
 
 /**
@@ -41,34 +37,34 @@ class NewsFeedController : BaseController() {
 
         if (NetworkUtils.isNetworkAvailable(context) && (NetworkUtils.isWifiOn(context) || NetworkUtils.checkMobileDataIsEnabled(context))) {
             database.getAllRecords(
-                    Strings.MSG_STORAGE_NEWS_LOCATION,
-                    object : GenericCallback {
-                        override fun onCallback(value: Any?) {
+                Strings.MSG_STORAGE_NEWS_LOCATION,
+                object : GenericCallback {
+                    override fun onCallback(value: Any?) {
 
-                            var list = value as HashMap<String, Any>
-                            list.forEach { (key, value) ->
+                        var list = value as HashMap<String, Any>
+                        list.forEach { (key, value) ->
 
-                                val values = value as HashMap<String, Any>
-                                val news = News(
-                                        UUID.randomUUID(),
-                                        values["title"] as String,
-                                        values["body"] as String,
-                                        values["details"] as String,
-                                        values["image"] as String
-                                )
+                            val values = value as HashMap<String, Any>
+                            val news = News(
+                                UUID.randomUUID(),
+                                values["title"] as String,
+                                values["body"] as String,
+                                values["details"] as String,
+                                values["image"] as String
+                            )
 
-                                var cv = ContentValues()
-                                cv.put("title", news.title)
-                                cv.put("body", news.body)
-                                cv.put("details", news.details)
-                                cv.put("image", news.image)
-                                sqliteService.addRecord(Strings.MSG_STORAGE_NEWS_LOCATION, cv, callback)
+                            var cv = ContentValues()
+                            cv.put("title", news.title)
+                            cv.put("body", news.body)
+                            cv.put("details", news.details)
+                            cv.put("image", news.image)
+                            sqliteService.addRecord(Strings.MSG_STORAGE_NEWS_LOCATION, cv, callback)
 
-                                newsList.add(news)
-                            }
-                            callback.onCallback(newsList)
+                            newsList.add(news)
                         }
+                        callback.onCallback(newsList)
                     }
+                }
             )
         } else {
             // Retrieve from cache

@@ -1,7 +1,6 @@
 package pt.ipca.escutas.views.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +13,7 @@ import kotlinx.android.synthetic.main.fragment_news_feed.*
 import kotlinx.android.synthetic.main.fragment_news_feed.recyclerView
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.CalendarController
-import pt.ipca.escutas.controllers.MapController
 import pt.ipca.escutas.models.Event
-import pt.ipca.escutas.models.Group
-import pt.ipca.escutas.services.callbacks.EventCallBack
 import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.views.adapters.CalendarAdapter
 import java.util.ArrayList
@@ -43,32 +39,28 @@ class CalendarFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         val applicationContext = activity!!.applicationContext
 
         calendarController.getStoredEventsList(
-                applicationContext,
-                object : GenericCallback {
-                    override fun onCallback(value: Any?) {
-                        if (value != null) {
-                            var list = value as ArrayList<Event>
-                            events = list
-                            initRecyclerView()
-                        }
+            applicationContext,
+            object : GenericCallback {
+                override fun onCallback(value: Any?) {
+                    if (value != null) {
+                        var list = value as ArrayList<Event>
+                        events = list
+                        initRecyclerView()
                     }
                 }
+            }
         )
-
     }
 
-
-    private fun initRecyclerView(){
+    private fun initRecyclerView() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this.context)
             calendarAdapter = CalendarAdapter(events)
             adapter = calendarAdapter
         }
-
     }
 
     private var layoutManager: RecyclerView.LayoutManager? = null
@@ -80,9 +72,7 @@ class CalendarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-
         // Inflate the layout for this fragment
-
 
         return inflater.inflate(R.layout.fragment_calendar, container, false)
     }
@@ -99,13 +89,13 @@ class CalendarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //layoutManager = LinearLayoutManager(this.context)
+        // layoutManager = LinearLayoutManager(this.context)
 
-        //val recycler: RecyclerView = view!!.findViewById(R.id.recyclerView)
-        //recycler.layoutManager = layoutManager
+        // val recycler: RecyclerView = view!!.findViewById(R.id.recyclerView)
+        // recycler.layoutManager = layoutManager
 
-        //adapter = CalendarAdapter()
-        //recyclerView.adapter = adapter
+        // adapter = CalendarAdapter()
+        // recyclerView.adapter = adapter
 
         val button: Button = view!!.findViewById(R.id.button_add)
         button.setOnClickListener {
@@ -117,5 +107,4 @@ class CalendarFragment : Fragment() {
             fragmentTransaction.commit()
         }
     }
-
 }
