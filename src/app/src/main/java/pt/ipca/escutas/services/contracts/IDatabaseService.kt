@@ -31,7 +31,7 @@ interface IDatabaseService {
      * @param model The model represents the collection.
      * @param documentId The documentId represents the document identifier.
      */
-    fun deleteRecord(model: String, documentId: String)
+    fun deleteRecord(model: String, documentId: String?)
 
     /**
      * Retrieves all records of a specific collection [model].

@@ -49,6 +49,7 @@ class AddEventFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onCreateView(
@@ -63,11 +64,6 @@ class AddEventFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val button: ImageButton = view!!.findViewById(R.id.back_button)
-        button.setOnClickListener {
-            fragmentManager?.popBackStack()
-        }
 
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)

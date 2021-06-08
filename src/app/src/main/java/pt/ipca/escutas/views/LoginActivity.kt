@@ -273,7 +273,6 @@ class LoginActivity : AppCompatActivity() {
                     }
                 } catch (e: ApiException) {
                     Log.w(ContentValues.TAG, Strings.MSG_FAIL_USER_LOGIN, e.cause)
-                    throw AuthException(e?.message ?: Strings.MSG_FAIL_USER_LOGIN)
                 }
             }
         }

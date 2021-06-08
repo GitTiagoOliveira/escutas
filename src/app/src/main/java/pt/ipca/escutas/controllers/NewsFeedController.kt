@@ -41,6 +41,8 @@ class NewsFeedController : BaseController() {
                 object : GenericCallback {
                     override fun onCallback(value: Any?) {
 
+                        sqliteService.deleteRecord(Strings.MSG_STORAGE_NEWS_LOCATION, null)
+
                         var list = value as HashMap<String, Any>
                         list.forEach { (key, value) ->
 

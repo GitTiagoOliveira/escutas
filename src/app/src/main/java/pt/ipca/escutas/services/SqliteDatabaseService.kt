@@ -115,7 +115,7 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
      * @param model The model represents the collection.
      * @param whereClause The whereClause represents the record filter.
      */
-    override fun deleteRecord(model: String, whereClause: String) {
+    override fun deleteRecord(model: String, whereClause: String?) {
         val db = this.readableDatabase
         val success = db.delete(model, whereClause, null)
         db.close()
@@ -277,6 +277,14 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
      * @param output
      */
     fun getEventRecord(cursor: Cursor, output: ArrayList<Any>) {
+
+        "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "name VARCHAR(256)," +
+            "description VARCHAR(256)," +
+            "startDate TEXT," +
+            "endDate TEXT," +
+            "attachment VARCHAR(256)," +
+            "shared INTEGER)"
         var name = cursor.getString((cursor.getColumnIndex("name")))
         var description = cursor.getString((cursor.getColumnIndex("description")))
 

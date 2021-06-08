@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_news.*
 import pt.ipca.escutas.R
@@ -22,6 +22,7 @@ class NewsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onCreateView(
@@ -65,10 +66,5 @@ class NewsFragment : Fragment() {
         textViewDesc.text = tDesc
         textViewTitle.text = tTitle
         textViewDetails.text = tDetails
-
-        val button: ImageButton = view!!.findViewById(R.id.back_button)
-        button.setOnClickListener {
-            fragmentManager?.popBackStack()
-        }
     }
 }
