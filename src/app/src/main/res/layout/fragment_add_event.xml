@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.RegistrationActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context=".views.RegistrationActivity">
 
 
     <ScrollView
@@ -31,8 +31,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:text="@string/event_name"
-                android:textStyle="bold"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView_userImage" />
@@ -43,8 +43,8 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="3dp"
-                android:inputType="text"
                 android:background="@drawable/shape_edittext"
+                android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView_emailLabel" />
@@ -56,8 +56,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:text="@string/event_description"
-                android:textStyle="bold"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText_addEvent" />
@@ -82,8 +82,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:text="@string/begin_date"
-                android:textStyle="bold"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText_descEvent" />
@@ -104,6 +104,7 @@
                     android:layout_marginTop="3dp"
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/shape_edittext"
+                    android:focusable="false"
                     android:inputType="date"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -120,8 +121,8 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/end_date"
-                android:textStyle="bold"
                 android:textColor="@color/black"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView_beginDate" />
@@ -142,6 +143,7 @@
                     android:layout_marginTop="3dp"
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/shape_edittext"
+                    android:focusable="false"
                     android:inputType="date"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -174,8 +176,8 @@
                         android:layout_marginTop="0dp"
                         android:inputType="text"
                         android:text="@string/begin_hour"
-                        android:textStyle="bold"
                         android:textColor="@color/black"
+                        android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView_endDate" />
@@ -193,6 +195,7 @@
                             android:layout_marginTop="3dp"
                             android:layout_marginBottom="5dp"
                             android:background="@drawable/shape_edittext"
+                            android:focusable="false"
                             android:inputType="text"
                             android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -219,8 +222,8 @@
                         android:layout_marginStart="0dp"
                         android:layout_marginTop="0dp"
                         android:text="@string/end_hour"
-                        android:textStyle="bold"
                         android:textColor="@color/black"
+                        android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView_beginHour" />
@@ -238,6 +241,7 @@
                             android:layout_marginTop="3dp"
                             android:layout_marginBottom="5dp"
                             android:background="@drawable/shape_edittext"
+                            android:focusable="false"
                             android:inputType="text"
                             android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -260,9 +264,9 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:text="@string/add_anex"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText_endHour" />
@@ -281,11 +285,18 @@
                     android:layout_marginStart="55dp"
                     android:layout_marginTop="3dp"
                     android:background="@drawable/shape_edittext"
+                    android:focusable="false"
                     android:inputType="text"
                     android:padding="2dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView_addAnexo" />
+
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/add_file"
+                    android:src="@drawable/ic_add_attachment" />
 
 
             </LinearLayout>
@@ -315,10 +326,10 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="7dp"
                     android:layout_marginEnd="5dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
                     android:layout_toEndOf="@+id/checkbox_share"
-                    android:text="@string/share_all" />
+                    android:text="@string/share_all"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
