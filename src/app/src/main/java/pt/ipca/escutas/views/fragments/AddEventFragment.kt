@@ -131,7 +131,7 @@ class AddEventFragment : Fragment() {
             TimePickerDialog(this.context, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
         }
 
-        editText_group.setOnClickListener {
+        add_file.setOnClickListener {
             val intent = Intent().setType("*/*").setAction(Intent.ACTION_GET_CONTENT)
 
             startActivityForResult(Intent.createChooser(intent, "Select a file"), 111)
@@ -155,6 +155,18 @@ class AddEventFragment : Fragment() {
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == AppCompatActivity.RESULT_OK && data != null && data.data != null) {
             fileUri = data.data!!
+
+            if (fileUri != null) {
+                inputStream = activity?.contentResolver?.openInputStream(fileUri!!)
+            }
+
+            var imagePath = ""
+
+            if (inputStream != null) {
+                imagePath = "" + UUID.randomUUID() + ".png"
+            }
+
+            editText_group.setText(imagePath)
         }
 
         val selectedImage: Uri = fileUri!!

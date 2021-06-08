@@ -66,7 +66,7 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "name VARCHAR(256)," +
                 "description VARCHAR(256)," +
-                "beginDate TEXT," +
+                "startDate TEXT," +
                 "endDate TEXT," +
                 "attachment VARCHAR(256)," +
                 "shared INTEGER)"
@@ -285,15 +285,15 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
         var description = cursor.getString((cursor.getColumnIndex("description")))
 
 
-        var beginDate = cursor.getString((cursor.getColumnIndex("beginDate")))
+        var startDate = cursor.getString((cursor.getColumnIndex("startDate")))
         var endDate = cursor.getString((cursor.getColumnIndex("endDate")))
         var attachment = cursor.getString((cursor.getColumnIndex("attachment")))
         var shared = cursor.getInt((cursor.getColumnIndex("shared")))
         var isShared = false
 
 
-        var dateB = SimpleDateFormat("dd-MM-yyyy").parse(beginDate)
-        var dateE = SimpleDateFormat("dd-MM-yyyy").parse(beginDate)
+        var dateB = SimpleDateFormat("dd-MM-yyyy").parse(startDate)
+        var dateE = SimpleDateFormat("dd-MM-yyyy").parse(endDate)
 
         if (shared == 1){
             isShared = true
