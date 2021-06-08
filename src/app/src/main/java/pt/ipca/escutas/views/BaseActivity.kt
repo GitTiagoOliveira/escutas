@@ -3,6 +3,7 @@ package pt.ipca.escutas.views
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -16,7 +17,6 @@ import pt.ipca.escutas.views.fragments.CalendarFragment
 import pt.ipca.escutas.views.fragments.GalleryFragment
 import pt.ipca.escutas.views.fragments.MapFragment
 import pt.ipca.escutas.views.fragments.NewsFeedFragment
-import java.io.ByteArrayOutputStream
 import java.util.*
 
 /**
@@ -123,5 +123,22 @@ open class BaseActivity : AppCompatActivity() {
         setSupportActionBar(this.toolbar)
         this.navigationMenu.setOnNavigationItemSelectedListener(onNavigationMenuItemListener)
         this.navigationMenu.selectedItemId = R.id.navigation_newsfeed
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            val countFrag = supportFragmentManager.backStackEntryCount
+            if (countFrag > 0) {
+                supportFragmentManager.popBackStack()
+                if (supportFragmentManager.fragments.isNotEmpty()) {
+                    (supportFragmentManager.fragments[supportFragmentManager.fragments.size - 1].activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                }
+            } else {
+                super.onBackPressed()
+            }
+            return true
+        } else {
+            return super.onOptionsItemSelected(item)
+        }
     }
 }

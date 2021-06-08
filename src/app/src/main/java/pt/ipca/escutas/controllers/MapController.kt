@@ -50,6 +50,8 @@ class MapController : BaseController() {
                 object : GenericCallback {
                     override fun onCallback(value: Any?) {
 
+                        sqliteService.deleteRecord(MSG_STORAGE_GROUP_LOCATION, null)
+
                         var list = value as HashMap<String, Any>
                         list.forEach { (key, value) ->
 
