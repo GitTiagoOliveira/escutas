@@ -1,30 +1,21 @@
 package pt.ipca.escutas.views.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_news_feed.*
 import pt.ipca.escutas.R
-import pt.ipca.escutas.controllers.CalendarController
 import pt.ipca.escutas.controllers.NewsFeedController
-import pt.ipca.escutas.models.Event
 import pt.ipca.escutas.models.News
-import pt.ipca.escutas.resources.Strings
-import pt.ipca.escutas.services.callbacks.EventCallBack
 import pt.ipca.escutas.services.callbacks.GenericCallback
-import pt.ipca.escutas.services.callbacks.NewsCallBack
-import pt.ipca.escutas.views.adapters.CalendarAdapter
 import pt.ipca.escutas.views.adapters.NewsFeedAdapter
 import pt.ipca.escutas.views.adapters.OnNewItemClickListener
 import java.util.ArrayList
-
 
 /**
  * A simple [Fragment] subclass.
@@ -33,7 +24,6 @@ import java.util.ArrayList
 class NewsFeedFragment : Fragment(), OnNewItemClickListener {
 
     private lateinit var newsAdapter: NewsFeedAdapter
-
 
     /**
      * The news feed controller.
@@ -50,20 +40,20 @@ class NewsFeedFragment : Fragment(), OnNewItemClickListener {
         val applicationContext = activity!!.applicationContext
 
         newsfeedController.getStoredNewsList(
-                applicationContext,
-                object : GenericCallback {
-                    override fun onCallback(value: Any?) {
-                        if (value != null) {
-                            var list = value as ArrayList<News>
-                            news = list
-                            initRecyclerView()
-                        }
+            applicationContext,
+            object : GenericCallback {
+                override fun onCallback(value: Any?) {
+                    if (value != null) {
+                        var list = value as ArrayList<News>
+                        news = list
+                        initRecyclerView()
                     }
                 }
+            }
         )
     }
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView() {
         layoutManager = LinearLayoutManager(this.context)
 
         val recycler: RecyclerView = view!!.findViewById(R.id.recyclerView)
@@ -97,11 +87,9 @@ class NewsFeedFragment : Fragment(), OnNewItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
 
     public interface OnClickListener {
         fun onClick()
     }
-
 }

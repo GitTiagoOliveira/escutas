@@ -1,6 +1,5 @@
 package pt.ipca.escutas.utils
 
-import java.time.format.TextStyle
 import java.util.*
 import java.util.Calendar.SHORT
 
@@ -33,7 +32,7 @@ object DateUtils {
 
         val month = cal.get(Calendar.MONTH)
 
-        return cal.getDisplayName(Calendar.MONTH,Calendar.SHORT, Locale.US)
+        return cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.US)
     }
 
     fun getDay(date: Date): String {

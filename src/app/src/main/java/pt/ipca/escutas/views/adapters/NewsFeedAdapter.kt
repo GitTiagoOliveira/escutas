@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.event_recyclerview.view.*
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.NewsFeedController
@@ -17,9 +16,7 @@ import pt.ipca.escutas.models.News
 import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.views.fragments.NewsFragment
 
-
 class NewsFeedAdapter(var items: List<News>, var clickListener: OnNewItemClickListener) : RecyclerView.Adapter<NewsFeedAdapter.NewsViewHolder>() {
-
 
     inner class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -40,23 +37,24 @@ class NewsFeedAdapter(var items: List<News>, var clickListener: OnNewItemClickLi
             newsTitle.setText(item.title)
             newsDetails.setText(item.body)
 
-            if(item.image != null && item.image != ""){
-                newsfeedController.getNewsImage(item.image, object : GenericCallback {
-                    override fun onCallback(value: Any?) {
-                        var image = value as Bitmap
-                        if (image != null) {
-                            newsImage.setImageBitmap(image)
-                        };
+            if (item.image != null && item.image != "") {
+                newsfeedController.getNewsImage(
+                    item.image,
+                    object : GenericCallback {
+                        override fun onCallback(value: Any?) {
+                            var image = value as Bitmap
+                            if (image != null) {
+                                newsImage.setImageBitmap(image)
+                            }
+                        }
                     }
-                })
+                )
             }
 
-            itemView.setOnClickListener{
+            itemView.setOnClickListener {
                 action.onItemClick(item, absoluteAdapterPosition)
             }
-
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -65,7 +63,6 @@ class NewsFeedAdapter(var items: List<News>, var clickListener: OnNewItemClickLi
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-
 
         when (holder) {
 
@@ -92,9 +89,7 @@ class NewsFeedAdapter(var items: List<News>, var clickListener: OnNewItemClickLi
                 fragmentTransaction.commit()
             }
         })
-
     }
-
 
     override fun getItemCount(): Int {
         return items.size
@@ -103,13 +98,9 @@ class NewsFeedAdapter(var items: List<News>, var clickListener: OnNewItemClickLi
     fun submitList(newsList: List<News>) {
         items = newsList
     }
-
 }
 
-
-interface OnNewItemClickListener{
+interface OnNewItemClickListener {
     fun onItemClick(item: News, position: Int) {
-
     }
 }
-

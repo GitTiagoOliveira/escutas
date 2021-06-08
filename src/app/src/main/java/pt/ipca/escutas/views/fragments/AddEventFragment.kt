@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.database.Cursor
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -14,21 +13,15 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_add_event.*
 import kotlinx.android.synthetic.main.fragment_calendar.*
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.CalendarController
 import pt.ipca.escutas.models.Event
-import pt.ipca.escutas.models.User
 import pt.ipca.escutas.resources.Strings
-import pt.ipca.escutas.services.callbacks.AuthCallback
 import pt.ipca.escutas.services.callbacks.EventCallBack
-import pt.ipca.escutas.utils.DateUtils
-import pt.ipca.escutas.utils.StringUtils.isValidEmail
 import java.io.InputStream
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 
 /**
@@ -36,7 +29,6 @@ import java.util.*
  * create an instance of this fragment.
  */
 class AddEventFragment : Fragment() {
-
 
     private var fileUri: Uri? = null
 
@@ -54,8 +46,6 @@ class AddEventFragment : Fragment() {
      * The number representation of android action.
      */
     private var RESULT_LOAD_IMAGE = 111
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -141,8 +131,6 @@ class AddEventFragment : Fragment() {
         Button_registo.setOnClickListener {
             addEvent()
         }
-
-
     }
     /**
      * This method provides selected image Uri
@@ -152,7 +140,7 @@ class AddEventFragment : Fragment() {
      * @param data
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == AppCompatActivity.RESULT_OK && data != null && data.data != null) {
             fileUri = data.data!!
@@ -174,8 +162,8 @@ class AddEventFragment : Fragment() {
         val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
 
         val cursor: Cursor? = activity?.contentResolver?.query(
-                selectedImage,
-                filePathColumn, null, null, null
+            selectedImage,
+            filePathColumn, null, null, null
         )
 /*
         if(cursor != null) {
@@ -204,7 +192,6 @@ class AddEventFragment : Fragment() {
             eventNameField.error = Strings.MSG_FIELD_BLANK
             return
         }
-
 
         val eventDescriptionField = view!!.findViewById<EditText>(R.id.editText_descEvent)
         val description = eventDescriptionField.text.toString().trim()
@@ -247,7 +234,6 @@ class AddEventFragment : Fragment() {
             return
         }
 
-
         if (beginHour.isEmpty()) {
             beginHourPicker.error = Strings.MSG_FIELD_BLANK
             return
@@ -258,8 +244,8 @@ class AddEventFragment : Fragment() {
             return
         }
 
-        //val attachmentField = view!!.findViewById<EditText>(R.id.textView_addAnexo)
-        //val attachment = attachmentField.text.toString().trim()
+        // val attachmentField = view!!.findViewById<EditText>(R.id.textView_addAnexo)
+        // val attachment = attachmentField.text.toString().trim()
 
         if (fileUri != null) {
             inputStream = activity?.contentResolver?.openInputStream(fileUri!!)
@@ -271,31 +257,29 @@ class AddEventFragment : Fragment() {
             imagePath = "events/" + UUID.randomUUID() + ".png"
         }
 
-
         val shareAllField = view!!.findViewById<CheckBox>(R.id.checkbox_share)
         val share = shareAllField.isChecked
 
-
         var event = Event(
-                UUID.randomUUID(),
-                eventName,
-                description,
-                date,
-                date2,
-                imagePath,
-                share)
+            UUID.randomUUID(),
+            eventName,
+            description,
+            date,
+            date2,
+            imagePath,
+            share
+        )
 
-        calendarController.addEvent(event, inputStream, object : EventCallBack {
-            override fun onCallback(list: ArrayList<Event>) {
+        calendarController.addEvent(
+            event, inputStream,
+            object : EventCallBack {
+                override fun onCallback(list: ArrayList<Event>) {
+                }
 
+                override fun onCallback() {
+                }
             }
-
-            override fun onCallback() {
-
-            }
-        })
-
-
+        )
 
         val fragment = CalendarFragment()
         val fragmentManager = activity!!.supportFragmentManager
@@ -304,7 +288,4 @@ class AddEventFragment : Fragment() {
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
-
-
-
 }

@@ -16,7 +16,6 @@ import pt.ipca.escutas.views.fragments.CalendarFragment
 import pt.ipca.escutas.views.fragments.GalleryFragment
 import pt.ipca.escutas.views.fragments.MapFragment
 import pt.ipca.escutas.views.fragments.NewsFeedFragment
-import java.io.ByteArrayOutputStream
 import java.util.*
 
 /**
