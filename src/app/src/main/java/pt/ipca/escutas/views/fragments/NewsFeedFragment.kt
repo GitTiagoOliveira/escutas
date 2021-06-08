@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +16,7 @@ import pt.ipca.escutas.controllers.CalendarController
 import pt.ipca.escutas.controllers.NewsFeedController
 import pt.ipca.escutas.models.Event
 import pt.ipca.escutas.models.News
+import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.callbacks.EventCallBack
 import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.services.callbacks.NewsCallBack
@@ -41,6 +44,8 @@ class NewsFeedFragment : Fragment(), OnNewItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        (activity as AppCompatActivity).supportActionBar?.title = "Feed"
 
         val applicationContext = activity!!.applicationContext
 
