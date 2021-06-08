@@ -11,10 +11,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.DatePicker
-import android.widget.EditText
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import de.hdodenhof.circleimageview.CircleImageView
@@ -77,6 +74,10 @@ class AddEventFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val button: ImageButton = view!!.findViewById(R.id.back_button)
+        button.setOnClickListener {
+            fragmentManager?.popBackStack()
+        }
 
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
