@@ -109,7 +109,7 @@
 
                 <EditText
                     android:id="@+id/editText_beginDate"
-                    android:layout_width="220dp"
+                    android:layout_width="300dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="3dp"
@@ -148,7 +148,7 @@
 
                 <EditText
                     android:id="@+id/editText_endDate"
-                    android:layout_width="220dp"
+                    android:layout_width="300dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="3dp"
@@ -222,7 +222,7 @@
                 <LinearLayout
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="30dp"
+                    android:layout_marginStart="107dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -304,9 +304,9 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView_addAnexo" />
 
                 <ImageButton
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
                     android:id="@+id/add_file"
+                    android:layout_width="50dp"
+                    android:layout_height="53dp"
                     android:src="@drawable/ic_add_attachment" />
 
 
