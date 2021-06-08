@@ -7,14 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_news.*
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.NewsFeedController
 import pt.ipca.escutas.services.callbacks.GenericCallback
-
 
 /**
  * A simple [Fragment] subclass.
@@ -24,12 +22,13 @@ class NewsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_news, container, false)
@@ -45,28 +44,27 @@ class NewsFragment : Fragment() {
         val textViewDesc: TextView = view!!.findViewById(R.id.text_desc)
         val imageView: ImageView = view!!.findViewById(R.id.news_image)
 
-
         val tTitle = arguments?.getString("title")
         val tDesc = arguments?.getString("body")
         val tImage = arguments?.getString("image")
         val tDetails = arguments?.getString("details")
 
-
-        if(tImage != null && tImage != ""){
-            newsfeedController.getNewsImage(tImage, object : GenericCallback {
-                override fun onCallback(value: Any?) {
-                    var image = value as Bitmap
-                    if (image != null) {
-                        imageView.setImageBitmap(image)
-                    };
+        if (tImage != null && tImage != "") {
+            newsfeedController.getNewsImage(
+                tImage,
+                object : GenericCallback {
+                    override fun onCallback(value: Any?) {
+                        var image = value as Bitmap
+                        if (image != null) {
+                            imageView.setImageBitmap(image)
+                        }
+                    }
                 }
-            })
+            )
         }
-
 
         textViewDesc.text = tDesc
         textViewTitle.text = tTitle
         textViewDetails.text = tDetails
-
     }
 }

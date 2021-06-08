@@ -5,8 +5,6 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.os.Build
-import androidx.annotation.RequiresApi
 import pt.ipca.escutas.models.Event
 import pt.ipca.escutas.models.Group
 import pt.ipca.escutas.models.News
@@ -14,8 +12,6 @@ import pt.ipca.escutas.models.User
 import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.services.contracts.IDatabaseService
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 /**
@@ -63,13 +59,13 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
 
         // Create Event Table
         val createEventTable = "CREATE TABLE events (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "name VARCHAR(256)," +
-                "description VARCHAR(256)," +
-                "beginDate TEXT," +
-                "endDate TEXT," +
-                "attachment VARCHAR(256)," +
-                "shared INTEGER)"
+            "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "name VARCHAR(256)," +
+            "description VARCHAR(256)," +
+            "startDate TEXT," +
+            "endDate TEXT," +
+            "attachment VARCHAR(256)," +
+            "shared INTEGER)"
 
         db?.execSQL(createUserTable)
         db?.execSQL(createNewsTable)
@@ -119,7 +115,7 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
      * @param model The model represents the collection.
      * @param whereClause The whereClause represents the record filter.
      */
-    override fun deleteRecord(model: String, whereClause: String) {
+    override fun deleteRecord(model: String, whereClause: String?) {
         val db = this.readableDatabase
         val success = db.delete(model, whereClause, null)
         db.close()
@@ -281,21 +277,27 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
      * @param output
      */
     fun getEventRecord(cursor: Cursor, output: ArrayList<Any>) {
+
+        "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "name VARCHAR(256)," +
+            "description VARCHAR(256)," +
+            "startDate TEXT," +
+            "endDate TEXT," +
+            "attachment VARCHAR(256)," +
+            "shared INTEGER)"
         var name = cursor.getString((cursor.getColumnIndex("name")))
         var description = cursor.getString((cursor.getColumnIndex("description")))
 
-
-        var beginDate = cursor.getString((cursor.getColumnIndex("beginDate")))
+        var startDate = cursor.getString((cursor.getColumnIndex("startDate")))
         var endDate = cursor.getString((cursor.getColumnIndex("endDate")))
         var attachment = cursor.getString((cursor.getColumnIndex("attachment")))
         var shared = cursor.getInt((cursor.getColumnIndex("shared")))
         var isShared = false
 
+        var dateB = SimpleDateFormat("dd-MM-yyyy").parse(startDate)
+        var dateE = SimpleDateFormat("dd-MM-yyyy").parse(endDate)
 
-        var dateB = SimpleDateFormat("dd-MM-yyyy").parse(beginDate)
-        var dateE = SimpleDateFormat("dd-MM-yyyy").parse(beginDate)
-
-        if (shared == 1){
+        if (shared == 1) {
             isShared = true
         }
 
@@ -315,9 +317,8 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
             return getNewsRecord(cursor, output)
         } else if (model.equals("Events")) {
             return getEventRecord(cursor, output)
+        } else {
+            return getGroupRecord(cursor, output)
         }
-        else {
-                return getGroupRecord(cursor, output)
-            }
-        }
+    }
 }

@@ -1,25 +1,18 @@
 package pt.ipca.escutas.views.adapters
 
 import android.graphics.Bitmap
-import android.provider.CalendarContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.event_recyclerview.view.*
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.CalendarController
 import pt.ipca.escutas.models.Event
-import pt.ipca.escutas.models.News
 import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.utils.DateUtils
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 class CalendarAdapter(var items: List<Event>) : RecyclerView.Adapter<CalendarAdapter.EventViewHolder>() {
 
@@ -39,21 +32,24 @@ class CalendarAdapter(var items: List<Event>) : RecyclerView.Adapter<CalendarAda
         fun bind(events: Event) {
             eventTitle.setText(events.name)
             eventDetails.setText(events.description)
-            //Glide.with(itemView.context).load(events.attachment).into(eventImage)
+            // Glide.with(itemView.context).load(events.attachment).into(eventImage)
             val month = DateUtils.getMonth(events.startDate)
             val day = DateUtils.getDay(events.startDate)
             eventDay.setText(day)
             eventMonth.setText(month)
 
-            if(events.attachment != null && events.attachment != ""){
-                calendarController.getEventImage(events.attachment, object : GenericCallback {
-                    override fun onCallback(value: Any?) {
-                        var image = value as Bitmap
-                        if (image != null) {
-                            eventImage.setImageBitmap(image)
-                        };
+            if (events.attachment != null && events.attachment != "") {
+                calendarController.getEventImage(
+                    events.attachment,
+                    object : GenericCallback {
+                        override fun onCallback(value: Any?) {
+                            var image = value as Bitmap
+                            if (image != null) {
+                                eventImage.setImageBitmap(image)
+                            }
+                        }
                     }
-                })
+                )
             }
         }
     }
@@ -67,13 +63,13 @@ class CalendarAdapter(var items: List<Event>) : RecyclerView.Adapter<CalendarAda
     override fun onBindViewHolder(holder: CalendarAdapter.EventViewHolder, position: Int) {
         when (holder) {
 
-            is EventViewHolder ->{
+            is EventViewHolder -> {
                 holder.bind(items.get(position))
             }
         }
-       // holder.textTitle.text = itemTitles [position]
-       // holder.textDes.text = itemDetails [position]
-       // holder.image.setImageResource(itemImages [position])
+        // holder.textTitle.text = itemTitles [position]
+        // holder.textDes.text = itemDetails [position]
+        // holder.image.setImageResource(itemImages [position])
     }
 
     override fun getItemCount(): Int {
