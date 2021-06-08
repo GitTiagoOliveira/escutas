@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -23,16 +22,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/back_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:src="@drawable/ic_arrow_back"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
 
             <TextView
@@ -99,13 +92,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText_descEvent" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="55dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="50dp">
-
 
                 <EditText
                     android:id="@+id/editText_beginDate"
@@ -122,8 +108,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView_beginDate" />
 
-            </LinearLayout>
-
             <TextView
                 android:id="@+id/textView_endDate"
                 android:layout_width="300dp"
@@ -137,14 +121,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView_beginDate" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="55dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="50dp">
-
 
                 <EditText
                     android:id="@+id/editText_endDate"
@@ -161,30 +137,30 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView_endDate" />
 
-            </LinearLayout>
 
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="35dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="50dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editText_endDate">
 
 
                 <LinearLayout
-                    android:layout_width="100dp"
+                    android:layout_width="150dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="20dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_gravity="left">
 
                     <TextView
                         android:id="@+id/textView_beginHour"
-                        android:layout_width="98dp"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="0dp"
+                        android:layout_gravity="left"
                         android:inputType="text"
                         android:text="@string/begin_hour"
                         android:textColor="@color/black"
@@ -200,11 +176,9 @@
 
                         <EditText
                             android:id="@+id/editText_beginHour"
-                            android:layout_width="90dp"
+                            android:layout_width="120dp"
                             android:layout_height="30dp"
                             android:layout_gravity="center"
-                            android:layout_marginTop="3dp"
-                            android:layout_marginBottom="5dp"
                             android:background="@drawable/shape_edittext"
                             android:focusable="false"
                             android:inputType="text"
@@ -220,21 +194,19 @@
 
 
                 <LinearLayout
-                    android:layout_width="100dp"
+                    android:layout_width="150dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="107dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:gravity="right">
 
                     <TextView
                         android:id="@+id/textView_endHour"
-                        android:layout_width="100dp"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="0dp"
-                        android:layout_marginTop="0dp"
                         android:text="@string/end_hour"
                         android:textColor="@color/black"
                         android:textStyle="bold"
+                        android:gravity="right"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView_beginHour" />
@@ -242,15 +214,14 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:gravity="right">
 
                         <EditText
                             android:id="@+id/editText_endHour"
-                            android:layout_width="90dp"
+                            android:layout_width="120dp"
                             android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="3dp"
-                            android:layout_marginBottom="5dp"
+                            android:gravity="right"
                             android:background="@drawable/shape_edittext"
                             android:focusable="false"
                             android:inputType="text"
@@ -286,15 +257,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginBottom="15dp"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/editText_group"
                     android:layout_width="250dp"
                     android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="55dp"
-                    android:layout_marginTop="3dp"
                     android:background="@drawable/shape_edittext"
                     android:focusable="false"
                     android:inputType="text"
@@ -313,36 +282,32 @@
             </LinearLayout>
 
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
+            <LinearLayout
+                android:layout_width="300dp"
                 android:layout_height="fill_parent"
-                android:orientation="vertical"
-                android:paddingLeft="5dip"
-                android:paddingTop="8dip"
-                android:paddingRight="5dip"
-                android:paddingBottom="8dip">
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                >
 
                 <CheckBox
                     android:id="@+id/checkbox_share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="42dp" />
+                    android:layout_alignParentStart="true" />
 
                 <TextView
                     android:id="@+id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginEnd="5dp"
                     android:layout_toEndOf="@+id/checkbox_share"
                     android:text="@string/share_all"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
 
             <Button
@@ -351,13 +316,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="60dp"
+                android:layout_marginBottom="40dp"
                 android:background="@color/blue"
                 android:text="@string/activity_registration_create"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText_group" />
+                app:layout_constraintStart_toStartOf="parent"/>
         </LinearLayout>
     </ScrollView>
 

@@ -62,14 +62,16 @@ class FirebaseDatabaseService : IDatabaseService {
      * @param model The model represents the collection.
      * @param documentId The documentId represents the document identifier.
      */
-    override fun deleteRecord(model: String, documentId: String) {
+    override fun deleteRecord(model: String, documentId: String?) {
 
         val modelData = this.db.collection(model)
 
-        modelData.document(documentId).delete().addOnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_REMOVE, task.exception)
-                throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_REMOVE)
+        if (documentId != null) {
+            modelData.document(documentId).delete().addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_REMOVE, task.exception)
+                    throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_REMOVE)
+                }
             }
         }
     }
