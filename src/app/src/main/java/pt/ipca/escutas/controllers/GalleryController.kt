@@ -49,8 +49,10 @@ class GalleryController : BaseController() {
     }
 
     private fun prepareEvents(callback: GenericCallback) {
-        database.getAllRecords(
+        database.getRecordWithLessThanFilter(
             "events",
+            "startDate",
+            Date(),
             object : GenericCallback {
 
                 override fun onCallback(value: Any?) {
