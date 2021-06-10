@@ -73,7 +73,7 @@ open class BaseActivity : AppCompatActivity() {
     private fun openFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, fragment)
-            .addToBackStack(null)
+            .addToBackStack(fragment.toString())
             .commit()
     }
 
@@ -126,7 +126,7 @@ open class BaseActivity : AppCompatActivity() {
         if (item.itemId == android.R.id.home) {
             val countFrag = supportFragmentManager.backStackEntryCount
             if (countFrag > 0) {
-                supportFragmentManager.popBackStack()
+                supportFragmentManager.popBackStackImmediate();
                 if (supportFragmentManager.fragments.isNotEmpty()) {
                     (supportFragmentManager.fragments[supportFragmentManager.fragments.size - 1].activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 }
