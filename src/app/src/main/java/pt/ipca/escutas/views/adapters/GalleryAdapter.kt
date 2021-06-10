@@ -29,7 +29,7 @@ class GalleryAdapter(var images: List<String>) :
 
         fun inititalize(item: String) {
 
-            albumTitle.text = item
+            albumTitle.text = item.substringAfterLast("/").substringBeforeLast(".")
 
             if (item != "") galleryController.getImage(
                 item,

@@ -115,11 +115,11 @@ class FirebaseStorageService : IStorageService {
     override fun listFolder(
         folderPath: String,
         callback: GenericCallback
-    ): Task<ListResult> {
+    ){
 
         val images = ArrayList<String>()
 
-        return this.storage
+        this.storage
             .getReference(folderPath)
             .listAll()
             .addOnCompleteListener { task ->
@@ -127,7 +127,11 @@ class FirebaseStorageService : IStorageService {
                     for (document in task.result.items) {
                         images.add(document.path)
                     }
-                    callback.onCallback(images)
+                    if(images.isEmpty()){
+                        listFolder("albums/DefaultEmptyPath", callback)
+                    } else {
+                        callback.onCallback(images)
+                    }
                 } else {
                     Log.w(ContentValues.TAG, Strings.MSG_FAIL_STORAGE_READ, task.exception)
                     throw DatabaseException(

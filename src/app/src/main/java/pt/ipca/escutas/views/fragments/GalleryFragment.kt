@@ -44,17 +44,18 @@ class GalleryFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        savedInstanceState?.get("event")?.let { event ->
-            galleryController.getImagesPath(
-                event.toString(),
-                object : GenericCallback {
-                    override fun onCallback(value: Any?) {
-                        images = value as ArrayList<String>
-                        initRecyclerView()
-                    }
+
+        var eventName = arguments?.getString("eventName", "DefaultEmptyPath");
+
+        galleryController.getImagesPath(
+            eventName!!.trimEnd(),
+            object : GenericCallback {
+                override fun onCallback(value: Any?) {
+                    images = value as ArrayList<String>
+                    initRecyclerView()
                 }
-            )
-        }
+            }
+        )
     }
 
     private fun initRecyclerView() {

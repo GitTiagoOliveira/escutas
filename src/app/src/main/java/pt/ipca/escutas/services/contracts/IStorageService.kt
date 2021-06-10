@@ -47,5 +47,5 @@ interface IStorageService {
      *
      * @param folderPath The path in the storage service.
      */
-    fun listFolder(folderPath: String, callback: GenericCallback): Task<ListResult>
+    fun listFolder(folderPath: String, callback: GenericCallback)
 }

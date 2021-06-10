@@ -93,6 +93,7 @@ class FirebaseDatabaseService : IDatabaseService {
                     output[document.id] = document.data
                 }
                 callback.onCallback(output)
+
             } else {
                 Log.w(ContentValues.TAG, Strings.MSG_FAIL_DATABASE_GET, task.exception)
                 throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_DATABASE_GET)

@@ -72,7 +72,7 @@ class GalleryFeedAdapter(
 
         holder.itemView.setOnClickListener { view ->
             val bundle = Bundle()
-            bundle.putString("event", items[position].name)
+            bundle.putString("eventName", items[position].name)
 
             val fragment = GalleryFragment()
             fragment.arguments = bundle
