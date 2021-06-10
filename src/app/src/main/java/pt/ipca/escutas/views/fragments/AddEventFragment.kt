@@ -14,12 +14,11 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_add_event.*
-import kotlinx.android.synthetic.main.fragment_calendar.*
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.CalendarController
 import pt.ipca.escutas.models.Event
 import pt.ipca.escutas.resources.Strings
-import pt.ipca.escutas.services.callbacks.EventCallBack
+import pt.ipca.escutas.services.callbacks.GenericCallback
 import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
@@ -268,11 +267,8 @@ class AddEventFragment : Fragment() {
 
         calendarController.addEvent(
             event, inputStream,
-            object : EventCallBack {
-                override fun onCallback(list: ArrayList<Event>) {
-                }
-
-                override fun onCallback() {
+            object : GenericCallback {
+                override fun onCallback(value: Any?) {
                 }
             }
         )
