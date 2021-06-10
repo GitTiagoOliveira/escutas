@@ -7,17 +7,13 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_gallery_feed.*
-import kotlinx.android.synthetic.main.fragment_gallery_feed.recyclerView
-import kotlinx.android.synthetic.main.fragment_news_feed.*
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.GalleryController
 import pt.ipca.escutas.models.Album
 import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.views.adapters.GalleryFeedAdapter
-import pt.ipca.escutas.views.adapters.NewsFeedAdapter
 import pt.ipca.escutas.views.adapters.OnAlbumFeedItemClickListener
 
 /**
@@ -31,7 +27,6 @@ class GalleryFeedFragment : Fragment(), OnAlbumFeedItemClickListener {
      */
     private val galleryController: GalleryController = GalleryController()
     private var events: List<Album> = emptyList()
-    private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<GalleryFeedAdapter.GalleryFeedViewHolder>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,23 +55,17 @@ class GalleryFeedFragment : Fragment(), OnAlbumFeedItemClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_gallery_feed, container, false)
     }
 
     private fun initRecyclerView() {
-        layoutManager = LinearLayoutManager(this.context)
+        val recycler: RecyclerView = view!!.findViewById(R.id.recyclerViewFeed)
 
-        val recycler: RecyclerView = view!!.findViewById(R.id.recyclerView)
-        recycler.layoutManager = layoutManager
-
-        recyclerView.apply {
-            layoutManager = GridLayoutManager(this.context, 2)
-        }
+        recycler.layoutManager = GridLayoutManager(this.context, 2)
 
         adapter = GalleryFeedAdapter(events, this)
-        recyclerView.adapter = adapter
+        recyclerViewFeed.adapter = adapter
     }
 
     companion object {
