@@ -47,8 +47,9 @@ class NewsFeedController : BaseController() {
                         list.forEach { (key, value) ->
 
                             val values = value as HashMap<String, Any>
+                            val idMap = value["id"] as HashMap<String, Long>
                             val news = News(
-                                UUID.randomUUID(),
+                                UUID(idMap.get("mostSignificantBits")!!,idMap.get("leastSignificantBits")!!),
                                 values["title"] as String,
                                 values["body"] as String,
                                 values["details"] as String,
