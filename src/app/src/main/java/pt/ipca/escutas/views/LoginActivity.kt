@@ -136,7 +136,7 @@ class LoginActivity : AppCompatActivity() {
                             }
 
                             override fun onCallbackError(error: String) {
-                                Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(applicationContext, error, Toast.LENGTH_LONG).show()
                                 // Facebook Logout
                                 try {
                                     LoginManager.getInstance().logOut()
@@ -256,7 +256,7 @@ class LoginActivity : AppCompatActivity() {
                                 }
 
                                 override fun onCallbackError(error: String) {
-                                    Toast.makeText(applicationContext, error, Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(applicationContext, error, Toast.LENGTH_LONG).show()
                                     try {
                                         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
                                         val googleSignInClient = GoogleSignIn.getClient(this@LoginActivity, gso)
