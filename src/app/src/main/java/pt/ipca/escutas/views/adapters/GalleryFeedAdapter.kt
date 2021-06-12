@@ -79,8 +79,8 @@ class GalleryFeedAdapter(
             val activity = view!!.context as AppCompatActivity
             val fragmentManager = activity.supportFragmentManager
             val fragmentTransaction = fragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.container, fragment)
-            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.add(R.id.container, fragment)
+            fragmentTransaction.addToBackStack(fragment.toString())
             fragmentTransaction.commit()
         }
     }
