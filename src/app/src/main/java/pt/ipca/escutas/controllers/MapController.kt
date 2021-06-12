@@ -56,9 +56,8 @@ class MapController : BaseController() {
                         list.forEach { (key, value) ->
 
                             val values = value as HashMap<String, Any>
-                            val idMap = value["id"] as java.util.HashMap<String, Long>
                             val group = Group(
-                                UUID(idMap.get("mostSignificantBits")!!,idMap.get("leastSignificantBits")!!),
+                                UUID.randomUUID(),
                                 values["name"] as String,
                                 values["description"] as String,
                                 values["latitude"] as Double,
