@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.event_recyclerview.view.*
+import kotlinx.android.synthetic.main.card_event.view.*
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.CalendarController
 import pt.ipca.escutas.models.Event
@@ -56,7 +56,7 @@ class CalendarAdapter(var items: List<Event>) : RecyclerView.Adapter<CalendarAda
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarAdapter.EventViewHolder {
 
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.event_recyclerview, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.card_event, parent, false)
         return EventViewHolder(v)
     }
 
