@@ -42,8 +42,9 @@ class ProfileController : BaseController() {
                     var list = value as HashMap<String, Any>
                     list.forEach { (key, value) ->
                         val values = value as HashMap<String, Any>
+                        val idMap = value["id"] as HashMap<String, Long>
                         user = User(
-                            UUID.randomUUID(),
+                            UUID(idMap.get("mostSignificantBits")!!,idMap.get("leastSignificantBits")!!),
                             values["photo"] as String,
                             values["email"] as String,
                             values["name"] as String,
