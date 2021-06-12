@@ -3,7 +3,7 @@
 \renewcommand{\baselinestretch}{1.5}
 
 \usepackage[utf8]{inputenc}
-\usepackage[portuguese]{babel} 
+\usepackage[portuguese]{babel}
 \usepackage[affil-it]{authblk} 
 \usepackage[nottoc, notlof, notlot, numbib]{tocbibind}
 \usepackage[dvipsnames]{xcolor}
@@ -255,8 +255,6 @@ O comportamento de cada um dos serviços é primeiramente definido por um interf
     \item \emph{SqliteDatabaseService}: serviço semelhante ao serviço anteriormente descrito. Porém, comunica com um repositório de dados interno, contido na memória secundária do dispositivo, que implementa o padrão relacional. O mesmo tem o propósito de proporcionar mecanismos de \gls{caching} à aplicação;
     
     \item \emph{FirebaseStorageService}: serviço focado na comunicação com o repositório de \gls{blobs}, denominado de \gls{firebase} Storage. À semelhança do serviço previamente citado, implementa também operações \gls{crud} genéricas, agnósticas à tipologia dos \gls{blobs} em questão. É sobretudo usado para guardar imagens intrínsecas à aplicação. Embora este serviço não estivesse disposto como um requisito do trabalho prático, optou-se por o implementar, dada a sua manifesta utilidade. Compreenda-se, na figura 4 abaixo exposta, a estrutura do repositório de \gls{blobs}:
-    
-    % TODO: escrever sobre serviço SqliteDatabaseService.
 \end{itemize}
 
 \bigskip
@@ -380,7 +378,7 @@ Considere-se, de seguida, uma explicação funcional, para cada uma das vistas p
         \caption{Vista News Feed (continuação)}
     \end{figure}
     
-    \item \emph{Map}: vista encarregue de apresentar, através de um mapa interactivo, os grupos de escutismo que se encontram nas proximidades do utilizador da aplicação. Para tal, recorre à \gls{api} do \gls{maps} e a mecanismos de localização do sistema operativo \gls{android}. Por sua vez, o referido sistema operativo utiliza o sensor \gls{gps} do dispositivo. Seguindo as boas práticas de desenvolvimento \gls{android}, as permissões de localização são meramente requeridas no momento em que se tornam indispensáveis. Perceba-se a vista na figura 12 que se segue:
+    \item \emph{Map}: vista encarregue de apresentar, através de um mapa interactivo, os grupos de escutismo que se encontram nas proximidades do utilizador da aplicação. Para tal, recorre à \gls{api} do \gls{maps} e a mecanismos de localização do sistema operativo \gls{android}. Por sua vez, o referido sistema operativo utiliza o sensor \gls{gps} do dispositivo. Seguindo as boas práticas de desenvolvimento \gls{android}, as permissões de localização são meramente requeridas no momento em que se tornam indispensáveis. Perceba-se a vista na figura 14 que se segue:
     
     \bigskip
     \begin{figure}[H]
@@ -407,7 +405,21 @@ Considere-se, de seguida, uma explicação funcional, para cada uma das vistas p
         \caption{Vista Calendar (continuação)}
     \end{figure}
 
-    % TODO: escrever sobre vista de notícias, galeria e calendário.
+    \item \emph{Galeria}: vista que está incumbida de exibir os múltiplos álbuns de fotografias, existentes na aplicação, em forma de mosaico. Para cada evento existente no calendário, existe o respectivo álbum, desde que este contenha, pelo menos, uma fotografia. Quando o utilizador selecciona um determinado álbum, é encaminhado para uma vista, onde poderá navegar pelas variadas fotografias associadas. Contemple-se estas vistas, através da figura 17 e 18, subsequentemente retratadas: 
+
+    \bigskip
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.34\textwidth]{view-gallery-1.png}
+        \caption{Vista Gallery}
+    \end{figure}
+    
+    \bigskip
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.34\textwidth]{view-gallery-2.png}
+        \caption{Vista Gallery (continuação)}
+    \end{figure}
 \end{itemize}
 
 \clearpage
@@ -444,7 +456,7 @@ As operações de versionamento da aplicação, recorrem ao sistema de controlo 
 
 No que diz respeito a regras, uma determinada contribuição de um elemento do grupo de trabalho, é necessariamente realizada através de um \textit{pull request}. Neste, o elemento terá que responder a uma série de questões sobre o conteúdo e finalidade da sua contribuição, previamente fixadas num \textit{pull request template}. 
 
-Após a submissão do \textit{pull request}, o mesmo é eventualmente revisto pelos restantes elementos do grupo de trabalho. Mediante a revisão, o grupo de trabalho poderá aceitar, rejeitar ou requerer modificações à contribuição. Assim que a contribuição for aceite por, pelo menos, dois elementos do grupo de trabalho, o autor da contribuição poderá fundir a sua contribuição com a linha alvo. Observe-se os detalhes de um \textit{pull request}, realizado durante o decorrer do desenvolvimento do trabalho prático, na figura 13, adiante ilustrada:
+Após a submissão do \textit{pull request}, o mesmo é eventualmente revisto pelos restantes elementos do grupo de trabalho. Mediante a revisão, o grupo de trabalho poderá aceitar, rejeitar ou requerer modificações à contribuição. Assim que a contribuição for aceite por, pelo menos, dois elementos do grupo de trabalho, o autor da contribuição poderá fundir a sua contribuição com a linha alvo. Observe-se os detalhes de um \textit{pull request}, realizado durante o decorrer do desenvolvimento do trabalho prático, na figura 19, adiante ilustrada:
 
 \bigskip
 \begin{figure}[H]
@@ -457,7 +469,7 @@ Após a submissão do \textit{pull request}, o mesmo é eventualmente revisto pe
 
 O desenvolvimento da aplicação foi planeado e gerido com recurso a metodologias de desenvolvimento ágeis, nomeadamente a \gls{framework} Scrum, sendo que cada \gls{sprint} teve a duração de uma semana, decorrida entre aulas dedicadas à unidade curricular.
 
-Com vista a auxiliar as tarefas de planeamento e gestão associadas ao processo de desenvolvimento da aplicação, recorreu-se às ferramentas de gestão de projecto da plataforma \gls{github}. Primeiramente, começou-se por especificar Sprints até à data estabelecida para a entrega do trabalho prático, em forma de \textit{milestones}. Veja-se algumas destas Sprints, através da figura 14, seguidamente disposta:
+Com vista a auxiliar as tarefas de planeamento e gestão associadas ao processo de desenvolvimento da aplicação, recorreu-se às ferramentas de gestão de projecto da plataforma \gls{github}. Primeiramente, começou-se por especificar Sprints até à data estabelecida para a entrega do trabalho prático, em forma de \textit{milestones}. Veja-se algumas destas Sprints, através da figura 20, seguidamente disposta:
 
 \bigskip
 \begin{figure}[H]
@@ -466,7 +478,7 @@ Com vista a auxiliar as tarefas de planeamento e gestão associadas ao processo 
     \caption{Sprints do projecto}
 \end{figure}
 
-Em cada uma das aulas da unidade curricular, onde o grupo de trabalho estava presencialmente ou remotamente reunido, procedeu-se ao planeamento da \gls{sprint} seguinte, através da alocação de tarefas provenientes do \gls{backlog} do projecto, regularmente mantido sob a forma de \textit{issues}. Analise-se, em baixo, a figura 15, que demonstra o \gls{backlog} do projecto num dado instante:
+Em cada uma das aulas da unidade curricular, onde o grupo de trabalho estava presencialmente ou remotamente reunido, procedeu-se ao planeamento da \gls{sprint} seguinte, através da alocação de tarefas provenientes do \gls{backlog} do projecto, regularmente mantido sob a forma de \textit{issues}. Analise-se, em baixo, a figura 21, que demonstra o \gls{backlog} do projecto num dado instante:
 
 \bigskip
 \begin{figure}[H]
@@ -508,8 +520,6 @@ No decorrer da construção da aplicação, fez-se por seguir ou implementar aqu
 O principal desafio de implementação da aplicação, foi o facto de nenhum elemento do grupo de trabalho, ter  conhecimento ou experiência prévia no desenvolvimento de aplicações móveis. Como expectável, este facto traduziu-se numa velocidade de implementação inicialmente reduzida, que foi progressivamente aumentando, à medida que o grupo de trabalho adquiria conhecimento, experiência e agilidade na plataforma \gls{android}, \gls{firebase} e tecnologias associadas.
 
 Existiram ainda alguns contratempos na implementação de rotinas assíncronas através da linguagem de programação \gls{kotlin}. Não obstante, estes foram trivialmente ultrapassados, através de espírito de entreajuda e auxílio do professor.
-
-% TODO: escrever sobre problema de autenticação através de conta Google.
 
 \chapter{Conclusão}
 
