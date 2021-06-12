@@ -55,7 +55,7 @@ class RegistrationActivity : AppCompatActivity() {
     /**
      * The profile image uri.
      */
-    private lateinit var fileUri: Uri
+    private var fileUri: Uri? = null
 
     /**
      * The photo upload stream.
@@ -211,11 +211,9 @@ class RegistrationActivity : AppCompatActivity() {
         val groupSpinner = findViewById<Spinner>(R.id.editText_group)
         val group = groupSpinner.selectedItem.toString()
 
-        var inputStream = contentResolver.openInputStream(fileUri!!)
-
         var imagePath = ""
 
-        if (inputStream != null) {
+        if (fileUri != null) {
             imagePath = "users/" + UUID.randomUUID() + ".png"
         }
 
@@ -228,11 +226,14 @@ class RegistrationActivity : AppCompatActivity() {
             group
         )
 
+        if (fileUri != null) {
+            inputStream = contentResolver.openInputStream(fileUri!!)
+        }
+
         registrationController.addUser(
             user.email, password,
             object : AuthCallback {
                 override fun onCallback() {
-                    var inputStream = contentResolver.openInputStream(fileUri!!)
                     registrationController.saveUser(
                         user, inputStream,
                         object : AuthCallback {
@@ -323,7 +324,7 @@ class RegistrationActivity : AppCompatActivity() {
             fileUri = data.data!!
         }
 
-        val selectedImage: Uri = fileUri
+        val selectedImage: Uri = fileUri!!
         val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
 
         val cursor: Cursor? = contentResolver.query(

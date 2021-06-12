@@ -5,10 +5,8 @@ import android.content.Context
 import com.google.firebase.Timestamp
 import pt.ipca.escutas.models.Event
 import pt.ipca.escutas.resources.Strings
-import pt.ipca.escutas.resources.Strings.MSG_STORAGE_EVENT_LOCATION
 import pt.ipca.escutas.services.SqliteDatabaseService
 import pt.ipca.escutas.services.callbacks.*
-import pt.ipca.escutas.services.callbacks.EventCallBack
 import pt.ipca.escutas.utils.NetworkUtils
 import pt.ipca.escutas.views.fragments.CalendarFragment
 import java.io.InputStream
@@ -50,8 +48,9 @@ class CalendarController : BaseController() {
                         list.forEach { (key, value) ->
 
                             val values = value as HashMap<String, Any>
+                            val idMap = value["id"] as HashMap<String, Long>
                             val event = Event(
-                                UUID.randomUUID(),
+                                UUID(idMap.get("mostSignificantBits")!!,idMap.get("leastSignificantBits")!!),
                                 values["name"] as String,
                                 values["description"] as String,
                                 (values["startDate"] as Timestamp).toDate(),
@@ -98,7 +97,7 @@ class CalendarController : BaseController() {
      * @param inputStream
      * @param eventCallback
      */
-    fun addEvent(event: Event, inputStream: InputStream?, eventCallback: EventCallBack) {
+    fun addEvent(event: Event, inputStream: InputStream?, eventCallback: GenericCallback) {
         if (inputStream != null && event.attachment.isNotEmpty()) {
             uploadImage(
                 event.attachment, inputStream,
@@ -108,7 +107,7 @@ class CalendarController : BaseController() {
                             Strings.MSG_STORAGE_EVENT_LOCATION, event,
                             object : GenericCallback {
                                 override fun onCallback(value: Any?) {
-                                    eventCallback.onCallback()
+                                    eventCallback.onCallback(null)
                                 }
                             }
                         )
@@ -120,7 +119,7 @@ class CalendarController : BaseController() {
                 Strings.MSG_STORAGE_EVENT_LOCATION, event,
                 object : GenericCallback {
                     override fun onCallback(lvalue: Any?) {
-                        eventCallback.onCallback()
+                        eventCallback.onCallback(null)
                     }
                 }
             )

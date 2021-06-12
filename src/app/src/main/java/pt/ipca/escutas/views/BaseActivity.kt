@@ -13,10 +13,7 @@ import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.ProfileController
 import pt.ipca.escutas.models.User
 import pt.ipca.escutas.services.callbacks.GenericCallback
-import pt.ipca.escutas.views.fragments.CalendarFragment
-import pt.ipca.escutas.views.fragments.GalleryFragment
-import pt.ipca.escutas.views.fragments.MapFragment
-import pt.ipca.escutas.views.fragments.NewsFeedFragment
+import pt.ipca.escutas.views.fragments.*
 import java.util.*
 
 /**
@@ -61,7 +58,7 @@ open class BaseActivity : AppCompatActivity() {
             }
             R.id.navigation_gallery -> {
                 this.toolbar.setTitle(R.string.menu_bottom_navigation_gallery)
-                openFragment(GalleryFragment.getInstance())
+                openFragment(GalleryFeedFragment.getInstance())
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -76,7 +73,7 @@ open class BaseActivity : AppCompatActivity() {
     private fun openFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, fragment)
-            .addToBackStack(null)
+            .addToBackStack(fragment.toString())
             .commit()
     }
 
@@ -129,7 +126,7 @@ open class BaseActivity : AppCompatActivity() {
         if (item.itemId == android.R.id.home) {
             val countFrag = supportFragmentManager.backStackEntryCount
             if (countFrag > 0) {
-                supportFragmentManager.popBackStack()
+                supportFragmentManager.popBackStackImmediate();
                 if (supportFragmentManager.fragments.isNotEmpty()) {
                     (supportFragmentManager.fragments[supportFragmentManager.fragments.size - 1].activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 }

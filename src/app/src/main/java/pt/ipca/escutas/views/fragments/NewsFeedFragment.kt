@@ -23,14 +23,13 @@ import java.util.ArrayList
  */
 class NewsFeedFragment : Fragment(), OnNewItemClickListener {
 
-    private lateinit var newsAdapter: NewsFeedAdapter
-
     /**
      * The news feed controller.
      */
     private val newsfeedController: NewsFeedController = NewsFeedController()
-
     private var news: List<News> = emptyList()
+    private var layoutManager: RecyclerView.LayoutManager? = null
+    private var adapter: RecyclerView.Adapter<NewsFeedAdapter.NewsViewHolder>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,9 +80,6 @@ class NewsFeedFragment : Fragment(), OnNewItemClickListener {
          */
         fun getInstance(): NewsFeedFragment = NewsFeedFragment()
     }
-
-    private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adapter: RecyclerView.Adapter<NewsFeedAdapter.NewsViewHolder>? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
