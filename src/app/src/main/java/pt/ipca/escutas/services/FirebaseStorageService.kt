@@ -1,12 +1,17 @@
 package pt.ipca.escutas.services
 
+import android.content.ContentValues
+import android.graphics.BitmapFactory
+import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ListResult
 import pt.ipca.escutas.resources.Strings
+import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.services.contracts.IStorageService
+import pt.ipca.escutas.services.exceptions.DatabaseException
 import pt.ipca.escutas.services.exceptions.StorageException
-import java.io.FileInputStream
+import java.io.InputStream
 
 /**
  * Defines a Firebase implementation of an [IStorageService].
@@ -29,12 +34,18 @@ class FirebaseStorageService : IStorageService {
      * @param filePath The destination file path in the storage service.
      * @param fileStream The file input stream.
      */
-    override fun createFile(filePath: String, fileStream: FileInputStream) {
+    override fun createFile(filePath: String, fileStream: InputStream, callback: GenericCallback) {
+
         this.storage
             .getReference(filePath)
             .putStream(fileStream)
-            .addOnFailureListener {
-                throw StorageException(Strings.MSG_FAIL_STORAGE_CREATE)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    callback.onCallback(null)
+                } else {
+                    Log.w(ContentValues.TAG, Strings.MSG_FAIL_STORAGE_CREATE, task.exception)
+                    throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_STORAGE_CREATE)
+                }
             }
     }
 
@@ -44,24 +55,20 @@ class FirebaseStorageService : IStorageService {
      * @param filePath The file path in the storage service.
      * @return The file byte sequence.
      */
-    override fun readFile(filePath: String): Task<ByteArray> {
+    override fun readFile(filePath: String, callback: GenericCallback): Task<ByteArray> {
         return this.storage
             .getReference(filePath)
-            .getBytes(maxBytes)
-            .addOnFailureListener {
-                throw StorageException(Strings.MSG_FAIL_STORAGE_READ)
+            .getBytes(maxBytes).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val options = BitmapFactory.Options()
+                    options.inMutable = true
+                    val image = BitmapFactory.decodeByteArray(task.result, 0, task.result.size, options)
+                    callback.onCallback(image)
+                } else {
+                    Log.w(ContentValues.TAG, Strings.MSG_FAIL_STORAGE_READ, task.exception)
+                    throw DatabaseException(task.exception?.message ?: Strings.MSG_FAIL_STORAGE_READ)
+                }
             }
-    }
-
-    /**
-     * Reads a file storage reference in the storage service through the specified [filePath].
-     *
-     * @param filePath The file path in the storage service.
-     * @return The file reference in the storage service.
-     */
-    fun readReference(filePath: String): StorageReference {
-        return this.storage
-            .getReference(filePath)
     }
 
     /**
@@ -70,10 +77,17 @@ class FirebaseStorageService : IStorageService {
      * @param filePath The file path in the storage service.
      * @param fileStream The file input stream.
      */
-    override fun updateFile(filePath: String, fileStream: FileInputStream) {
+    override fun updateFile(filePath: String, fileStream: InputStream) {
         try {
             this.deleteFile(filePath)
-            this.createFile(filePath, fileStream)
+            this.createFile(
+                filePath, fileStream,
+                object : GenericCallback {
+                    override fun onCallback(value: Any?) {
+                        TODO("Not yet implemented")
+                    }
+                }
+            )
         } catch (e: StorageException) {
             throw StorageException(Strings.MSG_FAIL_STORAGE_UPDATE)
         }
@@ -90,6 +104,40 @@ class FirebaseStorageService : IStorageService {
             .delete()
             .addOnFailureListener {
                 throw StorageException(Strings.MSG_FAIL_STORAGE_DELETE)
+            }
+    }
+
+    /**
+     * List the files in the storage service through the specified [folderPath].
+     *
+     * @param folderPath The path in the storage service.
+     */
+    override fun listFolder(
+        folderPath: String,
+        callback: GenericCallback
+    ){
+
+        val images = ArrayList<String>()
+
+        this.storage
+            .getReference(folderPath)
+            .listAll()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    for (document in task.result.items) {
+                        images.add(document.path)
+                    }
+                    if(images.isEmpty()){
+                        listFolder("albums/DefaultEmptyPath", callback)
+                    } else {
+                        callback.onCallback(images)
+                    }
+                } else {
+                    Log.w(ContentValues.TAG, Strings.MSG_FAIL_STORAGE_READ, task.exception)
+                    throw DatabaseException(
+                        task.exception?.message ?: Strings.MSG_FAIL_STORAGE_READ
+                    )
+                }
             }
     }
 }

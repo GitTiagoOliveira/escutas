@@ -1,14 +1,20 @@
 package pt.ipca.escutas.views
 
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import de.hdodenhof.circleimageview.CircleImageView
 import pt.ipca.escutas.R
-import pt.ipca.escutas.views.fragments.CalendarFragment
-import pt.ipca.escutas.views.fragments.GalleryFragment
-import pt.ipca.escutas.views.fragments.MapFragment
+import pt.ipca.escutas.controllers.ProfileController
+import pt.ipca.escutas.models.User
+import pt.ipca.escutas.services.callbacks.GenericCallback
+import pt.ipca.escutas.views.fragments.*
+import java.util.*
 
 /**
  * Defines the base activity. This activity defines the base layout, state and behavior.
@@ -26,13 +32,18 @@ open class BaseActivity : AppCompatActivity() {
     protected lateinit var navigationMenu: BottomNavigationView
 
     /**
+     * The profile controller.
+     */
+    private val profileController by lazy { ProfileController() }
+
+    /**
      * The navigation menu item listener.
      */
     private val onNavigationMenuItemListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_newsfeed -> {
                 this.toolbar.setTitle(R.string.menu_bottom_navigation_news_feed)
-                // TODO: Open news feed fragment when the respective activities are converted.
+                openFragment(NewsFeedFragment.getInstance())
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_map -> {
@@ -47,7 +58,7 @@ open class BaseActivity : AppCompatActivity() {
             }
             R.id.navigation_gallery -> {
                 this.toolbar.setTitle(R.string.menu_bottom_navigation_gallery)
-                openFragment(GalleryFragment.getInstance())
+                openFragment(GalleryFeedFragment.getInstance())
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -62,7 +73,7 @@ open class BaseActivity : AppCompatActivity() {
     private fun openFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, fragment)
-            .addToBackStack(null)
+            .addToBackStack(fragment.toString())
             .commit()
     }
 
@@ -73,13 +84,58 @@ open class BaseActivity : AppCompatActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_base)
+        val imageLayout = findViewById<CircleImageView>(R.id.toolbar_profile_avatar)
+
+        profileController.getUser(object : GenericCallback {
+            override fun onCallback(value: Any?) {
+                if (value != null) {
+                    var user = value as User
+                    if (user.photo != null && user.photo != "") {
+                        profileController.getUserImage(
+                            user.photo,
+                            object : GenericCallback {
+                                override fun onCallback(value: Any?) {
+                                    if (value != null) {
+                                        var image = value as Bitmap
+                                        imageLayout.setImageBitmap(image)
+                                        profileController.saveImage(image)
+                                    }
+                                }
+                            }
+                        )
+                    }
+                }
+            }
+        })
+
+        imageLayout.setOnClickListener {
+            val intent = Intent(this@BaseActivity, ProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         this.toolbar = findViewById(R.id.toolbar)
         this.navigationMenu = findViewById(R.id.navigation_menu)
 
         setSupportActionBar(this.toolbar)
         this.navigationMenu.setOnNavigationItemSelectedListener(onNavigationMenuItemListener)
+        this.navigationMenu.selectedItemId = R.id.navigation_newsfeed
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            val countFrag = supportFragmentManager.backStackEntryCount
+            if (countFrag > 0) {
+                supportFragmentManager.popBackStackImmediate();
+                if (supportFragmentManager.fragments.isNotEmpty()) {
+                    (supportFragmentManager.fragments[supportFragmentManager.fragments.size - 1].activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                }
+            } else {
+                super.onBackPressed()
+            }
+            return true
+        } else {
+            return super.onOptionsItemSelected(item)
+        }
     }
 }
