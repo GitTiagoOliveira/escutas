@@ -60,8 +60,10 @@ class GalleryController : BaseController() {
                     var list = value as HashMap<String, Any>
                     list.forEach { (_, value) ->
                         val values = value as HashMap<String, Any>
+
+                        val idMap = value["id"] as java.util.HashMap<String, Long>
                         val event = Album(
-                            UUID.randomUUID(),
+                            UUID(idMap.get("mostSignificantBits")!!,idMap.get("leastSignificantBits")!!),
                             values["name"] as String,
                             values["attachment"] as String
                         )

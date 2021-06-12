@@ -48,8 +48,9 @@ class CalendarController : BaseController() {
                         list.forEach { (key, value) ->
 
                             val values = value as HashMap<String, Any>
+                            val idMap = value["id"] as HashMap<String, Long>
                             val event = Event(
-                                UUID.randomUUID(),
+                                UUID(idMap.get("mostSignificantBits")!!,idMap.get("leastSignificantBits")!!),
                                 values["name"] as String,
                                 values["description"] as String,
                                 (values["startDate"] as Timestamp).toDate(),
