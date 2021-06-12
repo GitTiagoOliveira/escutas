@@ -6,10 +6,17 @@
     tools:context=".views.fragments.CalendarFragment">
 
     <LinearLayout
+        android:id="@+id/LinearLayout03"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+    <LinearLayout
         android:id="@+id/LinearLayout02"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/button_filter"
@@ -35,7 +42,6 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="100dp" />
-
+        android:layout_height="match_parent"/>
+    </LinearLayout>
 </FrameLayout>
