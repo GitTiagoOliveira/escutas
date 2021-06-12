@@ -37,15 +37,8 @@
                 android:layout_gravity="left"
                 android:text="@string/tmp_title"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/Button_Like"
-                android:layout_width="18sp"
-                android:layout_height="18sp"
-                android:background="@drawable/shape_heart"
-                android:gravity="right" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
