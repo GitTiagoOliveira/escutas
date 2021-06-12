@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.event_recyclerview.view.*
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.NewsFeedController
 import pt.ipca.escutas.models.News
