@@ -21,9 +21,24 @@ import pt.ipca.escutas.views.adapters.OnNewItemClickListener
  */
 class GalleryFragment : Fragment(), OnNewItemClickListener {
 
+    /**
+     * The layout manager.
+     */
     private var layoutManager: RecyclerView.LayoutManager? = null
+
+    /**
+     *  The images list.
+     */
     private var images: List<String> = emptyList()
+
+    /**
+     *  The gallery controller.
+     */
     private val galleryController: GalleryController = GalleryController()
+
+    /**
+     * The gallery recycler view adapter.
+     */
     private var adapter: RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>? = null
 
     /**
@@ -41,12 +56,20 @@ class GalleryFragment : Fragment(), OnNewItemClickListener {
     ): View? =
         inflater.inflate(R.layout.fragment_gallery, container, false)
 
+    /**
+     * Invoked when the activity is starting.
+     *
+     * @param savedInstanceState The saved instance state.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
     }
 
+    /**
+     * Populate recycler view with an adapter with all the necessary data.
+     *
+     */
     private fun initRecyclerView() {
         layoutManager = LinearLayoutManager(this.context)
 
@@ -66,10 +89,16 @@ class GalleryFragment : Fragment(), OnNewItemClickListener {
         fun getInstance(): GalleryFragment = GalleryFragment()
     }
 
+    /**
+     * Invoked when the view is fully created.
+     *
+     * @param view
+     * @param savedInstanceState
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var eventName = arguments?.getString("eventName", "DefaultEmptyPath");
+        var eventName = arguments?.getString("eventName", "DefaultEmptyPath")
 
         galleryController.getImagesPath(
             eventName!!.trimEnd(),

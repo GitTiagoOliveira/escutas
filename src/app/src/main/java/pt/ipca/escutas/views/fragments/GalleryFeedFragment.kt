@@ -26,9 +26,22 @@ class GalleryFeedFragment : Fragment(), OnAlbumFeedItemClickListener {
      * The gallery controller.
      */
     private val galleryController: GalleryController = GalleryController()
+
+    /**
+     * The event data list.
+     */
     private var events: List<Album> = emptyList()
+
+    /**
+     * The gallery feed recycler view adapter.
+     */
     private var adapter: RecyclerView.Adapter<GalleryFeedAdapter.GalleryFeedViewHolder>? = null
 
+    /**
+     * Invoked when the activity is starting.
+     *
+     * @param savedInstanceState The saved instance state.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
@@ -59,6 +72,10 @@ class GalleryFeedFragment : Fragment(), OnAlbumFeedItemClickListener {
         return inflater.inflate(R.layout.fragment_gallery_feed, container, false)
     }
 
+    /**
+     * Populate recycler view with an adapter with all the necessary data.
+     *
+     */
     private fun initRecyclerView() {
         val recycler: RecyclerView = view!!.findViewById(R.id.recyclerViewFeed)
 
@@ -75,13 +92,5 @@ class GalleryFeedFragment : Fragment(), OnAlbumFeedItemClickListener {
          * @return A instance of the current fragment.
          */
         fun getInstance(): GalleryFeedFragment = GalleryFeedFragment()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-    public interface OnClickListener {
-        fun onClick()
     }
 }

@@ -122,11 +122,17 @@ open class BaseActivity : AppCompatActivity() {
         this.navigationMenu.selectedItemId = R.id.navigation_newsfeed
     }
 
+    /**
+     * Handle fragment back arrow behavior
+     *
+     * @param item
+     * @return
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             val countFrag = supportFragmentManager.backStackEntryCount
             if (countFrag > 0) {
-                supportFragmentManager.popBackStackImmediate();
+                supportFragmentManager.popBackStackImmediate()
                 if (supportFragmentManager.fragments.isNotEmpty()) {
                     (supportFragmentManager.fragments[supportFragmentManager.fragments.size - 1].activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 }

@@ -351,9 +351,8 @@ class RegistrationActivity : AppCompatActivity() {
      * @return
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // handle arrow click here
-        if (item.getItemId() === android.R.id.home) {
-            finish() // close this activity and return to preview activity (if there is any)
+        if (item.itemId === android.R.id.home) {
+            finish()
         }
         return super.onOptionsItemSelected(item)
     }

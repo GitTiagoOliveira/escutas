@@ -24,17 +24,42 @@ class NewsFeedAdapter(var items: List<News>, var clickListener: OnNewItemClickLi
          */
         private val newsfeedController: NewsFeedController = NewsFeedController()
 
+        /**
+         * The [image] represents the news feed card_news image.
+         */
         var image: ImageView = itemView.findViewById(R.id.item_image)
+
+        /**
+         * The [textTitle] represents the news feed card_news title.
+         */
         var textTitle: TextView = itemView.findViewById(R.id.item_title)
+
+        /**
+         * The [textDes] represents the news feed card_news description.
+         */
         var textDes: TextView = itemView.findViewById(R.id.item_details)
 
+        /**
+         * The [newsTitle]  represents the news card_news title.
+         */
         val newsTitle: TextView = textTitle
+
+        /**
+         * The [newsDetails] represents the news card_news details.
+         */
         val newsDetails: TextView = textDes
+
+        /**
+         * The [newsImage] represents the news card_news image.
+         */
         val newsImage: ImageView = image
 
-        fun inititalize(item: News, action: OnNewItemClickListener) {
-            newsTitle.setText(item.title)
-            newsDetails.setText(item.body)
+        /**
+         * Populate the recycle viewer elements.
+         */
+        fun bind(item: News, action: OnNewItemClickListener) {
+            newsTitle.text = item.title
+            newsDetails.text = item.body
 
             if (item.image != null && item.image != "") {
                 newsfeedController.getNewsImage(
@@ -56,17 +81,30 @@ class NewsFeedAdapter(var items: List<News>, var clickListener: OnNewItemClickLi
         }
     }
 
+    /**
+     * Creates a new ViewHolder object for the RecyclerView
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.card_news, parent, false)
         return NewsViewHolder(v)
     }
 
+    /**
+     * Populate ViewHolders data
+     *
+     * @param holder
+     * @param position
+     */
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
 
         when (holder) {
 
             is NewsFeedAdapter.NewsViewHolder -> {
-                holder.inititalize(items.get(position), clickListener)
+                holder.bind(items[position], clickListener)
             }
         }
 
@@ -90,16 +128,24 @@ class NewsFeedAdapter(var items: List<News>, var clickListener: OnNewItemClickLi
         })
     }
 
+    /**
+     * Retrieve item count
+     *
+     * @return items size
+     */
     override fun getItemCount(): Int {
         return items.size
-    }
-
-    fun submitList(newsList: List<News>) {
-        items = newsList
     }
 }
 
 interface OnNewItemClickListener {
+
+    /**
+     * Action when opening a news.
+     *
+     * @param item
+     * @param position
+     */
     fun onItemClick(item: News, position: Int) {
     }
 }

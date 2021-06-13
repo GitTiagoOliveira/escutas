@@ -28,7 +28,7 @@ data class News(
     var details: String,
 
     /**
-     * The news [Image].
+     * The news image path.
      */
     var image: String,
 )
