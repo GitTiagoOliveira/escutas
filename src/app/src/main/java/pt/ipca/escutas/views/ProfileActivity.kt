@@ -50,6 +50,13 @@ class ProfileActivity : AppCompatActivity() {
             override fun onCallback(value: Any?) {
                 if (value != null) {
                     var user = value as User
+                    nameText.text = user.name
+                    emailText.text = user.email
+                    var calendar = Calendar.getInstance()
+                    calendar.time = user.birthday
+                    birthdayText.text =
+                        calendar[Calendar.DAY_OF_MONTH].toString() + "-" + calendar[Calendar.MONTH].toString() + "-" + calendar[Calendar.YEAR]
+                    groupText.text = user.groupName
                     if (user.photo != null && user.photo != "") {
                         profileController.getUserImage(
                             user.photo,
@@ -59,20 +66,6 @@ class ProfileActivity : AppCompatActivity() {
                                         var image = value as Bitmap
                                         imageLayout.setImageBitmap(image)
                                         profileController.saveImage(image)
-                                        profileController.getUser(object : GenericCallback {
-                                            override fun onCallback(value: Any?) {
-                                                if (value != null) {
-                                                    var user = value as User
-                                                    nameText.text = user.name
-                                                    emailText.text = user.email
-                                                    var calendar = Calendar.getInstance()
-                                                    calendar.time = user.birthday
-                                                    birthdayText.text =
-                                                        calendar[Calendar.DAY_OF_MONTH].toString() + "-" + calendar[Calendar.MONTH].toString() + "-" + calendar[Calendar.YEAR]
-                                                    groupText.text = user.groupName
-                                                }
-                                            }
-                                        })
                                     }
                                 }
                             }
