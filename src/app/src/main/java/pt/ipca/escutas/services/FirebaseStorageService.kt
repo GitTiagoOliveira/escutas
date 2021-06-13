@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ListResult
 import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.services.contracts.IStorageService
@@ -115,7 +114,7 @@ class FirebaseStorageService : IStorageService {
     override fun listFolder(
         folderPath: String,
         callback: GenericCallback
-    ){
+    ) {
 
         val images = ArrayList<String>()
 
@@ -127,7 +126,7 @@ class FirebaseStorageService : IStorageService {
                     for (document in task.result.items) {
                         images.add(document.path)
                     }
-                    if(images.isEmpty()){
+                    if (images.isEmpty()) {
                         listFolder("albums/DefaultEmptyPath", callback)
                     } else {
                         callback.onCallback(images)

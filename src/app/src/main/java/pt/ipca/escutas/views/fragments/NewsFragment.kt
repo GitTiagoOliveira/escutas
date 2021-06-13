@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_news.*
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.NewsFeedController
 import pt.ipca.escutas.services.callbacks.GenericCallback
@@ -20,11 +19,24 @@ import pt.ipca.escutas.services.callbacks.GenericCallback
  */
 class NewsFragment : Fragment() {
 
+    /**
+     * Invoked when the activity is starting.
+     *
+     * @param savedInstanceState The saved instance state.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    /**
+     * Invoked when the fragment instantiates his view.
+     *
+     * @param inflater The inflater.
+     * @param container The container.
+     * @param savedInstanceState The saved instance state.
+     * @return The fragment view.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,6 +46,12 @@ class NewsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_news, container, false)
     }
 
+    /**
+     * Invoked when the view is fully created.
+     *
+     * @param view
+     * @param savedInstanceState
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

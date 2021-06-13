@@ -17,7 +17,6 @@ import androidx.core.app.ActivityCompat
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
-import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -26,7 +25,6 @@ import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
-import kotlinx.android.synthetic.main.activity_login.view.*
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.LoginController
 import pt.ipca.escutas.resources.Strings
@@ -34,7 +32,6 @@ import pt.ipca.escutas.services.callbacks.AuthCallback
 import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.services.exceptions.AuthException
 import pt.ipca.escutas.utils.StringUtils.isValidEmail
-import java.lang.Exception
 import kotlin.collections.HashMap
 
 /**
@@ -137,12 +134,7 @@ class LoginActivity : AppCompatActivity() {
 
                             override fun onCallbackError(error: String) {
                                 Toast.makeText(applicationContext, error, Toast.LENGTH_LONG).show()
-                                // Facebook Logout
-                                try {
-                                    LoginManager.getInstance().logOut()
-                                } catch (e: Exception) {
-                                    // Ignore
-                                }
+                                loginController.facebookLogout()
                             }
                         }
                     )
@@ -257,13 +249,7 @@ class LoginActivity : AppCompatActivity() {
 
                                 override fun onCallbackError(error: String) {
                                     Toast.makeText(applicationContext, error, Toast.LENGTH_LONG).show()
-                                    try {
-                                        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-                                        val googleSignInClient = GoogleSignIn.getClient(this@LoginActivity, gso)
-                                        googleSignInClient.signOut()
-                                    } catch (e: Exception) {
-                                        // Ignore
-                                    }
+                                    loginController.gmailLogout(this@LoginActivity)
                                 }
                             }
                         )

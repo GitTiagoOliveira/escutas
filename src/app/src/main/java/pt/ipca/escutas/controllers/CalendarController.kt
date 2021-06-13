@@ -6,11 +6,11 @@ import com.google.firebase.Timestamp
 import pt.ipca.escutas.models.Event
 import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.SqliteDatabaseService
-import pt.ipca.escutas.services.callbacks.*
+import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.utils.NetworkUtils
 import pt.ipca.escutas.views.fragments.CalendarFragment
 import java.io.InputStream
-import java.util.*
+import java.util.UUID
 
 /**
  * Defines the [CalendarFragment] controller.
@@ -18,6 +18,9 @@ import java.util.*
  */
 class CalendarController : BaseController() {
 
+    /**
+     * Save event data for further requests from the same fragment.
+     */
     private var eventList: ArrayList<Event> = arrayListOf()
 
     /**
@@ -34,6 +37,13 @@ class CalendarController : BaseController() {
         }
     }
 
+    /**
+     * Populate SQLite Service with necessary data and retrieve from database.
+     * If no network access is available read directly from SQLite.
+     *
+     * @param context
+     * @param callback
+     */
     private fun prepareEvents(context: Context, callback: GenericCallback) {
 
         var sqliteService = SqliteDatabaseService(context)
@@ -43,14 +53,14 @@ class CalendarController : BaseController() {
                 Strings.MSG_STORAGE_EVENT_LOCATION,
                 object : GenericCallback {
                     override fun onCallback(value: Any?) {
-
+                        sqliteService.deleteRecord(Strings.MSG_STORAGE_EVENT_LOCATION, null)
                         var list = value as HashMap<String, Any>
                         list.forEach { (key, value) ->
 
                             val values = value as HashMap<String, Any>
                             val idMap = value["id"] as HashMap<String, Long>
                             val event = Event(
-                                UUID(idMap.get("mostSignificantBits")!!,idMap.get("leastSignificantBits")!!),
+                                UUID(idMap.get("mostSignificantBits")!!, idMap.get("leastSignificantBits")!!),
                                 values["name"] as String,
                                 values["description"] as String,
                                 (values["startDate"] as Timestamp).toDate(),
@@ -75,7 +85,6 @@ class CalendarController : BaseController() {
                 }
             )
         } else {
-            // Retrieve from cache
             sqliteService.getAllRecords(Strings.MSG_STORAGE_EVENT_LOCATION, callback)
         }
     }

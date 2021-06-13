@@ -34,7 +34,7 @@ data class Event(
     var endDate: Date,
 
     /**
-     * The event attachment [Image].
+     * The event attachment image path.
      */
     var attachment: String,
 

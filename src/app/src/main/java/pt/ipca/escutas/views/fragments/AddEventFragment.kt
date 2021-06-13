@@ -29,6 +29,9 @@ import java.util.*
  */
 class AddEventFragment : Fragment() {
 
+    /**
+     * The photo file uri.
+     */
     private var fileUri: Uri? = null
 
     /**
@@ -46,11 +49,24 @@ class AddEventFragment : Fragment() {
      */
     private var RESULT_LOAD_IMAGE = 111
 
+    /**
+     * Invoked when the activity is starting.
+     *
+     * @param savedInstanceState The saved instance state.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    /**
+     * Invoked when the fragment instantiates his view.
+     *
+     * @param inflater The inflater.
+     * @param container The container.
+     * @param savedInstanceState The saved instance state.
+     * @return The fragment view.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,6 +77,12 @@ class AddEventFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add_event, container, false)
     }
 
+    /**
+     * Invoked when the view is fully created.
+     *
+     * @param view
+     * @param savedInstanceState
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -160,19 +182,6 @@ class AddEventFragment : Fragment() {
             selectedImage,
             filePathColumn, null, null, null
         )
-/*
-        if(cursor != null) {
-            cursor.moveToFirst()
-
-            val columnIndex: Int = cursor.getColumnIndex(filePathColumn[0])
-            val picturePath: String = cursor.getString(columnIndex)
-
-            cursor.close()
-            val image = view!!.findViewById<EditText>((R.id.textView_addAnexo))
-            //image.setImageBitmap(BitmapFactory.decodeFile(picturePath))
-        }
-
- */
     }
 
     /**
@@ -238,9 +247,6 @@ class AddEventFragment : Fragment() {
             endHourPicker.error = Strings.MSG_FIELD_BLANK
             return
         }
-
-        // val attachmentField = view!!.findViewById<EditText>(R.id.textView_addAnexo)
-        // val attachment = attachmentField.text.toString().trim()
 
         if (fileUri != null) {
             inputStream = activity?.contentResolver?.openInputStream(fileUri!!)

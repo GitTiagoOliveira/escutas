@@ -78,7 +78,6 @@ class MapController : BaseController() {
                 }
             )
         } else {
-            // Retrieve from cache
             sqliteService.getAllRecords(MSG_STORAGE_GROUP_LOCATION, callback)
         }
     }

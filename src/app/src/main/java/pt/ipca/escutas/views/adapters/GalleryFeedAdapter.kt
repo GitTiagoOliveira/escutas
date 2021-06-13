@@ -28,13 +28,30 @@ class GalleryFeedAdapter(
          */
         private val galleryController: GalleryController = GalleryController()
 
+        /**
+         * The [image] represents the gallery card_image image.
+         */
         var image: ImageView = itemView.findViewById(R.id.item_image)
+
+        /**
+         * The [textTitle] represents the gallery card_image title.
+         */
         var textTitle: TextView = itemView.findViewById(R.id.item_title)
 
+        /**
+         * The [albumTitle] represents the gallery card_album title.
+         */
         val albumTitle: TextView = textTitle
+
+        /**
+         * The [albumTitle] represents the gallery card_album image.
+         */
         val AlbumImage: ImageView = image
 
-        fun inititalize(item: Album, action: OnAlbumFeedItemClickListener) {
+        /**
+         * Populate the recycle viewer elements.
+         */
+        fun bind(item: Album, action: OnAlbumFeedItemClickListener) {
 
             albumTitle.text = item.name
 
@@ -58,15 +75,28 @@ class GalleryFeedAdapter(
         }
     }
 
+    /**
+     * Creates a new ViewHolder object for the RecyclerView
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GalleryFeedViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card_album, parent, false)
         return GalleryFeedViewHolder(view)
     }
 
+    /**
+     * Populate ViewHolders data
+     *
+     * @param holder
+     * @param position
+     */
     override fun onBindViewHolder(holder: GalleryFeedViewHolder, position: Int) {
         when (holder) {
             else -> {
-                holder.inititalize(items[position], clickListener)
+                holder.bind(items[position], clickListener)
             }
         }
 
@@ -85,16 +115,23 @@ class GalleryFeedAdapter(
         }
     }
 
+    /**
+     * Retrieve item count
+     *
+     * @return items size
+     */
     override fun getItemCount(): Int {
         return items.size
-    }
-
-    fun submitList(albumList: List<Album>) {
-        items = albumList
     }
 }
 
 interface OnAlbumFeedItemClickListener {
+    /**
+     * Action when opening an album.
+     *
+     * @param item
+     * @param position
+     */
     fun onItemClick(item: Album, position: Int) {
     }
 }
