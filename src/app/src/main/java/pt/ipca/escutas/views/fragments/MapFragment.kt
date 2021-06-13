@@ -198,10 +198,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    fun getMap(): GoogleMap? {
-        return map
-    }
-
     companion object {
         /**
          * Gets a instance of the current fragment.

@@ -11,6 +11,9 @@ import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.GalleryController
 import pt.ipca.escutas.services.callbacks.GenericCallback
 
+/**
+ * The gallery adapter for Gallery Fragment.
+ */
 class GalleryAdapter(var images: List<String>) :
     RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
 
@@ -21,13 +24,30 @@ class GalleryAdapter(var images: List<String>) :
          */
         private val galleryController: GalleryController = GalleryController()
 
+        /**
+         * The [image] represents the gallery card_image image.
+         */
         var image: ImageView = itemView.findViewById(R.id.item_image)
+
+        /**
+         * The [textTitle] represents the gallery card_image title.
+         */
         var textTitle: TextView = itemView.findViewById(R.id.item_title)
 
+        /**
+         * The [albumTitle] represents the gallery card_album title.
+         */
         val albumTitle: TextView = textTitle
+
+        /**
+         * The [albumTitle] represents the gallery card_album image.
+         */
         val AlbumImage: ImageView = image
 
-        fun inititalize(item: String) {
+        /**
+         * Populate the recycle viewer elements.
+         */
+        fun bind(item: String) {
 
             albumTitle.text = item.substringAfterLast("/").substringBeforeLast(".")
 
@@ -45,22 +65,38 @@ class GalleryAdapter(var images: List<String>) :
         }
     }
 
+    /**
+     * Creates a new ViewHolder object for the RecyclerView
+     *
+     * @param parent
+     * @param viewType
+     * @return
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GalleryViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.card_image, parent, false)
         return GalleryViewHolder(v)
     }
 
+    /**
+     * Populate ViewHolders data
+     *
+     * @param holder
+     * @param position
+     */
     override fun onBindViewHolder(holder: GalleryAdapter.GalleryViewHolder, position: Int) {
         when (holder) {
             else -> {
-                holder.inititalize(images[position])
+                holder.bind(images[position])
             }
         }
     }
 
-    override fun getItemCount(): Int = images.size
-
-    fun submitList(imagesList: List<String>) {
-        images = imagesList
+    /**
+     * Retrieve item count
+     *
+     * @return items size
+     */
+    override fun getItemCount(): Int {
+        return images.size
     }
 }

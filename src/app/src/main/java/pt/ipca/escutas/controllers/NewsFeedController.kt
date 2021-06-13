@@ -5,9 +5,9 @@ import android.content.Context
 import pt.ipca.escutas.models.News
 import pt.ipca.escutas.resources.Strings
 import pt.ipca.escutas.services.SqliteDatabaseService
-import pt.ipca.escutas.services.callbacks.*
+import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.utils.NetworkUtils
-import java.util.*
+import java.util.UUID
 
 /**
  * Defines the [NewsFeedFragment] controller.
@@ -31,6 +31,13 @@ class NewsFeedController : BaseController() {
         }
     }
 
+    /**
+     * Populate SQLite Service with necessary data and retrieve from database.
+     * If no network access is available read directly from SQLite.
+     *
+     * @param context
+     * @param callback
+     */
     private fun prepareNews(context: Context, callback: GenericCallback) {
 
         var sqliteService = SqliteDatabaseService(context)
@@ -40,9 +47,7 @@ class NewsFeedController : BaseController() {
                 Strings.MSG_STORAGE_NEWS_LOCATION,
                 object : GenericCallback {
                     override fun onCallback(value: Any?) {
-
                         sqliteService.deleteRecord(Strings.MSG_STORAGE_NEWS_LOCATION, null)
-
                         var list = value as HashMap<String, Any>
                         list.forEach { (key, value) ->
 
@@ -69,7 +74,6 @@ class NewsFeedController : BaseController() {
                 }
             )
         } else {
-            // Retrieve from cache
             sqliteService.getAllRecords(Strings.MSG_STORAGE_NEWS_LOCATION, callback)
         }
     }

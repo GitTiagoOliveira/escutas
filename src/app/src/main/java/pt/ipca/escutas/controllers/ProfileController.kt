@@ -44,7 +44,7 @@ class ProfileController : BaseController() {
                         val values = value as HashMap<String, Any>
                         val idMap = value["id"] as HashMap<String, Long>
                         user = User(
-                            UUID(idMap.get("mostSignificantBits")!!,idMap.get("leastSignificantBits")!!),
+                            UUID(idMap.get("mostSignificantBits")!!, idMap.get("leastSignificantBits")!!),
                             values["photo"] as String,
                             values["email"] as String,
                             values["name"] as String,
@@ -86,20 +86,47 @@ class ProfileController : BaseController() {
         profileImage = image
     }
 
-    fun logoutUser(profileActivity: ProfileActivity) {
+    /**
+     * Logout user
+     *
+     * @param activity
+     */
+    fun logoutUser(activity: ProfileActivity) {
+
+        for (userDetails in auth.getCurrentUser().providerData) {
+            if (userDetails.providerId == "google.com") {
+                gmailLogout(activity)
+            } else if (userDetails.providerId == "facebook.com") {
+                facebookLogout(activity)
+            }
+        }
         // Firebase Logout
         auth.logout()
-        // Facebook Logout
+    }
+
+    /**
+     * Logout gmail user
+     *
+     * @param activity
+     */
+    private fun gmailLogout(activity: ProfileActivity) {
         try {
-            LoginManager.getInstance().logOut()
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+            val googleSignInClient = GoogleSignIn.getClient(activity, gso)
+            googleSignInClient.signOut()
         } catch (e: Exception) {
             // Ignore
         }
-        // Gmail Logout
+    }
+
+    /**
+     * Logout facebook user
+     *
+     * @param activity
+     */
+    private fun facebookLogout(activity: ProfileActivity) {
         try {
-            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-            val googleSignInClient = GoogleSignIn.getClient(profileActivity, gso)
-            googleSignInClient.signOut()
+            LoginManager.getInstance().logOut()
         } catch (e: Exception) {
             // Ignore
         }

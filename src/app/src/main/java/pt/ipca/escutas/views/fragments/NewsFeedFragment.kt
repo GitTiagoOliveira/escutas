@@ -27,10 +27,27 @@ class NewsFeedFragment : Fragment(), OnNewItemClickListener {
      * The news feed controller.
      */
     private val newsfeedController: NewsFeedController = NewsFeedController()
+
+    /**
+     * The news feed list.
+     */
     private var news: List<News> = emptyList()
+
+    /**
+     * The layout manager.
+     */
     private var layoutManager: RecyclerView.LayoutManager? = null
+
+    /**
+     * The News Feed recycler view adapter.
+     */
     private var adapter: RecyclerView.Adapter<NewsFeedAdapter.NewsViewHolder>? = null
 
+    /**
+     * Invoked when the activity is starting.
+     *
+     * @param savedInstanceState The saved instance state.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
@@ -52,6 +69,10 @@ class NewsFeedFragment : Fragment(), OnNewItemClickListener {
         )
     }
 
+    /**
+     * Populate recycler view with an adapter with all the necessary data.
+     *
+     */
     private fun initRecyclerView() {
         layoutManager = LinearLayoutManager(this.context)
 
@@ -62,13 +83,19 @@ class NewsFeedFragment : Fragment(), OnNewItemClickListener {
         recyclerView.adapter = adapter
     }
 
+    /**
+     * Invoked when the fragment instantiates his view.
+     *
+     * @param inflater The inflater.
+     * @param container The container.
+     * @param savedInstanceState The saved instance state.
+     * @return The fragment view.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_news_feed, container, false)
     }
 
@@ -79,13 +106,5 @@ class NewsFeedFragment : Fragment(), OnNewItemClickListener {
          * @return A instance of the current fragment.
          */
         fun getInstance(): NewsFeedFragment = NewsFeedFragment()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-    public interface OnClickListener {
-        fun onClick()
     }
 }

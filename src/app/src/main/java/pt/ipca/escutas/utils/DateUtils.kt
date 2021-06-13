@@ -25,6 +25,12 @@ object DateUtils {
         return cal.time
     }
 
+    /**
+     * Returns the month of a specific date
+     *
+     * @param date The Date value.
+     * @return The month in string format
+     */
     fun getMonth(date: Date): String {
         val cal = Calendar.getInstance()
 
@@ -35,6 +41,12 @@ object DateUtils {
         return cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.US)
     }
 
+    /**
+     * Returns the day of a specific date
+     *
+     * @param date The Date value.
+     * @return The day in string format
+     */
     fun getDay(date: Date): String {
         val cal = Calendar.getInstance()
 

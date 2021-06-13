@@ -202,7 +202,7 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
      * @param selectQuery
      * @param callback
      */
-    fun prepareRecordQuery(model: String, selectQuery: String, callback: GenericCallback) {
+    private fun prepareRecordQuery(model: String, selectQuery: String, callback: GenericCallback) {
 
         val db = this.readableDatabase
         outputList.clear()
@@ -230,7 +230,7 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
      * @param cursor
      * @param output
      */
-    fun getUserRecord(cursor: Cursor, output: ArrayList<Any>) {
+    private fun getUserRecord(cursor: Cursor, output: ArrayList<Any>) {
         var photo = cursor.getString((cursor.getColumnIndex("photo")))
         var email = cursor.getString((cursor.getColumnIndex("email")))
         var name = cursor.getString((cursor.getColumnIndex("name")))
@@ -246,7 +246,7 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
      * @param cursor
      * @param output
      */
-    fun getNewsRecord(cursor: Cursor, output: ArrayList<Any>) {
+    private fun getNewsRecord(cursor: Cursor, output: ArrayList<Any>) {
         var title = cursor.getString((cursor.getColumnIndex("title")))
         var body = cursor.getString((cursor.getColumnIndex("body")))
         var details = cursor.getString((cursor.getColumnIndex("details")))
@@ -261,7 +261,7 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
      * @param cursor
      * @param output
      */
-    fun getGroupRecord(cursor: Cursor, output: ArrayList<Any>) {
+    private fun getGroupRecord(cursor: Cursor, output: ArrayList<Any>) {
         var name = cursor.getString((cursor.getColumnIndex("name")))
         var description = cursor.getString((cursor.getColumnIndex("description")))
         var latitude = cursor.getDouble((cursor.getColumnIndex("latitude")))
@@ -276,7 +276,7 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
      * @param cursor
      * @param output
      */
-    fun getEventRecord(cursor: Cursor, output: ArrayList<Any>) {
+    private fun getEventRecord(cursor: Cursor, output: ArrayList<Any>) {
 
         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
             "name VARCHAR(256)," +

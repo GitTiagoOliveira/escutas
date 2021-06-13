@@ -3,7 +3,8 @@ package pt.ipca.escutas.controllers
 import pt.ipca.escutas.models.Album
 import pt.ipca.escutas.services.callbacks.GenericCallback
 import pt.ipca.escutas.views.fragments.GalleryFragment
-import java.util.*
+import java.util.Date
+import java.util.UUID
 import kotlin.collections.HashMap
 
 /**
@@ -48,6 +49,11 @@ class GalleryController : BaseController() {
         storage.listFolder("albums/".plus(eventName), callback)
     }
 
+    /**
+     * Retrieves all events from database service.
+     *
+     * @param callback
+     */
     private fun prepareEvents(callback: GenericCallback) {
         database.getRecordWithLessThanFilter(
             "events",
@@ -63,7 +69,7 @@ class GalleryController : BaseController() {
 
                         val idMap = value["id"] as java.util.HashMap<String, Long>
                         val event = Album(
-                            UUID(idMap.get("mostSignificantBits")!!,idMap.get("leastSignificantBits")!!),
+                            UUID(idMap.get("mostSignificantBits")!!, idMap.get("leastSignificantBits")!!),
                             values["name"] as String,
                             values["attachment"] as String
                         )

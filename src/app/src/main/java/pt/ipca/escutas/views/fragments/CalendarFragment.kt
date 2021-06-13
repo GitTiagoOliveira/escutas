@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_news_feed.recyclerView
 import pt.ipca.escutas.R
 import pt.ipca.escutas.controllers.CalendarController
@@ -23,6 +21,9 @@ import java.util.ArrayList
  */
 class CalendarFragment : Fragment() {
 
+    /**
+     * The calendar adapter for the calendar recycler view fragment.
+     */
     private lateinit var calendarAdapter: CalendarAdapter
 
     /**
@@ -35,6 +36,11 @@ class CalendarFragment : Fragment() {
      */
     private var events: List<Event> = emptyList()
 
+    /**
+     * Invoked when the activity is starting.
+     *
+     * @param savedInstanceState The saved instance state.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val applicationContext = activity!!.applicationContext
@@ -53,11 +59,10 @@ class CalendarFragment : Fragment() {
         )
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
-    }
-
+    /**
+     * Populate recycler view with an adapter with all the necessary data.
+     *
+     */
     private fun initRecyclerView() {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this.context)
@@ -66,9 +71,14 @@ class CalendarFragment : Fragment() {
         }
     }
 
-    private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adapter: RecyclerView.Adapter<CalendarAdapter.EventViewHolder>? = null
-
+    /**
+     * Invoked when the fragment instantiates his view.
+     *
+     * @param inflater The inflater.
+     * @param container The container.
+     * @param savedInstanceState The saved instance state.
+     * @return The fragment view.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -89,16 +99,14 @@ class CalendarFragment : Fragment() {
         fun getInstance(): CalendarFragment = CalendarFragment()
     }
 
+    /**
+     * Invoked when the view is fully created.
+     *
+     * @param view
+     * @param savedInstanceState
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // layoutManager = LinearLayoutManager(this.context)
-
-        // val recycler: RecyclerView = view!!.findViewById(R.id.recyclerView)
-        // recycler.layoutManager = layoutManager
-
-        // adapter = CalendarAdapter()
-        // recyclerView.adapter = adapter
 
         val button: Button = view!!.findViewById(R.id.button_add)
         button.setOnClickListener {

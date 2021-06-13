@@ -1,7 +1,6 @@
 package pt.ipca.escutas.services.contracts
 
 import com.google.android.gms.tasks.Task
-import com.google.firebase.storage.ListResult
 import pt.ipca.escutas.services.callbacks.GenericCallback
 import java.io.InputStream
 
