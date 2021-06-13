@@ -34,9 +34,6 @@ class ProfileController : BaseController() {
      * @param callback
      */
     fun getUser(callback: GenericCallback) {
-        if (user != null) {
-            callback.onCallback(user!!)
-        } else {
             getUserDetails(object : GenericCallback {
                 override fun onCallback(value: Any?) {
                     var list = value as HashMap<String, Any>
@@ -55,7 +52,6 @@ class ProfileController : BaseController() {
                     }
                 }
             })
-        }
     }
 
     /**
