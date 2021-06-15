@@ -187,7 +187,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                                     task.result.latitude,
                                     task.result.longitude
                                 ),
-                                11.0F
+                                16.0F
                             )
                         )
                     }
