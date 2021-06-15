@@ -6,6 +6,7 @@ import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -66,6 +67,11 @@ class LoginActivity : AppCompatActivity() {
     private val REQUEST_EXTERNAL_STORAGE = 1
 
     /**
+     * Double click counter.
+     */
+    private var mLastClickTime: Long = 0
+
+    /**
      * The required permissions to upload image from external storage.
      */
     private val PERMISSIONS_STORAGE = arrayOf(
@@ -95,6 +101,12 @@ class LoginActivity : AppCompatActivity() {
             .build()
         val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         gmailView.setOnClickListener {
+
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                return@setOnClickListener
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
+
             facebookRequest = false
             val signInIntent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
@@ -102,6 +114,10 @@ class LoginActivity : AppCompatActivity() {
 
         facebookView.setOnClickListener {
             facebookRequest = true
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                return@setOnClickListener
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
         }
         facebookView.setReadPermissions("public_profile email")
         facebookView.registerCallback(
@@ -152,6 +168,10 @@ class LoginActivity : AppCompatActivity() {
         )
 
         loginView.setOnClickListener {
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                return@setOnClickListener
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
             val emailField = findViewById<EditText>(R.id.editText_login_email)
             val email = emailField.text.toString().trim()
 
@@ -189,17 +209,29 @@ class LoginActivity : AppCompatActivity() {
         }
 
         registerView.setOnClickListener {
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                return@setOnClickListener
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
             this.verifyStoragePermissions(this)
             val intent = Intent(this@LoginActivity, RegistrationActivity::class.java)
             startActivity(intent)
         }
 
         aboutView.setOnClickListener {
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                return@setOnClickListener
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
             val intent = Intent(this@LoginActivity, AboutActivity::class.java)
             startActivity(intent)
         }
 
         forgotView.setOnClickListener {
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                return@setOnClickListener
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
             val intent = Intent(this@LoginActivity, PasswordActivity::class.java)
             startActivity(intent)
         }

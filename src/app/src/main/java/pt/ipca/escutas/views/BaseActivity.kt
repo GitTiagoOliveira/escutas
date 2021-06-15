@@ -3,6 +3,7 @@ package pt.ipca.escutas.views
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -37,9 +38,21 @@ open class BaseActivity : AppCompatActivity() {
     private val profileController by lazy { ProfileController() }
 
     /**
+     * Double click counter.
+     */
+    private var mLastClickTime: Long = 0
+
+    /**
      * The navigation menu item listener.
      */
     private val onNavigationMenuItemListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+            return@OnNavigationItemSelectedListener false;
+        }
+
+        mLastClickTime = SystemClock.elapsedRealtime();
+
         when (item.itemId) {
             R.id.navigation_newsfeed -> {
                 this.toolbar.setTitle(R.string.menu_bottom_navigation_news_feed)
@@ -110,6 +123,12 @@ open class BaseActivity : AppCompatActivity() {
         })
 
         imageLayout.setOnClickListener {
+
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                return@setOnClickListener
+            }
+
+            mLastClickTime = SystemClock.elapsedRealtime();
             val intent = Intent(this@BaseActivity, ProfileActivity::class.java)
             startActivity(intent)
         }

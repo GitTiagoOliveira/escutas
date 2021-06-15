@@ -2,6 +2,7 @@ package pt.ipca.escutas.views.adapters
 
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,6 +56,11 @@ class NewsFeedAdapter(var items: List<News>, var clickListener: OnNewItemClickLi
         val newsImage: ImageView = image
 
         /**
+         * Double click counter.
+         */
+        private var mLastClickTime: Long = 0
+
+        /**
          * Populate the recycle viewer elements.
          */
         fun bind(item: News, action: OnNewItemClickListener) {
@@ -76,6 +82,11 @@ class NewsFeedAdapter(var items: List<News>, var clickListener: OnNewItemClickLi
             }
 
             itemView.setOnClickListener {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return@setOnClickListener
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
+
                 action.onItemClick(item, absoluteAdapterPosition)
             }
         }
@@ -108,24 +119,23 @@ class NewsFeedAdapter(var items: List<News>, var clickListener: OnNewItemClickLi
             }
         }
 
-        holder.itemView.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                val bundle = Bundle()
-                bundle.putString("title", items[position].title)
-                bundle.putString("body", items[position].body)
-                bundle.putString("image", items[position].image)
-                bundle.putString("details", items[position].details)
+        holder.itemView.setOnClickListener{ view ->
 
-                val fragment = NewsFragment()
-                fragment.arguments = bundle
-                val activity = v!!.context as AppCompatActivity
-                val fragmentManager = activity!!.supportFragmentManager
-                val fragmentTransaction = fragmentManager.beginTransaction()
-                fragmentTransaction.add(R.id.container, fragment)
-                fragmentTransaction.addToBackStack(null)
-                fragmentTransaction.commit()
-            }
-        })
+            val bundle = Bundle()
+            bundle.putString("title", items[position].title)
+            bundle.putString("body", items[position].body)
+            bundle.putString("image", items[position].image)
+            bundle.putString("details", items[position].details)
+
+            val fragment = NewsFragment()
+            fragment.arguments = bundle
+            val activity = view!!.context as AppCompatActivity
+            val fragmentManager = activity!!.supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            fragmentTransaction.add(R.id.container, fragment)
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit()
+        }
     }
 
     /**

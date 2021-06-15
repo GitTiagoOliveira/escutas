@@ -2,6 +2,7 @@ package pt.ipca.escutas.views.adapters
 
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,6 +50,11 @@ class GalleryFeedAdapter(
         val AlbumImage: ImageView = image
 
         /**
+         * Double click counter.
+         */
+        private var mLastClickTime: Long = 0
+
+        /**
          * Populate the recycle viewer elements.
          */
         fun bind(item: Album, action: OnAlbumFeedItemClickListener) {
@@ -70,6 +76,10 @@ class GalleryFeedAdapter(
             }
 
             itemView.setOnClickListener {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return@setOnClickListener
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 action.onItemClick(item, absoluteAdapterPosition)
             }
         }
@@ -101,6 +111,8 @@ class GalleryFeedAdapter(
         }
 
         holder.itemView.setOnClickListener { view ->
+
+
             val bundle = Bundle()
             bundle.putString("eventName", items[position].name)
 

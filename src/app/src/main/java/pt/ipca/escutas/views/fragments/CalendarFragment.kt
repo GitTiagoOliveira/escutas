@@ -1,6 +1,7 @@
 package pt.ipca.escutas.views.fragments
 
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,11 @@ class CalendarFragment : Fragment() {
      * The list of events.
      */
     private var events: List<Event> = emptyList()
+
+    /**
+     * Double click counter.
+     */
+    private var mLastClickTime: Long = 0
 
     /**
      * Invoked when the activity is starting.
@@ -110,6 +116,10 @@ class CalendarFragment : Fragment() {
 
         val button: Button = view!!.findViewById(R.id.button_add)
         button.setOnClickListener {
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                return@setOnClickListener
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
             val fragment = AddEventFragment()
             val fragmentManager = activity!!.supportFragmentManager
             val fragmentTransaction = fragmentManager.beginTransaction()
