@@ -80,6 +80,9 @@ class CalendarController : BaseController() {
 
                             eventList.add(event)
                         }
+
+                        eventList.sortBy { it.startDate }
+
                         callback.onCallback(eventList)
                     }
                 }

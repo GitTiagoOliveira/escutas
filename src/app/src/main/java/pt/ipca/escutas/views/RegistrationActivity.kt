@@ -5,6 +5,7 @@ import android.database.Cursor
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.os.SystemClock
 import android.provider.MediaStore
 import android.view.MenuItem
 import android.view.View
@@ -63,6 +64,11 @@ class RegistrationActivity : AppCompatActivity() {
     private var inputStream: InputStream? = null
 
     /**
+     * Double click counter.
+     */
+    private var mLastClickTime: Long = 0
+
+    /**
      * Invoked when the activity is starting.
      *
      * @param savedInstanceState The saved instance state.
@@ -90,6 +96,10 @@ class RegistrationActivity : AppCompatActivity() {
 
         val registerButton = findViewById<Button>(R.id.Button_Register)
         registerButton.setOnClickListener {
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                return@setOnClickListener
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
             if (isCustom) {
                 registerUserCustom()
             } else {
@@ -114,6 +124,10 @@ class RegistrationActivity : AppCompatActivity() {
 
         val uploadImage = findViewById<FrameLayout>(R.id.frameLayout_avatar)
         uploadImage.setOnClickListener {
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                return@setOnClickListener
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
             selectImageInAlbum()
         }
 
