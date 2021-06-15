@@ -1,6 +1,7 @@
 package pt.ipca.escutas.views
 
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
@@ -18,6 +19,11 @@ class PasswordActivity : AppCompatActivity() {
      * The login controller.
      */
     private val loginController by lazy { LoginController() }
+
+    /**
+     * Double click counter.
+     */
+    private var mLastClickTime: Long = 0
 
     /**
      * Invoked when the activity is starting.
@@ -43,6 +49,10 @@ class PasswordActivity : AppCompatActivity() {
         val submit = findViewById<Button>(R.id.Button_Recuperar)
 
         submit.setOnClickListener {
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                return@setOnClickListener
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
             val emailField = findViewById<EditText>(R.id.editText_email)
             val email = emailField.text.toString().trim()
 

@@ -62,7 +62,9 @@ class NewsFeedFragment : Fragment(), OnNewItemClickListener {
                     if (value != null) {
                         var list = value as ArrayList<News>
                         news = list
-                        initRecyclerView()
+                        if(news.isNotEmpty()) {
+                            initRecyclerView()
+                        }
                     }
                 }
             }
@@ -78,6 +80,7 @@ class NewsFeedFragment : Fragment(), OnNewItemClickListener {
 
         val recycler: RecyclerView = view!!.findViewById(R.id.recyclerView)
         recycler.layoutManager = layoutManager
+        recycler.isMotionEventSplittingEnabled = false;
 
         adapter = NewsFeedAdapter(news, this)
         recyclerView.adapter = adapter

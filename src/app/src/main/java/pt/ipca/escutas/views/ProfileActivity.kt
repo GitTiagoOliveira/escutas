@@ -3,6 +3,7 @@ package pt.ipca.escutas.views
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
@@ -21,6 +22,11 @@ import java.util.Calendar
  * The profile controller.
  */
 private val profileController by lazy { ProfileController() }
+
+/**
+ * Double click counter.
+ */
+private var mLastClickTime: Long = 0
 
 /**
  * Defines the profile fragment.
@@ -87,6 +93,10 @@ class ProfileActivity : AppCompatActivity() {
         val logoutButton = findViewById<Button>(R.id.Button_logout)
 
         logoutButton.setOnClickListener {
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                return@setOnClickListener
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
             profileController.logoutUser(this@ProfileActivity)
             val intent = Intent(this@ProfileActivity, LoginActivity::class.java)
             startActivity(intent)

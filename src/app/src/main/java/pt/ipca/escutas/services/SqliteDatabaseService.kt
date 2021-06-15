@@ -94,6 +94,7 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
     override fun addRecord(model: String, record: Any, callback: GenericCallback) {
         val db = this.writableDatabase
         db.insert(model, null, record as ContentValues?)
+        db.close()
     }
 
     /**
@@ -143,8 +144,9 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            db.close()
         }
-
+        db.close()
         callback.onCallback(outputList)
     }
 
@@ -219,8 +221,9 @@ class SqliteDatabaseService(context: Context) : IDatabaseService, SQLiteOpenHelp
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            db.close()
         }
-
+        db.close()
         callback.onCallback(outputList)
     }
 

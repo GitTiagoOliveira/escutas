@@ -80,7 +80,7 @@ class GalleryFeedFragment : Fragment(), OnAlbumFeedItemClickListener {
         val recycler: RecyclerView = view!!.findViewById(R.id.recyclerViewFeed)
 
         recycler.layoutManager = GridLayoutManager(this.context, 2)
-
+        recycler.isMotionEventSplittingEnabled = false;
         adapter = GalleryFeedAdapter(events, this)
         recyclerViewFeed.adapter = adapter
     }
